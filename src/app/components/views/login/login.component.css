@@ -1,0 +1,19 @@
+.nested-content {
+  max-width: 500px !important;
+}
+
+.container {
+  align-items: center;
+}
+
+button {
+  min-width: 200px !important;
+}
+
+.switch {
+  text-decoration: underline;
+}
+
+.switch:hover {
+  cursor: pointer;
+}

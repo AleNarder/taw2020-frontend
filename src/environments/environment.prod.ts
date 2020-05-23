@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  BACKEND_ENDPOINT: 'https://taw-backend.herokuapp.com/'
 };
