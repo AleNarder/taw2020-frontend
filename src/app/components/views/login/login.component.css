@@ -6,14 +6,15 @@
   align-items: center;
 }
 
-button {
-  min-width: 200px !important;
-}
-
 .switch {
   text-decoration: underline;
 }
 
 .switch:hover {
   cursor: pointer;
+}
+
+.contained {
+  padding-top: 0px;
+  padding-bottom: 1.25vw;
 }

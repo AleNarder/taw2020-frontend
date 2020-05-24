@@ -18,7 +18,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon'
+import { MatDialogModule } from '@angular/material/dialog';
 import { SocketioService } from './services/socketio.service';
+import { FormsModule } from '@angular/forms';
+import { ForgotPasswordComponent } from './components/helpers/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,8 @@ import { SocketioService } from './services/socketio.service';
     ReservedComponent,
     AuctionComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -40,9 +45,13 @@ import { SocketioService } from './services/socketio.service';
     MatCardModule,
     MatButtonModule,
     MatInputModule,
-    HttpClientModule
+    MatIconModule,
+    MatDialogModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [SocketioService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ForgotPasswordComponent]
 })
 export class AppModule { }

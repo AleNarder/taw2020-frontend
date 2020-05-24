@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -22,4 +23,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   flex-direction: column;
   justify-items: center;
   text-align: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.contained {
+  padding: 2.5vw;
+}
+
+.dialog {
+  max-width: 400px;
 }

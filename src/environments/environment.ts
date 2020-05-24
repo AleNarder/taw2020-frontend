@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  BACKEND_ENDPOINT: 'http://localhost:5000'
+  BACKEND_STATUS_API_BASE_URL: 'http://localhost:5000/',
+  BACKEND_ACTION_API_BASE_URL: 'http://localhost:5000/api/v1'
 };
 
 /*

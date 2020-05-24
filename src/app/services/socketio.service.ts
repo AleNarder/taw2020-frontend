@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -13,6 +12,6 @@ export class SocketioService {
   constructor() {}
 
   setupSocketConnection () {
-    this.socket = io(environment.BACKEND_ENDPOINT)
+    this.socket = io(environment.BACKEND_ACTION_API_BASE_URL)
   }
 }
