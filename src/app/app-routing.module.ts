@@ -4,9 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/views/login/login.component';
 import { HomeComponent } from './components/views/home/home.component';
 import { ReservedComponent } from './components/views/reserved/reserved.component';
-import { AuctionComponent } from './components/views/auction/auction.component';
-import { NavbarComponent } from './components/layout/navbar/navbar.component';
-import { FooterComponent } from './components/layout/footer/footer.component';
+import { ResetPasswordComponent } from './components/views/reset-password/reset-password.component'
+import { PageNotFoundComponent } from './components/views/page-not-found/page-not-found.component'
 
 
 const routes: Routes = [
@@ -21,6 +20,14 @@ const routes: Routes = [
   {
     path: 'reserved',
     component: ReservedComponent
+  },
+  {
+    path: 'resetpassword/',
+    component: ResetPasswordComponent
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent
   }
 ];
 

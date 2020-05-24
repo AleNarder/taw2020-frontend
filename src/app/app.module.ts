@@ -20,9 +20,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon'
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { SocketioService } from './services/socketio.service';
-import { FormsModule } from '@angular/forms';
-import { ForgotPasswordComponent } from './components/helpers/forgot-password/forgot-password.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ForgotPasswordComponent } from './components/shared/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/views/reset-password/reset-password.component';
+import { PageNotFoundComponent } from './components/views/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +38,9 @@ import { ForgotPasswordComponent } from './components/helpers/forgot-password/fo
     AuctionComponent,
     NavbarComponent,
     FooterComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -47,8 +54,11 @@ import { ForgotPasswordComponent } from './components/helpers/forgot-password/fo
     MatInputModule,
     MatIconModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [SocketioService],
   bootstrap: [AppComponent],

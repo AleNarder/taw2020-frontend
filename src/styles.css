@@ -36,3 +36,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .dialog {
   max-width: 400px;
 }
+
+.switch {
+  text-decoration: underline;
+}
+
+.switch:hover {
+  cursor: pointer;
+}
+
+.spinner-container {
+  margin: 0;
+  padding: 0;
+}
+
+.spinner {
+  margin: auto;
+}

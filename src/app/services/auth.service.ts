@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
 import { environment } from '../../environments/environment'
 
 @Injectable({
@@ -8,18 +10,29 @@ import { environment } from '../../environments/environment'
 
 export class AuthService {
 
-  private static auth = [environment.BACKEND_ACTION_API_BASE_URL, 'auth' ].join('/')
+  private auth = [environment.BACKEND_ACTION_API_BASE_URL, 'auth' ].join('/')
 
   constructor(
     private http: HttpClient,
-    private auth: 
   ) {}
 
   public register (body) {
   }
 
-  public sigin (body) {
+  private handleError (error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      return throwError({
+        message: 'Qualcosa è andato storto, riprova più tardi...'
+      })
+    } else {
+      return throwError({
+        message: error.error.payload
+      })
+    }
+  }
 
+  public login (body) {
+    return this.http.post([this.auth, 'login'].join('/'), body)
   }
 
 }

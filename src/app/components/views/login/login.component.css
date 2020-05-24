@@ -6,15 +6,13 @@
   align-items: center;
 }
 
-.switch {
-  text-decoration: underline;
-}
-
-.switch:hover {
-  cursor: pointer;
-}
-
 .contained {
   padding-top: 0px;
   padding-bottom: 1.25vw;
+}
+
+
+#login {
+  margin-top: 7px;
+  margin-bottom: 7px;
 }

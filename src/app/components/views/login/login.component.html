@@ -3,41 +3,51 @@
     <mat-card>
       <br>
       <mat-card-title color="primary">
-        Login
+        <h1>Login</h1>
       </mat-card-title>
       <mat-card-content class="contained">
         <form>
           <mat-form-field *ngIf="!isUser" class="full-width">
             <mat-label>Nome</mat-label>
-            <input type="text" name="firstname" autocomplete="" matInput [(ngModel)] = "firstname">
+            <input type="text" name="firstname" autocomplete="" matInput required>
+            <mat-error ></mat-error>
             <br>
           </mat-form-field>
           <mat-form-field *ngIf="!isUser" class="full-width">
             <mat-label>Cognome</mat-label>
-            <input type="text" name="lastname" autocomplete="" matInput [(ngModel)] = "lastname">
+            <input type="text" name="lastname" autocomplete="" matInput required>
+            <mat-error></mat-error>
             <br>
           </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>Email</mat-label>
-            <input matInput type="email" name="email" autocomplete="email" [(ngModel)] = "email">
+            <input matInput type="email" name="email" autocomplete="email" [formControl] = "email" required>
+            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
             <br>
           </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>Password</mat-label>
-            <input [type]="hide ? 'password' : 'text'" name="password" [autocomplete]="isUser ? 'current-password': 'new-password'" matInput [(ngModel)] = "password" >
+            <input [type]="hide ? 'password' : 'text'" name="password" [autocomplete]="isUser ? 'current-password': 'new-password'" matInput [(ngModel)] = "password" required>
             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error></mat-error>
             <br>
           </mat-form-field>
           <mat-form-field *ngIf="!isUser" class="full-width">
             <mat-label>Conferma password</mat-label>
-            <input [type]="hide ? 'password' : 'text'" name="confirmpassword" autocomplete="new-password" matInput [(ngModel)] = "confirmpassword">
+            <input [type]="hide ? 'password' : 'text'" name="confirmpassword" autocomplete="new-password" matInput [(ngModel)] = "confirmpassword" required>
+            <mat-error></mat-error>
             <br>
           </mat-form-field>
         </form>
         <br>
         <br>
         <div>
-          <button mat-raised-button color="primary" class="full-width">{{isUser ? 'Accedi' : 'Registrati'}}</button>
+          <button *ngIf="!waiting" mat-raised-button color="primary" class="full-width" id="login" (click)="isUser ? login() : register()">
+            {{ (isUser ? 'Accedi' : 'Registrati')}}
+          </button>
+          <div class="full-width" *ngIf="waiting" class="spinner-container" >
+            <mat-spinner diameter=30 class="spinner"></mat-spinner>
+          </div>
           <br><br>
           <p *ngIf="isUser" class="switch" (click)="openDialog()">Password dimenticata?</p>
         </div>
