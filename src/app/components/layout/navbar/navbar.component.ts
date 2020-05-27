@@ -31,4 +31,8 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/'])
   }
 
+  isLogged () {
+    return this.userState.logged
+  }
+
 }

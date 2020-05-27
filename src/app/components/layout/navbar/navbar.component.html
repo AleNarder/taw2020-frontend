@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <span>Navbar</span>
   <span class="spacer"></span>
-  <i class="fas fa-sign-in-alt" *ngIf="!userState.logged" (click)="onLogin()"></i>
-  <i class="fas fa-sign-out-alt" *ngIf="userState.logged" (click)="onLogout()"></i>
+  <i class="fas fa-sign-in-alt" *ngIf="!isLogged()" (click)="onLogin()"></i>
+  <i class="fas fa-sign-out-alt" *ngIf="isLogged()" (click)="onLogout()"></i>
 </mat-toolbar>
