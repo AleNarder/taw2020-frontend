@@ -5,42 +5,121 @@
       <mat-card-title color="primary">
         <h1>Login</h1>
       </mat-card-title>
+      <mat-card-subtitle><p style="color: red" *ngIf="status.wrong">{{status.message}}</p></mat-card-subtitle>
       <mat-card-content class="contained">
         <form>
-          <mat-form-field *ngIf="!isUser" class="full-width">
-            <mat-label>Nome</mat-label>
-            <input type="text" name="firstname" autocomplete="" matInput required>
-            <mat-error ></mat-error>
-            <br>
-          </mat-form-field>
-          <mat-form-field *ngIf="!isUser" class="full-width">
-            <mat-label>Cognome</mat-label>
-            <input type="text" name="lastname" autocomplete="" matInput required>
-            <mat-error></mat-error>
-            <br>
-          </mat-form-field>
+          <div *ngIf="!isUser" style="text-align: left;">
+            <div class="multi-input">
+              <mat-form-field >
+                <mat-label>Nome</mat-label>
+                <input 
+                  type="text" 
+                  name="firstname" 
+                  autocomplete="firstname" 
+                  matInput [formControl] = "fields.firstname"
+                  required>
+                <mat-error >{{checkError('firstname')}}</mat-error>
+                <br>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Cognome</mat-label>
+                <input 
+                  type="text" 
+                  name="lastname" 
+                  autocomplete="lastname" 
+                  matInput [formControl] = "fields.lastname"
+                  required>
+                <mat-error>{{checkError('lastname')}}</mat-error>
+                <br>
+              </mat-form-field>
+            </div>
+          </div>
+          <div *ngIf="!isUser" style="text-align: left;">
+            <div class="multi-input">
+              <mat-form-field>
+                <mat-label>Indirizzo</mat-label>
+                <input 
+                  type="text" 
+                  name="address" 
+                  autocomplete="street-address" 
+                  matInput [formControl] = "fields.address"
+                  required>
+                <mat-error >{{checkError('address')}}</mat-error>
+                <br>
+              </mat-form-field>
+              <div style="width: 100%; max-width: 180px" class="multi-input">
+                <mat-form-field style="width: 40%;">
+                  <mat-label>Provincia</mat-label>
+                  <input 
+                    type="text" 
+                    name="state" 
+                    autocomplete="state" 
+                    matInput [formControl] = "fields.state"
+                    required>
+                  <mat-error>{{checkError('state')}}</mat-error>
+                  <br>
+                </mat-form-field>
+                <mat-form-field style="width: 40%;">
+                  <mat-label>CAP</mat-label>
+                  <input 
+                    type="text" 
+                    name="zipcode" 
+                    autocomplete="postal-code" 
+                    matInput [formControl] = "fields.zipcode"
+                    required>
+                  <mat-error >{{checkError('zipcode')}}</mat-error>
+                  <br>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+            <mat-form-field *ngIf="!isUser" class="full-width">
+              <mat-label>Nazione</mat-label>
+              <input 
+                type="text" 
+                name="country" 
+                autocomplete="country-name" 
+                matInput [formControl] = "fields.country"
+                required>
+              <mat-error>{{checkError('country')}}</mat-error>
+              <br>
+            </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>Email</mat-label>
-            <input matInput type="email" name="email" autocomplete="email" [formControl] = "email" required>
-            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+            <input 
+              type="email" 
+              name="email" 
+              autocomplete="email" 
+              matInput [formControl] = "fields.email" required>
+            <mat-error *ngIf="fields.email.invalid">{{checkError("email")}}</mat-error>
             <br>
           </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>Password</mat-label>
-            <input [type]="hide ? 'password' : 'text'" name="password" [autocomplete]="isUser ? 'current-password': 'new-password'" matInput [(ngModel)] = "password" required>
+            <input 
+              [type]="hide ? 'password' : 'text'" 
+              name="password" 
+              [autocomplete]="isUser ? 'current-password': 'new-password'" 
+              matInput [formControl] = "fields.password" 
+              placeholder="AA#12abc"
+              required>
             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            <mat-error></mat-error>
-            <br>
-          </mat-form-field>
-          <mat-form-field *ngIf="!isUser" class="full-width">
-            <mat-label>Conferma password</mat-label>
-            <input [type]="hide ? 'password' : 'text'" name="confirmpassword" autocomplete="new-password" matInput [(ngModel)] = "confirmpassword" required>
-            <mat-error></mat-error>
+            <mat-error *ngIf="fields.password.invalid">{{checkError("password")}}
+              <ul *ngIf="fields.password.hasError('pattern')">
+                <li>Almeno due lettere maiuscole</li>
+                <li>Almeno un carattere speciale !@#$&*</li>
+                <li>Almeno due numeri </li>
+                <li>Almeno tre lettere minuscole</li>
+                <li>Lunghezza minima di 8 caratteri</li>
+              </ul>
+            </mat-error>
             <br>
           </mat-form-field>
         </form>
         <br>
         <br>
+        <br *ngIf="fields.password.hasError('pattern')">
+        <br *ngIf="fields.password.hasError('pattern')">
         <div>
           <button *ngIf="!waiting" mat-raised-button color="primary" class="full-width" id="login" (click)="isUser ? login() : register()">
             {{ (isUser ? 'Accedi' : 'Registrati')}}

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserStateService } from 'src/app/services/state/userState.service';
 
 @Component({
   selector: 'app-reserved',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReservedComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private userState: UserStateService
+  ) {
+    console.log(this.userState.user)
+  }
 
   ngOnInit(): void {
   }
-
+  getUser () {
+    // console.log(this.store.getProperty('user'))
+  }
 }

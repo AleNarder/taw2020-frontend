@@ -1,10 +1,15 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { ForgotPasswordComponent } from '../../shared/forgot-password/forgot-password.component';
-import { Router } from '@angular/router'
-import { AuthService } from '../../../services/auth.service'
-import { FormControl, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router'
+import { AuthService } from 'src/app/services/http/auth.service'
+import { Config } from 'protractor';
+import { UserService } from 'src/app/services/http/user.service';
+import { UserStateService } from 'src/app/services/state/userState.service'
 
+import fieldHelpers from '../../../helpers/form'
+import { Response } from 'src/app/services/models/Response';
+import { User, UserPayload } from 'src/app/services/models/User';
 
 @Component({
   selector: 'app-login',
@@ -14,14 +19,19 @@ import { FormControl, Validators } from '@angular/forms';
 
 export class LoginComponent implements OnInit {
 
+  fields: any = {}
+
+  token: string
+  id: string
+  isModerator: boolean
   isUser: boolean
-  firstname: FormControl
-  lastname: FormControl
-  password: FormControl
-  confirmpassword: FormControl
-  email = new FormControl('', [Validators.required, Validators.email])
   hide: boolean
   waiting: boolean
+  wrong: boolean
+  status = {
+    wrong: false,
+    message: null
+  }
 
   @Output() statusInfo = new EventEmitter<any>()
 
@@ -30,17 +40,28 @@ export class LoginComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private router: Router,
+    private user: UserService,
     private auth: AuthService,
+    private userState: UserStateService,
+    private route: ActivatedRoute
   ) { 
-    this.isUser = 
-    this.hide = true
-    this.waiting = false
-
-    this.firstname = new FormControl('',[Validators.required])
-    this.lastname = new FormControl('', [Validators.required])
-    this.password = new FormControl('', [Validators.required, Validators.pattern(new RegExp('^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$'))])
-    this.confirmpassword = new FormControl('', [Validators.required])
-    
+    this.route.queryParams.subscribe(params => {
+      this.isModerator = params['moderator'] || false
+      this.id = params['id']
+      this.token = params['tkn']
+    })
+    this.isUser = this.hide = true
+    this.waiting = this.wrong = false
+    for (const field in fieldHelpers) {
+      this.fields[field] = fieldHelpers[field].check()
+    }
+    if (this.token && this.id) {
+      this.user.modify({confirmed: true}, this.id, this.token).subscribe(() => {
+        this.waiting = false
+      }, (errorMessage) => {
+        this.error(errorMessage)
+      })
+    }
   }
 
   ngOnInit(): void {
@@ -60,33 +81,44 @@ export class LoginComponent implements OnInit {
     console.log('email sent: ', email)
   }
 
+  error (message) {
+    this.waiting = false
+    this.status.wrong = true
+    this.status.message = message
+    setTimeout(() => this.status.wrong = false, 2000)
+  }
+
   login () {
-    this.waiting = true
-    this.auth.login({username: this.email, password: this.password}).subscribe((data) => {
-      this.waiting = false
-      this.router.navigate(['/reserved'])
-    }, (error) => {
-      this.statusInfo.emit({
-        type: 'error',
-        message: error
+    if ((this.fields.email.status === 'VALID' && this.fields.password.status === this.fields.email.status)) {
+      this.waiting = true
+      this.auth.login({username: this.fields.email.value, password: this.fields.password.value}).subscribe((res: Response<UserPayload>) => {
+        this.waiting = false
+        this.router.navigate(['/reserved'])
+        this.userState.user = res.payload.user
+        this.userState.logged = true
+        this.auth.setToken(res.payload.token)
+      }, (errorMessage) => {
+        this.error(errorMessage)
       })
-      this.waiting = false
-    })
+    }
   }
 
   register () {
-    console.log('register') 
+    this.waiting = true
+    const newUser = {}
+    for (const field in this.fields) {
+      newUser[field] = this.fields[field].value
+    }
+    newUser['moderator'] = this.isModerator
+    newUser['confirmed'] = false
+    this.user.new(newUser).subscribe(data => {
+      this.waiting = false
+    }, (error) => {
+    })
   }
 
-  getErrorMessage() {
-    if (this.email.hasError('required')
-    || this.firstname.hasError('required')
-    || this.lastname.hasError('required')
-    || this.password.hasError('required')
-    || this.confirmpassword.hasError('required')) {
-      return 'You must enter a value';
-    }
-    return this.email.hasError('email') ? 'Not a valid email' : '';
+  checkError (field) {
+    return fieldHelpers[field].validate(this.fields[field])
   }
 
 }

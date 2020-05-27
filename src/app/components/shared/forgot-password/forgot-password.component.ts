@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog'
+import { FormControl, Validators } from '@angular/forms';
 
 
 @Component({
@@ -9,7 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog'
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  email: string
+  email = new FormControl('', [Validators.required, Validators.email])
 
   constructor(public dialogRef: MatDialogRef<ForgotPasswordComponent>) { }
 
@@ -17,7 +18,16 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   close (): void {
-    this.dialogRef.close(this.email)
+    this.dialogRef.close(this.email.value)
+  }
+
+  getMailErrorMessage () {
+    if (this.email.hasError('required')) {
+      return 'Il campo email non può essere vuoto';
+    }
+    else if (this.email.hasError('email')) {
+      return 'Mail non valida'
+    }
   }
 
 }

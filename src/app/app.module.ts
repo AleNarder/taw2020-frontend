@@ -23,11 +23,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { SocketioService } from './services/socketio.service';
+import { SocketioService } from './services/http/socketio.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordComponent } from './components/shared/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/views/reset-password/reset-password.component';
 import { PageNotFoundComponent } from './components/views/page-not-found/page-not-found.component';
+
 
 @NgModule({
   declarations: [
@@ -58,7 +59,7 @@ import { PageNotFoundComponent } from './components/views/page-not-found/page-no
     MatSnackBarModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [SocketioService],
   bootstrap: [AppComponent],

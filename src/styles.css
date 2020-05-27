@@ -5,9 +5,9 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-
-/* TYPOGRAPHY */
-
+/*******************************************
+ * LAYOUT
+ */
 .container {
   width: 100vw;
   height: 100%;
@@ -37,6 +37,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   max-width: 400px;
 }
 
+@media screen and (max-width: 600px) {
+  .nested-content {
+    padding: 30px;
+  }
+}
+
+
+/*******************************************
+ * UTILITIES
+ */
+
 .switch {
   text-decoration: underline;
 }
@@ -52,4 +63,26 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .spinner {
   margin: auto;
+}
+/*******************************************
+ * FORMS
+ */
+.multi-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.half {
+  max-width: 17.5%
+}
+
+@media screen and (max-width: 600px) {
+  .multi-input {
+    flex-direction: column;
+  }
+
+  .half {
+    max-width: 100%;
+  }
 }
