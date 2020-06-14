@@ -38,4 +38,14 @@ export class UserService {
     }
     return this.http.put([this.users, id].join('/'), body, options).pipe(catchError(this.handleError))
   }
+
+  public get (token, id) {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      })
+    }
+    return this.http.get([this.users, id].join('/'), options).pipe(catchError(this.handleError))
+  }
 }

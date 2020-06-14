@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
-import { UserStateService } from 'src/app/services/state/userState.service';
-import { AuthService } from 'src/app/services/http/auth.service';
+import { appStateService } from 'src/app/services/state/appState.service'
+import { AuthService } from 'src/app/services/http/auth.service'
 
 @Component({
   selector: 'app-navbar',
@@ -10,11 +10,9 @@ import { AuthService } from 'src/app/services/http/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  private user = null
-
   constructor(
     private router: Router,
-    private userState: UserStateService,
+    private appState: appStateService,
     private authService: AuthService
     ) { 
     }
@@ -31,8 +29,12 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/'])
   }
 
-  isLogged () {
-    return this.userState.logged
+  get logged () {
+    return this.appState.state.logged
+  }
+
+  toggle () {
+    this.appState.setStateProp("sidenav", !this.appState.state.sidenav)
   }
 
 }

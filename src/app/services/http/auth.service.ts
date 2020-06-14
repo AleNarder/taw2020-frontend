@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { environment } from '../../../environments/environment'
 import { Response } from '../models/Response'
-import { UserPayload } from '../models/User';
-import * as cryptojs from 'crypto-js'
+import { UserPayload } from '../models/User'
 import { catchError } from 'rxjs/operators'
-import { throwError } from 'rxjs';
-import { UserStateService } from '../state/userState.service';
+import { throwError } from 'rxjs'
+import { appStateService } from '../state/appState.service'
+import * as cryptojs from 'crypto-js'
+import * as jwtDecoder from 'jwt-decode'
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +19,11 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private userState: UserStateService
+    private appState: appStateService
   ) {}
 
   public logout () {
-    this.userState.logged = false
+    this.appState.setStateProp("logged", false)
     localStorage.clear()
   }
 
@@ -33,11 +34,26 @@ export class AuthService {
 
   public checkToken () {
     const encryptedToken = localStorage.getItem('tkn')
-    const decryptedToken = cryptojs.AES.decrypt(encryptedToken, environment.SECRET)
+    if (encryptedToken) {
+      const encodedToken = cryptojs.AES.decrypt(encryptedToken, environment.SECRET).toString(cryptojs.enc.Utf8)
+      const decodedToken = jwtDecoder(encodedToken)
+      console.log(decodedToken.exp, Math.floor(Date.now() / 1000))
+      if (decodedToken.exp > Math.floor(Date.now() / 1000)) { 
+        return {
+          decodedToken,
+          encodedToken
+        }
+      }
+    } 
+    return null
   }
 
-  handleError(error) {
+  public handleError(error) {
     return throwError(error.error.payload)
+  }
+
+  public reset (email) {
+    return this.http.post([this.auth, 'reset'].join('/'), { email })
   }
 
   public login (body) {

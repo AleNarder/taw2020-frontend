@@ -1,2 +1,33 @@
-<p></p>
-
+<div class="container">
+  <mat-drawer-container autosize hasBackdrop="true" (backdropClick) = "closesidenav()" *ngIf="ready" class="sidenav-container">
+    <mat-drawer #drawer class="sidenav" mode="over">
+      <mat-card>
+        <mat-card-header>
+          <div mat-card-avatar class="user-avatar"></div>
+          <mat-card-title>{{user.username }}</mat-card-title>
+          <mat-card-subtitle>{{user.firstname }} {{user.lastname}}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+      <mat-card-content>
+        <mat-selection-list #list multiple="false">
+          <mat-list-option 
+          *ngFor="let option of options" [selected] = "option.title === 'Le mie inserzioni'" 
+          value="option" 
+          (click) = "selectedItem(option.title)"
+          >
+            <div>
+              <i [className] = "'fas fa-'+option.icon " style="min-width: 30px;"></i> {{option.title}}
+            </div>
+          </mat-list-option>
+        </mat-selection-list>
+      </mat-card-content>
+    </mat-drawer>
+    <mat-drawer-content>
+      <div class="nested-content">
+        <app-insertions *ngIf="selected === 'Le mie inserzioni' || selected === 'Gestione inserzioni'" ></app-insertions>
+        <app-stats *ngIf="selected === 'Statistiche'"></app-stats>
+        <app-users *ngIf="selected === 'Gestione utenti'"></app-users>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

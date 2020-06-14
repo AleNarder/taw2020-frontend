@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog'
 import { FormControl, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/services/http/auth.service'
 
 
 @Component({
@@ -10,15 +11,24 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class ForgotPasswordComponent implements OnInit {
 
+  waiting = false
   email = new FormControl('', [Validators.required, Validators.email])
 
-  constructor(public dialogRef: MatDialogRef<ForgotPasswordComponent>) { }
+  constructor(
+    public dialogRef: MatDialogRef<ForgotPasswordComponent>,
+    private auth: AuthService) { }
 
   ngOnInit(): void {
   }
 
   close (): void {
-    this.dialogRef.close(this.email.value)
+    this.waiting = true
+    this.auth.reset(this.email.value).subscribe(() => {
+      this.waiting = false
+      this.dialogRef.close(this.email.value)
+    }, (error) => {
+      this.dialogRef.close(this.email.value)
+    })
   }
 
   getMailErrorMessage () {

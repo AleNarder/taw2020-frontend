@@ -37,6 +37,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   max-width: 400px;
 }
 
+.distanced {
+  margin-left: 16px;
+}
+
 @media screen and (max-width: 600px) {
   .nested-content {
     padding: 30px;

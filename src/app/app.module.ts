@@ -22,12 +22,17 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatListModule } from '@angular/material/list';
 
 import { SocketioService } from './services/http/socketio.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordComponent } from './components/shared/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/views/reset-password/reset-password.component';
 import { PageNotFoundComponent } from './components/views/page-not-found/page-not-found.component';
+import { UsersComponent } from './components/views/managers/users/users.component';
+import { StatsComponent } from './components/views/managers/stats/stats.component';
+import { InsertionsComponent } from './components/views/managers/insertions/insertions.component';
 
 
 @NgModule({
@@ -41,7 +46,10 @@ import { PageNotFoundComponent } from './components/views/page-not-found/page-no
     FooterComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    UsersComponent,
+    StatsComponent,
+    InsertionsComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +68,8 @@ import { PageNotFoundComponent } from './components/views/page-not-found/page-no
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MatMenuModule,
+    MatListModule
   ],
   providers: [SocketioService],
   bootstrap: [AppComponent],

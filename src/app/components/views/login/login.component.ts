@@ -3,13 +3,12 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { ForgotPasswordComponent } from '../../shared/forgot-password/forgot-password.component';
 import { Router, ActivatedRoute } from '@angular/router'
 import { AuthService } from 'src/app/services/http/auth.service'
-import { Config } from 'protractor';
 import { UserService } from 'src/app/services/http/user.service';
-import { UserStateService } from 'src/app/services/state/userState.service'
 
 import fieldHelpers from '../../../helpers/form'
 import { Response } from 'src/app/services/models/Response';
-import { User, UserPayload } from 'src/app/services/models/User';
+import { UserPayload } from 'src/app/services/models/User';
+import { appStateService } from 'src/app/services/state/appState.service';
 
 @Component({
   selector: 'app-login',
@@ -42,7 +41,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private user: UserService,
     private auth: AuthService,
-    private userState: UserStateService,
+    private appState: appStateService,
     private route: ActivatedRoute
   ) { 
     this.route.queryParams.subscribe(params => {
@@ -72,14 +71,10 @@ export class LoginComponent implements OnInit {
   }
 
   openDialog (): void {
-    console.log('hello')
     this.forgotPasswordRef = this.dialog.open(ForgotPasswordComponent)
-    this.forgotPasswordRef.afterClosed().subscribe(email => this.send(email))
+    this.forgotPasswordRef.afterClosed().subscribe(() => this.router.navigate(['/']))
   }
 
-  send (email): void {
-    console.log('email sent: ', email)
-  }
 
   error (message) {
     this.waiting = false
@@ -94,8 +89,11 @@ export class LoginComponent implements OnInit {
       this.auth.login({username: this.fields.email.value, password: this.fields.password.value}).subscribe((res: Response<UserPayload>) => {
         this.waiting = false
         this.router.navigate(['/reserved'])
-        this.userState.user = res.payload.user
-        this.userState.logged = true
+        this.appState.state = {
+          user: res.payload.user,
+          logged: true,
+          sidenav: false
+        }
         this.auth.setToken(res.payload.token)
       }, (errorMessage) => {
         this.error(errorMessage)

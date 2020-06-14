@@ -1,0 +1,13 @@
+.container {
+  align-items: start;
+}
+
+.sidenav-container {
+  width: 100%;
+  height: 100%;
+}
+
+.user-avatar {
+  background-image: url('/assets/user.png');
+  background-size: cover;
+}

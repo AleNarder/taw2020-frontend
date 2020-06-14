@@ -1,6 +1,7 @@
 <mat-toolbar color="primary">
-  <span>Navbar</span>
+  <button mat-icon-button (click)="toggle()" *ngIf="logged"><i class="fas fa-bars fa-lg"></i></button>
+  <i class="fab fa-ebay fa-3x" [class.distanced]="logged"></i>
   <span class="spacer"></span>
-  <i class="fas fa-sign-in-alt" *ngIf="!isLogged()" (click)="onLogin()"></i>
-  <i class="fas fa-sign-out-alt" *ngIf="isLogged()" (click)="onLogout()"></i>
+  <i class="fas fa-sign-in-alt" *ngIf="!logged" (click)="onLogin()"></i>
+  <i class="fas fa-sign-out-alt" *ngIf="logged" (click)="onLogout()"></i>
 </mat-toolbar>
