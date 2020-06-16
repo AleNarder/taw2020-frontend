@@ -15,7 +15,8 @@ export interface User {
   zipcode: number,
   country: string,
   moderator: boolean,
-  state: string
+  state: string,
+  _id: string
 }
 
 export interface UserPayload {

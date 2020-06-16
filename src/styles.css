@@ -2,7 +2,7 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 
-html, body { height: 100%; }
+html, body { height: 100%; overflow-x: hidden !important;}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /*******************************************
@@ -39,6 +39,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .distanced {
   margin-left: 16px;
+}
+
+.user-card {
+  padding: 16px;
+  max-width: calc(100vw - 32px);
+  min-width: 300px;
 }
 
 @media screen and (max-width: 600px) {

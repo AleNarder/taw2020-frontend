@@ -1,0 +1,29 @@
+<div class="dialog">
+  <h1 mat-dialog-title>Nuovo moderatore</h1>
+  <div mat-dialog-content>
+    <p>Inserisci l' indirizzo email del moderatore</p>
+    <form>
+      <mat-form-field class="full-width">
+        <mat-label>La tua email</mat-label>
+        <input 
+          type="email"
+          name="email"
+          matInput [formControl] = "email"  
+          required
+          placeholder="mario.rossi@email.com"
+        >
+        <mat-error *ngIf="email.invalid">{{getMailErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </form>
+    <br>
+  </div>
+  <div mat-dialog-actions>
+    <div class="full-width">
+      <button mat-raised-button *ngIf="!waiting" color="primary" (click)="close()" class="full-width">Invia</button>
+      <div class="full-width" *ngIf="waiting" class="spinner-container" >
+        <mat-spinner diameter=30 class="spinner"></mat-spinner>
+      </div>
+    </div>
+    <br><br>
+  </div>
+</div>

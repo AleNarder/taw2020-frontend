@@ -6,3 +6,7 @@
 .fa-sign-out-alt:hover  {
   cursor: pointer;
 }
+
+.mat-toolbar {
+  max-height: 9vh;
+}

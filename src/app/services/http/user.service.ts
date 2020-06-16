@@ -17,12 +17,10 @@ export class UserService {
   ) { }
 
   
-  public new (body) {
-    body.moderator = false 
-    body.confirmed = false
+  public new (body, moderator: boolean = false) {
     body.username = body.firstname + body.lastname[0].toLocaleUpperCase() + body.lastname.slice(1, body.lastname.length)
     console.log(body)
-    return this.http.post(this.user, body)
+    return this.http.post(this.user, body).pipe(catchError(this.handleError))
   }
 
   handleError (error) {
@@ -39,7 +37,7 @@ export class UserService {
     return this.http.put([this.users, id].join('/'), body, options).pipe(catchError(this.handleError))
   }
 
-  public get (token, id) {
+  public get (token: string, id ?: string) {
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -47,5 +45,15 @@ export class UserService {
       })
     }
     return this.http.get([this.users, id].join('/'), options).pipe(catchError(this.handleError))
+  }
+
+  public delete (token: string, id ?: string) {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      })
+    }
+    return this.http.delete([this.users, id].join('/'), options).pipe(catchError(this.handleError))
   }
 }

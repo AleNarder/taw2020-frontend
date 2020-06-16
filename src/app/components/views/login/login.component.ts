@@ -7,7 +7,7 @@ import { UserService } from 'src/app/services/http/user.service';
 
 import fieldHelpers from '../../../helpers/form'
 import { Response } from 'src/app/services/models/Response';
-import { UserPayload } from 'src/app/services/models/User';
+import { UserPayload, User } from 'src/app/services/models/User';
 import { appStateService } from 'src/app/services/state/appState.service';
 
 @Component({
@@ -19,14 +19,13 @@ import { appStateService } from 'src/app/services/state/appState.service';
 export class LoginComponent implements OnInit {
 
   fields: any = {}
-
+  email: string
   token: string
   id: string
   isModerator: boolean
   isUser: boolean
   hide: boolean
   waiting: boolean
-  wrong: boolean
   status = {
     wrong: false,
     message: null
@@ -45,12 +44,14 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute
   ) { 
     this.route.queryParams.subscribe(params => {
-      this.isModerator = params['moderator'] || false
+      this.isModerator = params['moderator']
+      this.email = params['email']
       this.id = params['id']
       this.token = params['tkn']
     })
-    this.isUser = this.hide = true
-    this.waiting = this.wrong = false
+    this.hide = true
+    this.isUser = (this.isModerator) ? false : true
+    this.waiting = false
     for (const field in fieldHelpers) {
       this.fields[field] = fieldHelpers[field].check()
     }
@@ -77,6 +78,7 @@ export class LoginComponent implements OnInit {
 
 
   error (message) {
+    console.log(message)
     this.waiting = false
     this.status.wrong = true
     this.status.message = message
@@ -92,7 +94,8 @@ export class LoginComponent implements OnInit {
         this.appState.state = {
           user: res.payload.user,
           logged: true,
-          sidenav: false
+          sidenav: false,
+          token: res.payload.token
         }
         this.auth.setToken(res.payload.token)
       }, (errorMessage) => {
@@ -103,15 +106,21 @@ export class LoginComponent implements OnInit {
 
   register () {
     this.waiting = true
-    const newUser = {}
-    for (const field in this.fields) {
+    let newUser = {} as User
+    for (let field in this.fields) {
       newUser[field] = this.fields[field].value
     }
-    newUser['moderator'] = this.isModerator
-    newUser['confirmed'] = false
+    if (this.isModerator) {
+      newUser.email = this.email
+      newUser.moderator = newUser.confirmed = true
+    } else {
+      newUser.moderator = newUser.confirmed = false
+    }
     this.user.new(newUser).subscribe(data => {
       this.waiting = false
-    }, (error) => {
+      this.router.navigate['/']
+    }, (errorMessage) => {
+      this.error(errorMessage)
     })
   }
 

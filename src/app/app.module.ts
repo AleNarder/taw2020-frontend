@@ -23,6 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatGridListModule } from '@angular/material/grid-list'
 import { MatListModule } from '@angular/material/list';
 
 import { SocketioService } from './services/http/socketio.service';
@@ -33,6 +34,7 @@ import { PageNotFoundComponent } from './components/views/page-not-found/page-no
 import { UsersComponent } from './components/views/managers/users/users.component';
 import { StatsComponent } from './components/views/managers/stats/stats.component';
 import { InsertionsComponent } from './components/views/managers/insertions/insertions.component';
+import { ModeratorComponent } from './components/shared/moderator/moderator.component';
 
 
 @NgModule({
@@ -50,6 +52,7 @@ import { InsertionsComponent } from './components/views/managers/insertions/inse
     UsersComponent,
     StatsComponent,
     InsertionsComponent,
+    ModeratorComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,7 +72,8 @@ import { InsertionsComponent } from './components/views/managers/insertions/inse
     FormsModule,
     ReactiveFormsModule,
     MatMenuModule,
-    MatListModule
+    MatListModule,
+    MatGridListModule
   ],
   providers: [SocketioService],
   bootstrap: [AppComponent],

@@ -38,7 +38,8 @@ export class AppComponent implements OnInit {
         this.appState.state = {
           user: res.payload,
           logged: true,
-          sidenav: false
+          sidenav: false,
+          token: token.encodedToken
         }
         this.router.navigate(['/reserved'])
         console.log(this.appState.state)

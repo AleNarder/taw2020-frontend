@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/http/user.service';
+import { appStateService } from 'src/app/services/state/appState.service';
+import { Response } from 'src/app/services/models/Response'
+import { User } from 'src/app/services/models/User';
 
 @Component({
   selector: 'app-insertions',
@@ -7,9 +11,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InsertionsComponent implements OnInit {
 
-  constructor() { }
+  users: User[]
+
+  constructor(
+    private userService: UserService,
+    private appState: appStateService
+  ) { }
 
   ngOnInit(): void {
+    
   }
 
 }

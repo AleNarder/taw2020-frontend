@@ -52,8 +52,20 @@ export class AuthService {
     return throwError(error.error.payload)
   }
 
+  public moderator (token, email) {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      })
+    }
+    return this.http.post([this.auth, 'moderator'].join('/'), { email }, options)
+    .pipe(catchError(this.handleError))
+  }
+
   public reset (email) {
     return this.http.post([this.auth, 'reset'].join('/'), { email })
+    .pipe(catchError(this.handleError))
   }
 
   public login (body) {

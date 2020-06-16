@@ -23,10 +23,13 @@
       </mat-card-content>
     </mat-drawer>
     <mat-drawer-content>
-      <div class="nested-content">
-        <app-insertions *ngIf="selected === 'Le mie inserzioni' || selected === 'Gestione inserzioni'" ></app-insertions>
-        <app-stats *ngIf="selected === 'Statistiche'"></app-stats>
-        <app-users *ngIf="selected === 'Gestione utenti'"></app-users>
+      <h1 style="padding: 16px;">{{selected}}</h1>
+      <div class="container">
+        <div class="nested-content">
+          <app-insertions *ngIf="selected === 'Le mie inserzioni' || selected === 'Gestione inserzioni'"  ></app-insertions>
+          <app-stats *ngIf="selected === 'Statistiche'"></app-stats>
+          <app-users *ngIf="selected === 'Gestione utenti'" class="inline"></app-users>
+        </div>
       </div>
     </mat-drawer-content>
   </mat-drawer-container>
