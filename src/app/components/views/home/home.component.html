@@ -3,6 +3,17 @@
     <div>    
       <h1 class="section-title">Aste</h1>
       <h2 class="section-subtitle">Tutte le aste in corso</h2>
+      <div *ngFor="let utenteInserzione of utentiInserzioni">
+        <mat-card *ngFor="let inserzione of utenteInserzione.auctions">
+          <mat-card-title></mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+          <mat-dialog-content>
+          </mat-dialog-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="viewAuction(inserzione._id)">Visualizza inserzione</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
     </div>
   </div>
 </div>

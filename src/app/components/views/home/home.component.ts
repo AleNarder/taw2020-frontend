@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuctionService } from 'src/app/services/http/auction.service';
+import { AuctionResponse, Auctions } from 'src/app/services/models/Auction';
 
 @Component({
   selector: 'app-home',
@@ -7,13 +10,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  utentiInserzioni: Auctions[]
 
-  ngOnInit(): void {
+  constructor(
+    private router: Router,
+    private auctions: AuctionService
+    ) {
   }
 
-  getHello () {
-    return 'Hello'
+  ngOnInit(): void {
+    this.auctions.getAll().subscribe((userAuctions: AuctionResponse) => {
+      this.utentiInserzioni = userAuctions.payload
+    }, (err) => {
+      console.log(err)
+    })
+  }
+
+  viewAuction(auctionId: string) {
+
   }
 
 }
