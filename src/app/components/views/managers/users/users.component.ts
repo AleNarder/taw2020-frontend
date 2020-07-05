@@ -4,7 +4,7 @@ import { appStateService } from 'src/app/services/state/appState.service';
 import { User } from 'src/app/services/models/User';
 import { Response } from 'src/app/services/models/Response';
 import { AuthService } from 'src/app/services/http/auth.service';
-import { ModeratorComponent } from 'src/app/components/shared/moderator/moderator.component'
+import { ModeratorComponent } from 'src/app/components/modals/moderator/moderator.component'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -46,7 +46,7 @@ export class UsersComponent implements OnInit {
 
   deleteUser (id) {
     this.userService.delete(this.appState.state.token, id).subscribe(( value ) => {
-      this.users = this.users.filter((user) => user._id != id) 
+      this.users = this.users.filter((user) => user._id != id)
     }, (errorMessage) => {
       this.error(errorMessage)
     })

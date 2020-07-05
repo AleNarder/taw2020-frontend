@@ -1,9 +1,11 @@
-.nested-content {
-  max-width: 500px !important;
-}
-
 .container {
   align-items: center;
+}
+
+.nested-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .contained {
@@ -11,6 +13,9 @@
   padding-bottom: 1.25vw;
 }
 
+#login-card {
+  max-width: 500px;
+}
 
 #login {
   margin-top: 7px;

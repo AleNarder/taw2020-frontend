@@ -3,6 +3,8 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { appStateService } from '../state/appState.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,8 @@ export class AuctionService {
   private auction = [environment.BACKEND_ACTION_API_BASE_URL, 'auction'].join('/')
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private appState: appStateService
   ) { }
 
   handleError (error) {

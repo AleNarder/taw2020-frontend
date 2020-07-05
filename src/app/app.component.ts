@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  
+
   constructor(
     private socketService: SocketioService,
     private appState: appStateService,
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     private router: Router
     ) {
     }
-  
+
   ngOnInit () {
     this.checkRedirect()
     this.socketService.setupSocketConnection()
@@ -31,9 +31,7 @@ export class AppComponent implements OnInit {
 
   checkRedirect () {
     let token = this.authService.checkToken()
-    console.log(token)
     if (token) {
-      console.log(token.decodedToken)
       this.userService.get(token.encodedToken, token.decodedToken.id).subscribe((res: Response<User>)=> {
         this.appState.state = {
           user: res.payload,
@@ -44,8 +42,12 @@ export class AppComponent implements OnInit {
         this.router.navigate(['/reserved'])
         console.log(this.appState.state)
       })
- 
+
     }
+  }
+
+  get waiting () {
+    return this.appState.waiting
   }
 
 }

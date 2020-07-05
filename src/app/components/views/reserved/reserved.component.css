@@ -14,7 +14,6 @@
 }
 
 .nested-content {
-  max-width: calc(100vw - 60px);
   margin: 0;
 }
 
@@ -29,3 +28,8 @@
   }
 }
 
+@media screen and (min-width: 600px) {
+  .user-card {
+    min-width: 300px;
+  }
+}

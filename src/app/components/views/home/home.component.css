@@ -1,4 +1,51 @@
+.nested-content{
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.container {
+  align-items: start;
+}
+
 .nested-content h1 {
   margin-top: 3vh;
   margin-bottom: 3vh;
+}
+
+.auction-card {
+  margin-bottom: 16px;
+}
+
+.book-image {
+  background-image: url('/assets/book.png');
+  background-size: cover;
+}
+
+.mat-card {
+  min-width: min(80vw, 300px);
+  text-align: left !important;
+  margin: 16px;
+}
+
+.cards {
+  display: flex;
+  flex-direction: row;
+  min-width: 80vw;
+}
+
+#search {
+  margin: 16px;
+  width: 100%;
+}
+
+
+@media screen and (max-width: 600px) {
+  .cards {
+    flex-direction: column  ;
+  }
+
+  #search {
+    width: 92%;
+  }
 }

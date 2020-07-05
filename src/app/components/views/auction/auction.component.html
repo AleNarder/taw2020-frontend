@@ -1,1 +1,8 @@
-<p>auction works!</p>
+<div class="container">
+  <div class="nested-content" >
+    <div *ngIf="auction">
+      <h1>{{auction.book[0].title}}</h1>
+    </div>
+  </div>
+</div>
+

@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
-import { ForgotPasswordComponent } from '../../shared/forgot-password/forgot-password.component';
+import { ForgotPasswordComponent } from '../../modals/forgot-password/forgot-password.component';
 import { Router, ActivatedRoute } from '@angular/router'
 import { AuthService } from 'src/app/services/http/auth.service'
 import { UserService } from 'src/app/services/http/user.service';
@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
   isModerator: boolean
   isUser: boolean
   hide: boolean
-  waiting: boolean
   status = {
     wrong: false,
     message: null
@@ -42,7 +41,7 @@ export class LoginComponent implements OnInit {
     private auth: AuthService,
     private appState: appStateService,
     private route: ActivatedRoute
-  ) { 
+  ) {
     this.route.queryParams.subscribe(params => {
       this.isModerator = params['moderator']
       this.email = params['email']
@@ -51,13 +50,11 @@ export class LoginComponent implements OnInit {
     })
     this.hide = true
     this.isUser = (this.isModerator) ? false : true
-    this.waiting = false
     for (const field in fieldHelpers) {
       this.fields[field] = fieldHelpers[field].check()
     }
     if (this.token && this.id) {
       this.user.modify({confirmed: true}, this.id, this.token).subscribe(() => {
-        this.waiting = false
       }, (errorMessage) => {
         this.error(errorMessage)
       })
@@ -79,7 +76,6 @@ export class LoginComponent implements OnInit {
 
   error (message) {
     console.log(message)
-    this.waiting = false
     this.status.wrong = true
     this.status.message = message
     setTimeout(() => this.status.wrong = false, 2000)
@@ -87,9 +83,7 @@ export class LoginComponent implements OnInit {
 
   login () {
     if ((this.fields.email.status === 'VALID' && this.fields.password.status === this.fields.email.status)) {
-      this.waiting = true
       this.auth.login({username: this.fields.email.value, password: this.fields.password.value}).subscribe((res: Response<UserPayload>) => {
-        this.waiting = false
         this.router.navigate(['/reserved'])
         this.appState.state = {
           user: res.payload.user,
@@ -105,7 +99,6 @@ export class LoginComponent implements OnInit {
   }
 
   register () {
-    this.waiting = true
     let newUser = {} as User
     for (let field in this.fields) {
       newUser[field] = this.fields[field].value
@@ -117,7 +110,6 @@ export class LoginComponent implements OnInit {
       newUser.moderator = newUser.confirmed = false
     }
     this.user.new(newUser).subscribe(data => {
-      this.waiting = false
       this.router.navigate['/']
     }, (errorMessage) => {
       this.error(errorMessage)

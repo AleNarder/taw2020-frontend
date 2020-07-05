@@ -11,23 +11,39 @@ import { AuctionResponse, Auctions } from 'src/app/services/models/Auction';
 export class HomeComponent implements OnInit {
 
   utentiInserzioni: Auctions[]
+  auctions = []
+  ready = false
 
   constructor(
     private router: Router,
-    private auctions: AuctionService
+    private auctionService: AuctionService
     ) {
   }
 
   ngOnInit(): void {
-    this.auctions.getAll().subscribe((userAuctions: AuctionResponse) => {
+    this.auctionService.getAll().subscribe((userAuctions: AuctionResponse) => {
       this.utentiInserzioni = userAuctions.payload
+      this.ready = true
+      for (let utente of this.utentiInserzioni) {
+        for (let auction of utente.auctions) {
+          this.auctions.push({
+            ...auction,
+            user: utente._id
+          })
+        }
+      }
     }, (err) => {
       console.log(err)
     })
   }
 
-  viewAuction(auctionId: string) {
-
+  viewAuction(auction: string, user: string) {
+    this.router.navigate(['auction'], {
+      queryParams: {
+        user,
+        auction
+      }
+    })
   }
 
 }

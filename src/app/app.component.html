@@ -1,6 +1,7 @@
 <div class="mat-app-background basic-container">
   <div class="content">
     <app-navbar></app-navbar>
+    <mat-progress-bar mode="indeterminate" *ngIf="waiting"></mat-progress-bar>
     <div class="content-body" background-color="primary">
       <router-outlet></router-outlet>
     </div>

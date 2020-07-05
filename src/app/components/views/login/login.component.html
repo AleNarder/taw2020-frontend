@@ -1,6 +1,6 @@
 <div class="container">
   <div class="nested-content">
-    <mat-card>
+    <mat-card id="login-card">
       <br>
       <mat-card-title color="primary">
         <h1>Login</h1>
@@ -12,10 +12,10 @@
             <div class="multi-input">
               <mat-form-field >
                 <mat-label>Nome</mat-label>
-                <input 
-                  type="text" 
-                  name="firstname" 
-                  autocomplete="firstname" 
+                <input
+                  type="text"
+                  name="firstname"
+                  autocomplete="firstname"
                   matInput [formControl] = "fields.firstname"
                   required>
                 <mat-error >{{checkError('firstname')}}</mat-error>
@@ -23,10 +23,10 @@
               </mat-form-field>
               <mat-form-field>
                 <mat-label>Cognome</mat-label>
-                <input 
-                  type="text" 
-                  name="lastname" 
-                  autocomplete="lastname" 
+                <input
+                  type="text"
+                  name="lastname"
+                  autocomplete="lastname"
                   matInput [formControl] = "fields.lastname"
                   required>
                 <mat-error>{{checkError('lastname')}}</mat-error>
@@ -38,10 +38,10 @@
             <div class="multi-input">
               <mat-form-field>
                 <mat-label>Indirizzo</mat-label>
-                <input 
-                  type="text" 
-                  name="address" 
-                  autocomplete="street-address" 
+                <input
+                  type="text"
+                  name="address"
+                  autocomplete="street-address"
                   matInput [formControl] = "fields.address"
                   required>
                 <mat-error >{{checkError('address')}}</mat-error>
@@ -50,10 +50,10 @@
               <div style="width: 100%; max-width: 180px" class="multi-input">
                 <mat-form-field style="width: 40%;">
                   <mat-label>Provincia</mat-label>
-                  <input 
-                    type="text" 
-                    name="state" 
-                    autocomplete="state" 
+                  <input
+                    type="text"
+                    name="state"
+                    autocomplete="state"
                     matInput [formControl] = "fields.state"
                     required>
                   <mat-error>{{checkError('state')}}</mat-error>
@@ -61,10 +61,10 @@
                 </mat-form-field>
                 <mat-form-field style="width: 40%;">
                   <mat-label>CAP</mat-label>
-                  <input 
-                    type="text" 
-                    name="zipcode" 
-                    autocomplete="postal-code" 
+                  <input
+                    type="text"
+                    name="zipcode"
+                    autocomplete="postal-code"
                     matInput [formControl] = "fields.zipcode"
                     required>
                   <mat-error >{{checkError('zipcode')}}</mat-error>
@@ -75,10 +75,10 @@
           </div>
             <mat-form-field *ngIf="!isUser" class="full-width">
               <mat-label>Nazione</mat-label>
-              <input 
-                type="text" 
-                name="country" 
-                autocomplete="country-name" 
+              <input
+                type="text"
+                name="country"
+                autocomplete="country-name"
                 matInput [formControl] = "fields.country"
                 required>
               <mat-error>{{checkError('country')}}</mat-error>
@@ -86,21 +86,21 @@
             </mat-form-field>
           <mat-form-field class="full-width" *ngIf="!isModerator">
             <mat-label>Email</mat-label>
-            <input 
-              type="email" 
-              name="email" 
-              autocomplete="email" 
+            <input
+              type="email"
+              name="email"
+              autocomplete="email"
               matInput [formControl] = "fields.email" required>
             <mat-error *ngIf="fields.email.invalid">{{checkError("email")}}</mat-error>
             <br>
           </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>Password</mat-label>
-            <input 
-              [type]="hide ? 'password' : 'text'" 
-              name="password" 
-              [autocomplete]="isUser ? 'current-password': 'new-password'" 
-              matInput [formControl] = "fields.password" 
+            <input
+              [type]="hide ? 'password' : 'text'"
+              name="password"
+              [autocomplete]="isUser ? 'current-password': 'new-password'"
+              matInput [formControl] = "fields.password"
               placeholder="AA#12abc"
               required>
             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -121,12 +121,9 @@
         <br *ngIf="fields.password.hasError('pattern')">
         <br *ngIf="fields.password.hasError('pattern')">
         <div>
-          <button *ngIf="!waiting" mat-raised-button color="primary" class="full-width" id="login" (click)="isUser ? login() : register()">
+          <button mat-raised-button color="primary" class="full-width" id="login" (click)="isUser ? login() : register()">
             {{ (isUser ? 'Accedi' : 'Registrati')}}
           </button>
-          <div class="full-width" *ngIf="waiting" class="spinner-container" >
-            <mat-spinner diameter=30 class="spinner"></mat-spinner>
-          </div>
           <br><br>
           <p *ngIf="isUser" class="switch" (click)="openDialog()">Password dimenticata?</p>
         </div>

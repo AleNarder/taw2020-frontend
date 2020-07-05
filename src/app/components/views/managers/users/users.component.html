@@ -5,19 +5,19 @@
       <mat-card-content>
         <mat-list>
           <mat-list-item>
-            <p style="margin: auto;" [ngClass]="{'green': user.confirmed, 'red': !user.confirmed}"> 
-              <i *ngIf="user.confirmed" class="fas fa-check-circle"></i> 
+            <p style="margin: auto;" [ngClass]="{'green': user.confirmed, 'red': !user.confirmed}">
+              <i *ngIf="user.confirmed" class="fas fa-check-circle"></i>
               <i *ngIf="!user.confirmed" class="fas fa-times-circle"></i> Confermato</p>
           </mat-list-item>
           <mat-list-item>
-            <p style="margin: auto;" [ngClass]="{'green': user.moderator, 'red': !user.moderator}"> 
+            <p style="margin: auto;" [ngClass]="{'green': user.moderator, 'red': !user.moderator}">
               <i *ngIf="user.moderator" class="fas fa-check-circle"></i>
               <i *ngIf="!user.moderator" class="fas fa-times-circle"></i> Moderatore</p>
           </mat-list-item>
         </mat-list>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="warn" (click)="deleteUser(user._id)" [disabled]="user.moderator || !user.confirmed" >Elimina</button>
+        <button mat-raised-button color="warn" (click)="deleteUser(user._id)" [disabled]="user.moderator || !user.confirmed" class="delete">Elimina</button>
         <br>
       </mat-card-actions>
     </mat-card>

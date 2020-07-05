@@ -1,7 +1,11 @@
-interface Auction {
-  created: Date,
+import { Book } from './Book'
+
+export interface Auction {
+  created: string,
   threshold: number,
   currentPrice: number,
+  book: Book,
+  clock ?: number
 }
 
 

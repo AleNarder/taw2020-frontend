@@ -3,3 +3,13 @@
   bottom: 8vh;
   right: 5vw;
 }
+
+.delete {
+  width: 70%;
+}
+
+@media screen and (min-width: 600px) {
+  .user-card {
+    min-width: 300px ;
+  }
+}

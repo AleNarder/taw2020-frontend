@@ -6,6 +6,7 @@
 /android
 /tmp
 /out-tsc
+/e2e
 # Only exists if Bazel was run
 /bazel-out
 

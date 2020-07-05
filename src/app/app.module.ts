@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,16 +25,21 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatGridListModule } from '@angular/material/grid-list'
 import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar'
 
 import { SocketioService } from './services/http/socketio.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ForgotPasswordComponent } from './components/shared/forgot-password/forgot-password.component';
+import { ForgotPasswordComponent } from './components/modals/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/views/reset-password/reset-password.component';
 import { PageNotFoundComponent } from './components/views/page-not-found/page-not-found.component';
 import { UsersComponent } from './components/views/managers/users/users.component';
 import { StatsComponent } from './components/views/managers/stats/stats.component';
-import { InsertionsComponent } from './components/views/managers/insertions/insertions.component';
-import { ModeratorComponent } from './components/shared/moderator/moderator.component';
+import { AuctionsComponent } from './components/views/managers/auctions/auctions.component';
+import { ModeratorComponent } from './components/modals/moderator/moderator.component';
+
+import { WaitingInterceptor } from './interceptors/waiting.interceptor'
+
+import { ClockPipe } from './pipes/clock.pipe';
 
 
 @NgModule({
@@ -51,8 +56,9 @@ import { ModeratorComponent } from './components/shared/moderator/moderator.comp
     PageNotFoundComponent,
     UsersComponent,
     StatsComponent,
-    InsertionsComponent,
+    AuctionsComponent,
     ModeratorComponent,
+    ClockPipe,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +74,7 @@ import { ModeratorComponent } from './components/shared/moderator/moderator.comp
     MatDialogModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatProgressBarModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
@@ -75,7 +82,11 @@ import { ModeratorComponent } from './components/shared/moderator/moderator.comp
     MatListModule,
     MatGridListModule
   ],
-  providers: [SocketioService],
+  providers: [SocketioService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: WaitingInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent],
   entryComponents: [ForgotPasswordComponent]
 })

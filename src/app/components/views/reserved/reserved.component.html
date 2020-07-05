@@ -10,9 +10,9 @@
       </mat-card>
       <mat-card-content>
         <mat-selection-list #list multiple="false">
-          <mat-list-option 
-          *ngFor="let option of options" [selected] = "option.title === 'Le mie inserzioni'" 
-          value="option" 
+          <mat-list-option
+          *ngFor="let option of options" [selected] = "option.title === 'Le mie inserzioni'"
+          value="option"
           (click) = "selectedItem(option.title)"
           >
             <div>
@@ -26,7 +26,7 @@
       <h1 style="padding: 16px;">{{selected}}</h1>
       <div class="container">
         <div class="nested-content">
-          <app-insertions *ngIf="selected === 'Le mie inserzioni' || selected === 'Gestione inserzioni'"  ></app-insertions>
+          <app-auctions *ngIf="selected === 'Le mie inserzioni' || selected === 'Gestione inserzioni'"  ></app-auctions>
           <app-stats *ngIf="selected === 'Statistiche'"></app-stats>
           <app-users *ngIf="selected === 'Gestione utenti'" class="inline"></app-users>
         </div>

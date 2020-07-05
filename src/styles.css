@@ -2,8 +2,17 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 
-html, body { height: 100%; overflow-x: hidden !important;}
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+  overflow-x: hidden !important;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
 
 /*******************************************
  * LAYOUT
@@ -27,11 +36,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .nested-content {
-  width: 80vw;
-  margin: auto;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-items: center;
+  justify-content: center;
   text-align: center;
 }
 
@@ -53,15 +60,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .user-card {
   padding: 16px;
-  max-width: calc(100vw - 32px);
-  min-width: 300px;
 }
+
+.mat-drawer-content {
+  overflow-x: hidden !important;
+}
+
+
 
 @media screen and (max-width: 600px) {
   .nested-content {
-    padding: 30px;
+    width: 100%;
+    max-width: calc(100vw - 32px);
+    padding: 16px;
   }
 }
+
 
 
 /*******************************************
