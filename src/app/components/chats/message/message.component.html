@@ -1,0 +1,12 @@
+<div class="message" [ngClass]="{'colorful': mine}">
+  <div>
+    <p class="message-sender">{{message.senderUs}}</p>
+  </div>
+  <div>
+    <p class="message-content">{{message.message}}</p>
+  </div>
+  <div>
+    <p class="message-date">{{message.timestamp | date}}</p>
+  </div>
+</div>
+

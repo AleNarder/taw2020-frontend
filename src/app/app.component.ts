@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SocketioService } from './services/http/socketio.service';
+import { SocketioService } from './services/socket/socketio.service';
 import { appStateService } from './services/state/appState.service';
 import { AuthService } from './services/http/auth.service';
 import { UserService } from './services/http/user.service';
@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit () {
     this.checkRedirect()
-    this.socketService.setupSocketConnection()
   }
 
   checkRedirect () {
@@ -40,6 +39,7 @@ export class AppComponent implements OnInit {
           token: token.encodedToken
         }
         this.router.navigate(['/reserved'])
+        this.socketService.setupSocketConnection()
         console.log(this.appState.state)
       })
 

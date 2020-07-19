@@ -1,8 +1,40 @@
 <div class="container">
-  <div class="nested-content" >
-    <div *ngIf="auction">
-      <h1>{{auction.book[0].title}}</h1>
-    </div>
+  <div class="nested-content">
+    <mat-card *ngIf="auction" id="auction">
+      <mat-card-title>{{auction.book[0].title}}</mat-card-title>
+      <mat-card-subtitle>{{auction.book[0].author}}</mat-card-subtitle>
+      <mat-card-content>
+        <h3><b>Università:</b> {{auction.book[0].university}}</h3>
+        <h3><b>Offerte:</b></h3>
+        <mat-list>
+          <mat-list-item *ngFor="let offer of auction.offers" >
+            <div class="offer-block">
+              <div>
+                <p>{{offer.username}}</p>
+                <p class="sub">{{offer.timestamp | date}}</p>
+              </div>
+              <div>
+                <p class="offer">+ {{offer.delta}}</p>
+              </div>
+            </div>
+          </mat-list-item>
+        </mat-list>
+        <h3><b>Prezzo attuale: </b><span class="offer">{{auction.currentPrice}}€</span></h3>
+      </mat-card-content>
+      <mat-dialog-actions>
+        <button>Fai un'offerta</button>
+      </mat-dialog-actions>
+    </mat-card>
+    <mat-card id="chat" *ngIf="ready">
+      <mat-card-title>Chat</mat-card-title>
+      <mat-card-content>
+        <mat-tab-group id="vertical-tabs">
+          <mat-tab *ngFor="let chat of chats" [label]="chat.receiverUs ? chat.receiverUs : 'Pubblica' ">
+            <app-chat [configuration] = "chat"></app-chat>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>
 

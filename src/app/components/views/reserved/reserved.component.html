@@ -1,26 +1,29 @@
 <div class="container">
   <mat-drawer-container autosize hasBackdrop="true" (backdropClick) = "closesidenav()" *ngIf="ready" class="sidenav-container">
     <mat-drawer #drawer class="sidenav" mode="over">
-      <mat-card>
+      <mat-card class="mat-elevation-z0">
         <mat-card-header>
           <div mat-card-avatar class="user-avatar"></div>
           <mat-card-title>{{user.username }}</mat-card-title>
           <mat-card-subtitle>{{user.firstname }} {{user.lastname}}</mat-card-subtitle>
         </mat-card-header>
+        <mat-card-content>
+          <mat-selection-list #list multiple="false">
+            <mat-list-option
+            *ngFor="let option of options" [selected] = "option.title === 'Le mie inserzioni'"
+            value="option"
+            (click) = "selectedItem(option.title)"
+            >
+              <div>
+                <i [className] = "'fas fa-'+option.icon " style="min-width: 30px;"></i> {{option.title}}
+              </div>
+            </mat-list-option>
+          </mat-selection-list>
+        </mat-card-content>
       </mat-card>
-      <mat-card-content>
-        <mat-selection-list #list multiple="false">
-          <mat-list-option
-          *ngFor="let option of options" [selected] = "option.title === 'Le mie inserzioni'"
-          value="option"
-          (click) = "selectedItem(option.title)"
-          >
-            <div>
-              <i [className] = "'fas fa-'+option.icon " style="min-width: 30px;"></i> {{option.title}}
-            </div>
-          </mat-list-option>
-        </mat-selection-list>
-      </mat-card-content>
+      <div id="logout" (click)="onLogout()">
+        <i class="fas fa-sign-out-alt"></i>
+      </div>
     </mat-drawer>
     <mat-drawer-content>
       <h1 style="padding: 16px;">{{selected}}</h1>

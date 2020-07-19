@@ -26,8 +26,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatGridListModule } from '@angular/material/grid-list'
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatTabsModule } from '@angular/material/tabs';
 
-import { SocketioService } from './services/http/socketio.service';
+import { SocketioService } from './services/socket/socketio.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordComponent } from './components/modals/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/views/reset-password/reset-password.component';
@@ -36,10 +37,14 @@ import { UsersComponent } from './components/views/managers/users/users.componen
 import { StatsComponent } from './components/views/managers/stats/stats.component';
 import { AuctionsComponent } from './components/views/managers/auctions/auctions.component';
 import { ModeratorComponent } from './components/modals/moderator/moderator.component';
+import { AuctionModalComponent } from './components/modals/auction/auction.component'
 
 import { WaitingInterceptor } from './interceptors/waiting.interceptor'
 
 import { ClockPipe } from './pipes/clock.pipe';
+import { DatePipe } from './pipes/date.pipe';
+import { ChatComponent } from './components/chats/chat/chat.component';
+import { MessageComponent } from './components/chats/message/message.component';
 
 
 @NgModule({
@@ -58,7 +63,11 @@ import { ClockPipe } from './pipes/clock.pipe';
     StatsComponent,
     AuctionsComponent,
     ModeratorComponent,
+    AuctionModalComponent,
     ClockPipe,
+    DatePipe,
+    ChatComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,7 +89,8 @@ import { ClockPipe } from './pipes/clock.pipe';
     ReactiveFormsModule,
     MatMenuModule,
     MatListModule,
-    MatGridListModule
+    MatGridListModule,
+    MatTabsModule
   ],
   providers: [SocketioService, {
     provide: HTTP_INTERCEPTORS,

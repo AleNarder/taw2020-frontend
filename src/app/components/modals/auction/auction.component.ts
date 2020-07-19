@@ -8,12 +8,12 @@ import { appStateService } from 'src/app/services/state/appState.service';
   templateUrl: './auction.component.html',
   styleUrls: ['./auction.component.css']
 })
-export class AuctionComponent implements OnInit {
+export class AuctionModalComponent implements OnInit {
 
   waiting = false
 
   constructor(
-    public dialogRef: MatDialogRef<AuctionComponent>,
+    public dialogRef: MatDialogRef<AuctionModalComponent>,
     private auctionService: AuctionService,
     private appState: appStateService,
   ) {

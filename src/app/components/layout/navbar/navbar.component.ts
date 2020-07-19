@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private appState: appStateService,
     private authService: AuthService
-    ) { 
+    ) {
     }
 
   ngOnInit(): void {
@@ -24,9 +24,16 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/login'])
   }
 
-  onLogout () {
-    this.authService.logout()
+  go2Home () {
     this.router.navigate(['/'])
+  }
+
+  go2Dash () {
+    this.router.navigate(['/reserved'])
+  }
+
+  isDashboard () {
+    return this.router.url === '/reserved'
   }
 
   get logged () {

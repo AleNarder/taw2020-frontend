@@ -1,11 +1,14 @@
 import { Book } from './Book'
-
+import { Offer } from './Offer'
+import { Chat } from './Chat'
 export interface Auction {
   created: string,
   threshold: number,
   currentPrice: number,
   book: Book,
-  clock ?: number
+  clock ?: number,
+  offers: Offer[],
+  chats: Chat[]
 }
 
 

@@ -69,10 +69,21 @@ body {
 
 
 @media screen and (max-width: 600px) {
+
   .nested-content {
-    width: 100%;
-    max-width: calc(100vw - 32px);
+    width: 100% !important;
+    max-width: calc(100vw - 32px) !important;
     padding: 16px;
+    flex-direction: column ;
+    padding-top: 0px;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+  }
+
+  .container {
+    align-items: flex-start !important;
   }
 }
 
@@ -98,6 +109,32 @@ body {
 .spinner {
   margin: auto;
 }
+
+.clickable:hover {
+  cursor: pointer;
+}
+
+#vertical-tabs .mat-tab-labels {
+  flex-direction: column;
+}
+
+#vertical-tabs .mat-tab-label-active {
+  background-color: #3f51b5;
+  color: white;
+}
+
+#vertical-tabs .mat-ink-bar {
+  display: none;
+}
+
+#vertical-tabs .mat-tab-nav-bar, .mat-tab-header {
+  border-bottom: none;
+}
+
+#vertical-tabs .mat-tab-body-wrapper {
+  width: -webkit-fill-available;
+}
+
 /*******************************************
  * FORMS
  */

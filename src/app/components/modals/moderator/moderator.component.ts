@@ -11,13 +11,12 @@ import { appStateService } from 'src/app/services/state/appState.service';
 })
 export class ModeratorComponent implements OnInit {
 
-  waiting = false
   email = new FormControl('', [Validators.required, Validators.email])
   status = {
     wrong: false,
     message: null
   }
-  
+
   constructor(
     public dialogRef: MatDialogRef<ModeratorComponent>,
     private auth: AuthService,
@@ -29,7 +28,6 @@ export class ModeratorComponent implements OnInit {
 
   error (message) {
     console.log(message)
-    this.waiting = false
     this.status.wrong = true
     this.status.message = message
     setTimeout(() => this.status.wrong = false, 2000)
@@ -37,9 +35,7 @@ export class ModeratorComponent implements OnInit {
 
 
   close (): void {
-    this.waiting = true
     this.auth.moderator(this.appState.state.token, this.email.value).subscribe(() => {
-      this.waiting = false
       this.dialogRef.close()
     }, (errorMessage) => {
       this.error(errorMessage)

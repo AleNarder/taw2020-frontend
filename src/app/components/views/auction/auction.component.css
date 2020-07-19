@@ -1,0 +1,41 @@
+.offer {
+  color: green;
+  font-weight: 500;
+}
+
+#chat, #auction  {
+  min-width: 35vw;
+  min-height: 75vh;
+}
+
+
+#auction {
+  text-align: left !important;
+}
+
+.nested-content {
+  justify-content: space-around;
+}
+
+.sub {
+  padding-top: 0;
+  margin-top: -15px;
+  font-size: 10px;
+}
+
+.offer-block {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 250px;
+}
+.mat-tab-group {
+  flex-direction: row !important;
+}
+
+#chat #vertical-tabs .mat-tab-labels {
+  display: flex;
+  flex-direction: column !important;
+}
+

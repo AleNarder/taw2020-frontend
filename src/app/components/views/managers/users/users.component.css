@@ -7,9 +7,19 @@
 .delete {
   width: 70%;
 }
+.user-card {
+  width: 300px;
+  margin: 8px;
+}
 
 @media screen and (min-width: 600px) {
-  .user-card {
-    min-width: 300px ;
+  .user-card:first-child {
+    margin-left: 16px;
   }
+
+  .nested-content {
+    width: 100vw;
+    justify-content: flex-start;
+  }
+
 }

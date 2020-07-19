@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { appStateService } from 'src/app/services/state/appState.service';
+import { AuthService } from 'src/app/services/http/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reserved',
@@ -11,11 +13,12 @@ export class ReservedComponent implements OnInit {
   private baseOptions = [{
     title:'Le mie inserzioni',
     icon: 'dollar-sign'
-  }, 
+  },
   {
     title: 'Statistiche',
     icon: 'chart-bar'
   }]
+
   private adminOptions = [
     {
       title: 'Gestione utenti',
@@ -27,9 +30,13 @@ export class ReservedComponent implements OnInit {
   selected = 'Le mie inserzioni'
   @ViewChild('drawer') sidenav
   @ViewChild('list') list
+
+
   constructor(
-    private appState: appStateService
-  ) {}
+    private appState: appStateService,
+    private router: Router,
+    private authService: AuthService
+    ) {}
 
   ngOnInit(): void {
     this.appState.state$.subscribe((state) => {
@@ -55,10 +62,15 @@ export class ReservedComponent implements OnInit {
     return this.appState.state.user !== undefined
   }
 
+  onLogout () {
+    this.authService.logout()
+    this.router.navigate(['/'])
+  }
+
   closesidenav () {
     this.appState.setStateProp("sidenav", false)
   }
- 
+
   selectedItem (option) {
     this.selected = option
   }

@@ -1,15 +1,23 @@
 <div class="dialog">
-  <h1 mat-dialog-title>Crea una nuova inserzione</h1>
+  <h1 mat-dialog-title>Nuovo moderatore</h1>
   <div mat-dialog-content>
-    <p>Completa il form sottostante</p>
+    <p>Inserisci l' indirizzo email del moderatore</p>
     <form>
-
+      <mat-form-field class="full-width">
+        <mat-label>La tua email</mat-label>
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="mario.rossi@email.com"
+        >
+      </mat-form-field>
     </form>
     <br>
   </div>
   <div mat-dialog-actions>
     <div class="full-width">
-      <button mat-raised-button *ngIf="!waiting" color="primary" (click)="close()" class="full-width">Invia</button>
+      <button mat-raised-button color="primary" (click)="close()" class="full-width">Invia</button>
     </div>
     <br><br>
   </div>

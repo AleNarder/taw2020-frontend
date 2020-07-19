@@ -1,0 +1,21 @@
+<div class="chat-container">
+  <div class="messages">
+    <mat-list id="message-list">
+      <mat-list-item *ngFor="let message of messages" [ngClass]="{'mine': message.senderId === configuration.senderId}">
+        <app-message [message]="message" [mine]="message.senderId === configuration.senderId"></app-message>
+      </mat-list-item>
+    </mat-list>
+    <div id="endstop"></div>
+  </div>
+  <div class="sender">
+    <textarea
+      class="message"
+      [placeholder]="blocked ? 'Per poter scrivere un messaggio devi prima loggarti' : 'Scrivi un messaggio...'"
+      [disabled] = "blocked"
+      [(ngModel)] = "message"
+      ></textarea>
+    <i class="fas fa-paper-plane fa-lg clickable" (click)="sendMessage()"></i>
+  </div>
+</div>
+
+
