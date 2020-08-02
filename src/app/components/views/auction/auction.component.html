@@ -1,13 +1,21 @@
 <div class="container">
   <div class="nested-content">
     <mat-card *ngIf="auction" id="auction">
-      <mat-card-title>{{auction.book[0].title}}</mat-card-title>
-      <mat-card-subtitle>{{auction.book[0].author}}</mat-card-subtitle>
+      <div id="auction-header">
+        <div>
+          <mat-card-title>{{auction.book[0].title}}</mat-card-title>
+          <mat-card-subtitle>{{auction.book[0].author}}</mat-card-subtitle>
+        </div>
+        <div>
+          <p>Scade tra:</p>
+          <p id="clock">{{auction.clock | clock}}</p>
+        </div>
+      </div>
       <mat-card-content>
-        <h3><b>Università:</b> {{auction.book[0].university}}</h3>
-        <h3><b>Offerte:</b></h3>
-        <mat-list>
-          <mat-list-item *ngFor="let offer of auction.offers" >
+        <h3>Università: {{auction.book[0].university}}</h3>
+        <h3>Offerte:</h3>
+        <mat-list id="offers">
+          <mat-list-item *ngFor="let offer of auction.offers.reverse()">
             <div class="offer-block">
               <div>
                 <p>{{offer.username}}</p>
@@ -19,16 +27,36 @@
             </div>
           </mat-list-item>
         </mat-list>
-        <h3><b>Prezzo attuale: </b><span class="offer">{{auction.currentPrice}}€</span></h3>
+        <h3>Prezzo attuale: <span class="offer">{{auction.currentPrice}}€</span></h3>
       </mat-card-content>
-      <mat-dialog-actions>
-        <button>Fai un'offerta</button>
+      <mat-dialog-actions id="custom-actions">
+        <h3>{{(logged) ? "Fai un'offerta" : "Per poter fare un'offerta devi essere loggato" }}</h3>
+        <form *ngIf="logged">
+          <mat-form-field>
+            <mat-label>Importo</mat-label>
+            <input
+              type="number"
+              matInput
+              [placeholder]="auction.currentPrice + 1"
+              name="offer"
+              [formControl]="(logged) ? fields.offer : null"
+              >
+              <mat-error >{{checkError('offer')}}</mat-error>
+          </mat-form-field>
+        </form>
+        <button mat-raised-button color="primary" (click)="makeOffer()" [disabled]="!fields.offer.valid || fields.offer.value < auction.currentPrice || !logged">Offri</button>
       </mat-dialog-actions>
     </mat-card>
     <mat-card id="chat" *ngIf="ready">
       <mat-card-title>Chat</mat-card-title>
       <mat-card-content>
-        <mat-tab-group id="vertical-tabs">
+        <div id="logged-error" *ngIf="!logged">
+          <div class="reduced-text">
+            <h3>Per poter accedere alle chat devi essere loggato</h3>
+          </div>
+          <button mat-raised-button (click)="go2Login()">Accedi</button>
+        </div>
+        <mat-tab-group id="vertical-tabs" *ngIf="logged">
           <mat-tab *ngFor="let chat of chats" [label]="chat.receiverUs ? chat.receiverUs : 'Pubblica' ">
             <app-chat [configuration] = "chat"></app-chat>
           </mat-tab>

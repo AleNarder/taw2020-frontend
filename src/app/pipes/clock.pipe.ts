@@ -8,6 +8,7 @@ export class ClockPipe implements PipeTransform {
   transform(value: number): string {
     let t = ''
     if (value) {
+      value = Math.floor(value / 1000)
       let s = value % 60
       let m = Math.floor(value / 60 % 60)
       let h = Math.floor(value / 60 / 60 % 24)

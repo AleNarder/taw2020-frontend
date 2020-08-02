@@ -26,12 +26,17 @@ export class HomeComponent implements OnInit {
       this.ready = true
       for (let utente of this.utentiInserzioni) {
         for (let auction of utente.auctions) {
+          console.log(auction)
           this.auctions.push({
             ...auction,
-            user: utente._id
+            user: utente._id,
           })
         }
       }
+      this.updateClock()
+      setInterval(() => {
+        this.updateClock()
+      }, 1000)
     }, (err) => {
       console.log(err)
     })
@@ -43,6 +48,13 @@ export class HomeComponent implements OnInit {
         user,
         auction
       }
+    })
+  }
+
+  updateClock () {
+    this.auctions.forEach((auction) => {
+      const auctionEnd = auction.created + 7 * 24 * 60 * 60 * 1000
+      auction.clock = auctionEnd - Date.now()
     })
   }
 

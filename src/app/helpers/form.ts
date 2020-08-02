@@ -2,7 +2,7 @@ import { FormControl, Validators } from '@angular/forms';
 
 function requiredError (field, fieldname) {
   if (field.hasError('required')) {
-    return `Il campo ${fieldname} non può essere vuoto`
+    return `Il campo ${fieldname || ''} non può essere vuoto`
   }
 }
 
@@ -26,16 +26,26 @@ function mailError (field, fieldname) {
 
 export default {
 
+  generic: {
+    check: () => new FormControl('',[Validators.required]),
+    validate: (field: string | FormControl, fieldname ?: string) => requiredError(field, fieldname)
+  },
+
+  offer: {
+    check: () => new FormControl('',[Validators.required]),
+    validate: (field) => requiredError(field, 'offerta')
+  },
+
   firstname : {
     check: () => new FormControl('',[Validators.required]),
-    validate: (field) => requiredError(field, 'nome') 
+    validate: (field) => requiredError(field, 'nome')
   },
   lastname  : {
     check: () => new FormControl('', [Validators.required]),
-    validate: (field) => requiredError(field, 'cognome') 
+    validate: (field) => requiredError(field, 'cognome')
   },
   password  : {
-    check: () => new FormControl('', [Validators.required, Validators.pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})'))]), 
+    check: () => new FormControl('', [Validators.required, Validators.pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})'))]),
     validate: (field) => requiredError(field, 'password') || patternError (field, 'password')
   },
   zipcode   : {

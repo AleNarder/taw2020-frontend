@@ -23,27 +23,31 @@ export class AuctionService {
     return throwError(error.error.payload)
   }
 
-  public new (body, usr: string, token: string) {
+  public addOne (body, id: string, token: string) {
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
       })
     }
-    return this.http.post(this.auctions, body, options).pipe(catchError(this.handleError))
+    return this.http.post([this.auction, 'user', id].join('/'), body, options).pipe(catchError(this.handleError))
   }
 
-  public getAll () {
-    return this.http.get(this.auctions).pipe(catchError(this.handleError))
+  public getAll (user ?: string, token ?: string) {
+    if (user && token) {
+      const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        })
+      }
+      return this.http.get([this.auction, 'user', user].join('/'), options).pipe(catchError(this.handleError))
+    } else {
+      return this.http.get(this.auctions).pipe(catchError(this.handleError))
+    }
   }
 
   public getOne (user, auction, token) {
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      })
-    }
     return this.http.get([this.auction, user, auction ].join('/')).pipe(catchError(this.handleError))
   }
 

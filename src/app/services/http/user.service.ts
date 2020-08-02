@@ -16,7 +16,7 @@ export class UserService {
     private http: HttpClient
   ) { }
 
-  
+
   public new (body, moderator: boolean = false) {
     body.username = body.firstname + body.lastname[0].toLocaleUpperCase() + body.lastname.slice(1, body.lastname.length)
     console.log(body)

@@ -3,6 +3,7 @@ import * as io from 'socket.io-client';
 import { environment } from '../../../environments/environment';
 import { ChatPayload, ChatConfiguration } from 'src/app/models/chat';
 import { appStateService } from '../state/appState.service';
+import { AuctionOfferPayload } from 'src/app/models/auctionOffer';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class SocketioService {
   private socket: SocketIOClient.Socket
   private privateMessageEventTag = 'new-private-message'
   private publicMessageEventTag = 'new-public-message'
+  private newAuctionOfferEventTag = 'new-offer'
 
   constructor(
     private appState: appStateService
@@ -59,5 +61,13 @@ export class SocketioService {
 
   public onNewPrivateMessage (callback: Function): void {
     this.socket.on(this.privateMessageEventTag, callback)
+  }
+
+  public makeOffer (payload: AuctionOfferPayload) {
+    this.socket.emit(this.newAuctionOfferEventTag, payload)
+  }
+
+  public onNewOffer (callback: Function): void  {
+    this.socket.on(this.newAuctionOfferEventTag, callback)
   }
 }

@@ -4,12 +4,11 @@ import { ForgotPasswordComponent } from '../../modals/forgot-password/forgot-pas
 import { Router, ActivatedRoute } from '@angular/router'
 import { AuthService } from 'src/app/services/http/auth.service'
 import { UserService } from 'src/app/services/http/user.service';
-
-import fieldHelpers from '../../../helpers/form'
 import { Response } from 'src/app/services/models/Response';
 import { UserPayload, User } from 'src/app/services/models/User';
 import { appStateService } from 'src/app/services/state/appState.service';
-
+import { SocketioService } from 'src/app/services/socket/socketio.service';
+import fieldHelpers from '../../../helpers/form'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -40,7 +39,8 @@ export class LoginComponent implements OnInit {
     private user: UserService,
     private auth: AuthService,
     private appState: appStateService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private socketService: SocketioService
   ) {
     this.route.queryParams.subscribe(params => {
       this.isModerator = params['moderator']
@@ -92,6 +92,7 @@ export class LoginComponent implements OnInit {
           token: res.payload.token
         }
         this.auth.setToken(res.payload.token)
+        this.socketService.setupSocketConnection()
       }, (errorMessage) => {
         this.error(errorMessage)
       })

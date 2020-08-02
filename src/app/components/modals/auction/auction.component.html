@@ -1,23 +1,95 @@
 <div class="dialog">
-  <h1 mat-dialog-title>Nuovo moderatore</h1>
+  <h1 mat-dialog-title>Nuova inserzione</h1>
+  <p style="color: red" *ngIf="status.wrong">{{status.message}}</p>
   <div mat-dialog-content>
-    <p>Inserisci l' indirizzo email del moderatore</p>
-    <form>
-      <mat-form-field class="full-width">
-        <mat-label>La tua email</mat-label>
-        <input
-          type="email"
-          name="email"
-          required
-          placeholder="mario.rossi@email.com"
-        >
-      </mat-form-field>
-    </form>
+    <mat-tab-group  [(selectedIndex)]="selectedIdx">
+      <mat-tab label="Libro">
+        <br>
+        <form>
+          <mat-form-field class="full-width">
+            <mat-label>Titolo</mat-label>
+            <input
+              type="text"
+              name="title"
+              matInput [formControl] = "book.title"
+              required
+              placeholder="Algoritmi sui grafi"
+            >
+            <mat-error *ngIf="book.title.invalid">{{checkError(book.title)}}</mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Autore</mat-label>
+            <input
+              type="text"
+              name="author"
+              matInput [formControl] = "book.author"
+              required
+              placeholder="Augusto Forlanini"
+            >
+            <mat-error *ngIf="book.author.invalid">{{checkError(book.author)}}</mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Corso</mat-label>
+            <input
+              type="text"
+              name="course"
+              matInput [formControl] = "book.course"
+              required
+              placeholder="Algoritmi e strutture dati"
+            >
+            <mat-error *ngIf="book.course.invalid">{{checkError(book.course)}}</mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Università</mat-label>
+            <input
+              type="text"
+              name="university"
+              matInput [formControl] = "book.university"
+              required
+              placeholder="Università Ca' Foscari Venezia"
+            >
+            <mat-error *ngIf="book.university.invalid">{{checkError(book.university)}}</mat-error>
+          </mat-form-field>
+        </form>
+      </mat-tab>
+      <mat-tab label="Asta" >
+        <br>
+        <form>
+          <mat-form-field class="full-width">
+            <mat-label>Prezzo di partenza</mat-label>
+            <input
+              type="number"
+              name="title"
+              matInput [formControl] = "auction.currentPrice"
+              required
+              min="0"
+              oninput="validity.valid||(value='');"
+              placeholder="Algoritmi sui grafi"
+            >
+            <mat-error *ngIf="auction.currentPrice.invalid">{{checkError(auction.currentPrice)}}</mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Prezzo di riserva</mat-label>
+            <input
+              type="number"
+              name="author"
+              matInput [formControl] = "auction.threshold"
+              required
+              min="0"
+              oninput="validity.valid||(value='');"
+              placeholder="Augusto Forlanini"
+            >
+            <mat-error *ngIf="auction.threshold.invalid">{{checkError(auction.threshold)}}</mat-error>
+          </mat-form-field>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
+
     <br>
   </div>
   <div mat-dialog-actions>
     <div class="full-width">
-      <button mat-raised-button color="primary" (click)="close()" class="full-width">Invia</button>
+      <button mat-raised-button color="primary" (click)="complete()" class="full-width">{{this.selectedIdx > 0 ? 'Invia' : 'Successivo' }}</button>
     </div>
     <br><br>
   </div>

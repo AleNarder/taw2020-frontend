@@ -40,6 +40,7 @@ body {
   display: flex;
   justify-content: center;
   text-align: center;
+  flex-wrap: wrap;
 }
 
 .full-width {
@@ -66,9 +67,17 @@ body {
   overflow-x: hidden !important;
 }
 
-
+.cards {
+  display: flex;
+  flex-direction: row;
+  min-width: 80vw;
+  flex-wrap: wrap;
+}
 
 @media screen and (max-width: 600px) {
+  .cards {
+    flex-direction: column  ;
+  }
 
   .nested-content {
     width: 100% !important;

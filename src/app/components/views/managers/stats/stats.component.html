@@ -1,1 +1,27 @@
-<p>stats works!</p>
+<div class="nested-content">
+  <div *ngFor="let auctions of statsKeys">
+    <h1 class="section-title">{{statsMap[auctions]}}</h1>
+    <div class="nested-content">
+    <mat-card *ngFor="let auction of stats[auctions]" class="user-card">
+      <mat-card-title>{{auction.book[0].title}}</mat-card-title>
+      <mat-card-subtitle>{{auction.book[0].university}} - {{auction.book[0].course}}</mat-card-subtitle>
+      <mat-card-subtitle>{{auction.book[0].author}}</mat-card-subtitle>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" class="action-btn" (click)="viewAuction(auction._id)">Apri</button>
+      </mat-card-actions>
+    </mat-card>
+    <p style="padding-left: 16px;" *ngIf="stats[auctions].length === 0">Non si sono aste da visualizzare </p>
+    <br>
+  </div>
+  </div>
+
+  <div *ngIf="isModerator" class="nested-content">
+    <mat-card class="infoCards" *ngFor="let info of statsKeys">
+      <mat-card-title>{{statsMap[info]}}</mat-card-title>
+      <mat-card-content class="numbers">{{stats[info]}}</mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+

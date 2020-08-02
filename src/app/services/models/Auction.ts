@@ -8,7 +8,9 @@ export interface Auction {
   book: Book,
   clock ?: number,
   offers: Offer[],
-  chats: Chat[]
+  chats: Chat[],
+  _id: string,
+  isActive: boolean
 }
 
 
