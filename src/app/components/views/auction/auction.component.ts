@@ -9,6 +9,8 @@ import { SocketioService } from 'src/app/services/socket/socketio.service';
 import { Message } from 'src/app/services/models/Message';
 import { AuctionOfferPayload } from 'src/app/models/auctionOffer';
 import fieldHelpers from '../../../helpers/form'
+import { reverseDate } from '../../../helpers/reverseDate'
+import { reverseClock } from '../../../helpers/reverseClock'
 
 @Component({
   selector: 'app-auction',
@@ -21,11 +23,15 @@ export class AuctionComponent implements OnInit {
   auctionId
   userId
   logged
+  edit = false
   ready = false
+  watcher
+  isModerator: boolean
   chats: ChatConfiguration[] = []
   fields = {
     offer: fieldHelpers.offer.check()
   }
+
   private owner: boolean
 
   constructor(
@@ -39,10 +45,13 @@ export class AuctionComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
+      this.edit = params.edit
       this.auctionId = params.auction
       this.userId = params.user
       this.owner = this.appState.state.user ? this.appState.state.user._id === this.userId : false
       this.logged = this.appState.state.user
+      this.isModerator = this.appState.state.user.moderator
+      console.log(this.edit)
       this.getAuctionInfo()
     })
   }
@@ -51,7 +60,7 @@ export class AuctionComponent implements OnInit {
     this.auctionService.getOne(this.userId, this.auctionId, this.appState.state.token).subscribe((auction: Response<Auction>) => {
       this.auction = auction.payload
       this.updateClock()
-      setInterval(()=> { this.updateClock() }, 1000)
+      this.watcher = setInterval(() => this.updateClock(), 1000)
       this.ready = true
       this.getChatConfig()
       if (this.appState.state.user) {
@@ -62,6 +71,11 @@ export class AuctionComponent implements OnInit {
     }, (error) => {
       console.log(error)
     })
+  }
+
+  save () {
+    this.auctionService.update(this.userId, this.auctionId, this.auction, this.appState.state.token)
+    .subscribe(res => null)
   }
 
   private updateOffers (msg: AuctionOfferPayload) {
@@ -142,5 +156,23 @@ export class AuctionComponent implements OnInit {
 
   go2Login () {
     this.router.navigate(['/login'])
+  }
+
+  reverseDate (date: string, field) {
+    return reverseDate(date) || field
+  }
+
+  reverseClock (clock: string) {
+    const newClock = reverseClock(clock)
+    this.auction.created = (newClock - (7 * 24 * 60 * 60 * 1000)).toString()
+    return newClock
+  }
+
+  stop () {
+    clearInterval(this.watcher)
+  }
+
+  start () {
+    this.watcher = setInterval(() => this.updateClock(), 1000)
   }
 }

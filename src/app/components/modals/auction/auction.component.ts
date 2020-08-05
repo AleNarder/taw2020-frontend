@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog'
 import { AuctionService } from 'src/app/services/http/auction.service';
 import { appStateService } from 'src/app/services/state/appState.service';
+import { Inject } from '@angular/core';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import fieldHelpers from '../../../helpers/form'
 
 @Component({
@@ -32,6 +34,7 @@ export class AuctionModalComponent implements OnInit {
   }
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<AuctionModalComponent>,
     private auctionService: AuctionService,
     private appState: appStateService,

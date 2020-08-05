@@ -3,35 +3,91 @@
     <mat-card *ngIf="auction" id="auction">
       <div id="auction-header">
         <div>
-          <mat-card-title>{{auction.book[0].title}}</mat-card-title>
-          <mat-card-subtitle>{{auction.book[0].author}}</mat-card-subtitle>
+          <mat-card-title *ngIf="!edit">{{auction.book[0].title}}</mat-card-title>
+          <mat-form-field  *ngIf="edit">
+            <mat-label *ngIf="edit">Titolo del libro</mat-label>
+            <input
+              matInput
+              placeholder="Ex. Pizza"
+              [(ngModel)]="auction.book[0].title">
+          </mat-form-field>
+          <br *ngIf="edit">
+          <mat-card-subtitle *ngIf="!edit">{{auction.book[0].author}}</mat-card-subtitle>
+          <mat-form-field  *ngIf="edit">
+            <mat-label *ngIf="edit">Autore</mat-label>
+            <input
+              matInput
+              placeholder="Ex. Pizza"
+              [(ngModel)]="auction.book[0].author">
+          </mat-form-field>
         </div>
         <div>
-          <p>Scade tra:</p>
-          <p id="clock">{{auction.clock | clock}}</p>
+          <p *ngIf="!edit && auction.clock > 0">Scade tra:</p>
+          <p id="clock" *ngIf="!edit">{{auction.clock > 0 ? (auction.clock | clock) : 'Conclusa'}}</p>
+          <mat-form-field class="full-width" *ngIf="edit">
+            <mat-label *ngIf="edit">Scade tra</mat-label>
+            <input
+              matInput
+              placeholder="Ex. Pizza"
+              [ngModel]="auction.clock | clock"
+              (focus)="stop()"
+              (focusout)="start()"
+              (input)="auction.clock = reverseClock($event)">
+            </mat-form-field>
         </div>
       </div>
       <mat-card-content>
-        <h3>Università: {{auction.book[0].university}}</h3>
+        <h3 *ngIf="!edit">Università: {{auction.book[0].university}}</h3>
+        <mat-form-field class="full-width" *ngIf="edit">
+          <mat-label *ngIf="edit">Università</mat-label>
+          <input
+            matInput
+            [(ngModel)]="auction.book[0].university">
+        </mat-form-field>
         <h3>Offerte:</h3>
         <mat-list id="offers">
           <mat-list-item *ngFor="let offer of auction.offers.reverse()">
-            <div class="offer-block">
+            <div [ngClass]="{'offer-block': !this.edit}">
               <div>
-                <p>{{offer.username}}</p>
-                <p class="sub">{{offer.timestamp | date}}</p>
+                <p *ngIf="!edit">{{offer.username}}</p>
+                <mat-form-field  *ngIf="edit">
+                  <mat-label *ngIf="edit">Utente:</mat-label>
+                  <input
+                    matInput
+                    [(ngModel)]="offer.username">
+                </mat-form-field>
+                <p *ngIf="!edit" class="sub">{{offer.timestamp | date}}</p>
+                <mat-form-field  *ngIf="edit">
+                  <mat-label *ngIf="edit">Data</mat-label>
+                  <input
+                    matInput
+                    [ngModel]="offer.timestamp | date"
+                    (ngModelChange)="offer.timestamp = reverseDate($event, offer.timestamp)">
+                  </mat-form-field>
+                <mat-form-field  *ngIf="edit">
+                  <mat-label *ngIf="edit">Offerta</mat-label>
+                  <input
+                    matInput
+                    [(ngModel)]="offer.delta">
+                </mat-form-field>
               </div>
               <div>
-                <p class="offer">+ {{offer.delta}}</p>
+                <p *ngIf="!edit" class="offer">+ {{offer.delta}}</p>
               </div>
             </div>
           </mat-list-item>
         </mat-list>
-        <h3>Prezzo attuale: <span class="offer">{{auction.currentPrice}}€</span></h3>
+        <h3 *ngIf="!edit">{{ (auction.clock > 0) ? 'Prezzo attuale: ' : 'Venduta a: '}}<span class="offer">{{auction.currentPrice}}€</span></h3>
+        <mat-form-field class="full-width" *ngIf="edit">
+          <mat-label *ngIf="edit">{{(auction.clock > 0) ? 'Prezzo attuale: ' : 'Venduta a: '}}</mat-label>
+          <input
+            matInput
+            [(ngModel)]="auction.currentPrice">
+        </mat-form-field>
       </mat-card-content>
       <mat-dialog-actions id="custom-actions">
-        <h3>{{(logged) ? "Fai un'offerta" : "Per poter fare un'offerta devi essere loggato" }}</h3>
-        <form *ngIf="logged">
+        <h3 *ngIf="!edit && auction.clock > 0">{{(logged) ? "Fai un'offerta" : "Per poter fare un'offerta devi essere loggato" }}</h3>
+        <form *ngIf="logged && !edit && auction.clock > 0">
           <mat-form-field>
             <mat-label>Importo</mat-label>
             <input
@@ -44,7 +100,8 @@
               <mat-error >{{checkError('offer')}}</mat-error>
           </mat-form-field>
         </form>
-        <button mat-raised-button color="primary" (click)="makeOffer()" [disabled]="!fields.offer.valid || fields.offer.value < auction.currentPrice || !logged">Offri</button>
+        <button mat-raised-button color="primary" (click)="save()" *ngIf="edit">Salva</button>
+        <button mat-raised-button color="primary" (click)="makeOffer()"  *ngIf="!edit && auction.clock > 0" [disabled]="!fields.offer.valid || fields.offer.value < auction.currentPrice || !logged || auction.clock < 0">Offri</button>
       </mat-dialog-actions>
     </mat-card>
     <mat-card id="chat" *ngIf="ready">

@@ -19,14 +19,15 @@
 }
 
 .section-title {
-  padding-left: 16px;
+  margin-left: 8px;
   text-align: left;
 }
 
+.main {
+  margin: 8px;
+}
+
 @media screen and (min-width: 600px) {
-  .user-card:first-child {
-    margin-left: 16px;
-  }
 
   .nested-content {
     width: 100vw;

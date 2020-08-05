@@ -27,6 +27,7 @@ import { MatGridListModule } from '@angular/material/grid-list'
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatSelectModule } from '@angular/material/select';
 
 import { SocketioService } from './services/socket/socketio.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -78,6 +79,7 @@ import { MessageComponent } from './components/chats/message/message.component';
     MatFormFieldModule,
     MatCardModule,
     MatButtonModule,
+    MatSelectModule,
     MatInputModule,
     MatIconModule,
     MatDialogModule,

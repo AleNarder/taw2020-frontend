@@ -61,13 +61,13 @@ export class AuctionService {
     return this.http.delete([this.auction, user, auction ].join('/'), options).pipe(catchError(this.handleError))
   }
 
-  public modify (user, auction, body, token) {
+  public update (user, auction, body, token) {
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
       })
     }
-    return this.http.post([this.auction, user, auction ].join('/'), body, options).pipe(catchError(this.handleError))
+    return this.http.put([this.auction, user, auction ].join('/'), body, options).pipe(catchError(this.handleError))
   }
 }

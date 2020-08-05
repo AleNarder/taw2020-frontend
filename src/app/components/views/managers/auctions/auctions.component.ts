@@ -17,6 +17,8 @@ export class AuctionsComponent implements OnInit {
 
   auctionDialogRef: MatDialogRef<AuctionModalComponent>
   auctions: Auction[]
+  isModerator: boolean
+
   constructor(
     private dialog: MatDialog,
     private router: Router,
@@ -27,19 +29,23 @@ export class AuctionsComponent implements OnInit {
   ngOnInit(): void {
     this.auctionService.getAll(this.appState.state.user._id, this.appState.state.token).subscribe((auctions: Response<Auction[]>) => {
       this.auctions = auctions.payload
+      this.isModerator = this.appState.state.user.moderator
     }, (error) => {
       console.log(error)
     })
-    this.auctionDialogRef.afterClosed().subscribe(()=> {
-      this.auctionService.getAll(this.appState.state.user._id, this.appState.state.token).subscribe((auctions: Response<Auction[]>) => {
-        this.auctions = auctions.payload
-      }, (error) => {
-        console.log(error)
-      })
+  }
+
+  editAuction(auction: string) {
+    this.router.navigate(['auction'], {
+      queryParams: {
+        user: this.appState.state.user._id,
+        edit: true,
+        auction
+      }
     })
   }
 
-  viewAuction(auction: string) {
+  openAuction(auction: string) {
     this.router.navigate(['auction'], {
       queryParams: {
         user: this.appState.state.user._id,
@@ -48,9 +54,8 @@ export class AuctionsComponent implements OnInit {
     })
   }
 
+
   openDialog (): void {
-    console.log('Hello')
     this.auctionDialogRef = this.dialog.open(AuctionModalComponent)
   }
-
 }
