@@ -7,19 +7,33 @@
 .delete {
   width: 70%;
 }
+
+.nested-content {
+  padding: 0;
+}
+
 .user-card {
   width: 300px;
   margin: 8px;
 }
 
 @media screen and (min-width: 600px) {
-  .user-card:first-child {
-    margin-left: 16px;
-  }
 
   .nested-content {
     width: 100vw;
     justify-content: flex-start;
   }
+}
 
+
+@media screen and (max-width: 599px) {
+  .user-card {
+    width: 300px;
+    margin: 0px;
+    margin-bottom: 16px;
+  }
+
+  .nested-content {
+    align-items : center;
+  }
 }

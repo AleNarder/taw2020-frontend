@@ -46,6 +46,7 @@ import { ClockPipe } from './pipes/clock.pipe';
 import { DatePipe } from './pipes/date.pipe';
 import { ChatComponent } from './components/chats/chat/chat.component';
 import { MessageComponent } from './components/chats/message/message.component';
+import { SearchPipe } from './pipes/search.pipe';
 
 
 @NgModule({
@@ -69,6 +70,7 @@ import { MessageComponent } from './components/chats/message/message.component';
     DatePipe,
     ChatComponent,
     MessageComponent,
+    SearchPipe,
   ],
   imports: [
     BrowserModule,

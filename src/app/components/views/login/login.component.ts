@@ -111,7 +111,7 @@ export class LoginComponent implements OnInit {
       newUser.moderator = newUser.confirmed = false
     }
     this.user.new(newUser).subscribe(data => {
-      this.router.navigate['/']
+      this.router.navigate(['/'])
     }, (errorMessage) => {
       this.error(errorMessage)
     })

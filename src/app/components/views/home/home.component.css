@@ -35,10 +35,23 @@
 }
 
 #search {
-  margin: 16px;
-  width: 100%;
+  width: calc(100vw - 64px);
 }
 
+.filters {
+  display: flex;
+  justify-items: start;
+  padding-left: 16px;
+  padding-bottom: 8px;
+}
+
+.filters button, .filters .mat-form-field {
+  margin: 0 3px;
+}
+
+.filters .mat-form-field {
+  max-width: 90px;
+}
 
 @media screen and (max-width: 600px) {
   .cards {

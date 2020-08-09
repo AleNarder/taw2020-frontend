@@ -3,13 +3,41 @@
     <div>
       <h1 class="section-title">Libri in vendita</h1>
       <h2 class="section-subtitle">Tutte le aste in corso</h2>
-      <mat-form-field appearance="outline" id="search">
-        <mat-label>Ricerca</mat-label>
-        <input matInput placeholder="Algoritmi e strutture dati" >
-      </mat-form-field>
+        <mat-form-field appearance="outline" id="search">
+          <mat-label>Ricerca</mat-label>
+          <input [disabled]="noFilter()" matInput placeholder="Algoritmi e strutture dati" [(ngModel)]="filter">
+        </mat-form-field>
+        <div>
+          <div class="filters">
+            <div *ngFor="let category of categoryOptions" (click)="category.selected = !category.selected">
+              <button *ngIf="!category.selected" mat-button color="primary">{{category.title | uppercase}}</button>
+              <button *ngIf="category.selected" mat-raised-button color="primary">{{category.title | uppercase}}</button>
+            </div>
+          </div>
+          <div class="filters">
+            <div
+              *ngFor="let filter of filterOptions"
+              color="primary"
+              (click)="filter.selected = !filter.selected"
+              >
+              <button *ngIf="!filter.selected" mat-button color="primary">{{filter.title | uppercase}}</button>
+              <button *ngIf="filter.selected" mat-raised-button color="primary">{{filter.title | uppercase}}</button>
+            </div>
+          </div>
+        </div>
+        <div class="filters">
+          <mat-form-field >
+            <mat-label>Prezzo min</mat-label>
+            <input matInput type="number" min="0" [max]="priceOptions.max" oninput="validity.valid||(value='');" [(ngModel)]="priceOptions.min">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Prezzo max</mat-label>
+            <input matInput type="number" [min]="priceOptions.min" oninput="validity.valid||(value='');" [(ngModel)]="priceOptions.max">
+          </mat-form-field>
+        </div>
       <div>
-        <div class="cards">
-          <mat-card *ngFor="let auction of auctions" class="auction-card">
+        <div class="cards" *ngIf="ready">
+          <mat-card *ngFor="let auction of (auctions | search: searchCriteria())" class="auction-card">
             <mat-card-header>
               <div mat-card-avatar class="book-image"></div>
               <mat-card-title>{{auction.book[0].title }}</mat-card-title>

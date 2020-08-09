@@ -13,6 +13,46 @@ export class HomeComponent implements OnInit {
   utentiInserzioni: Auctions[]
   auctions = []
   ready = false
+  filter = ''
+
+  categoryOptions = [
+    {
+      title: 'attive',
+      selected: true
+    },
+    {
+      title: 'concluse',
+      selected: true
+    }
+  ]
+
+  priceOptions = {
+    min: null,
+    max: null
+  }
+
+  filterOptions = [
+    {
+      title: 'titolo',
+      option: 'title',
+      selected: true
+    },
+    {
+      title: 'corso',
+      option: 'course',
+      selected: false
+    },
+    {
+      title: 'autore',
+      option: 'author',
+      selected: false
+    },
+    {
+      title: 'università',
+      option: 'university',
+      selected: false
+    },
+  ]
 
   constructor(
     private router: Router,
@@ -26,13 +66,13 @@ export class HomeComponent implements OnInit {
       this.ready = true
       for (let utente of this.utentiInserzioni) {
         for (let auction of utente.auctions) {
-          console.log(auction)
           this.auctions.push({
             ...auction,
             user: utente._id,
           })
         }
       }
+      console.log(this.auctions)
       this.updateClock()
       setInterval(() => {
         this.updateClock()
@@ -56,6 +96,22 @@ export class HomeComponent implements OnInit {
       const auctionEnd = auction.created + 7 * 24 * 60 * 60 * 1000
       auction.clock = auctionEnd - Date.now()
     })
+  }
+
+  searchCriteria (): any {
+    return {
+      query: this.filter,
+      params: this.filterOptions.filter(filter => filter.selected).map(filter => filter.option),
+      min: this.priceOptions.min,
+      max: this.priceOptions.max,
+      status: this.categoryOptions.filter(cat => cat.selected).map(cat => cat.title)
+    }
+  }
+
+  noFilter (): boolean {
+    return !this.filterOptions
+      .map((a) => a.selected)
+      .reduce((a, c) => a || c)
   }
 
 }

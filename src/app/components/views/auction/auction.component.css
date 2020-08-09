@@ -30,14 +30,6 @@
   justify-content: space-between;
   width: 250px;
 }
-.mat-tab-group {
-  flex-direction: row !important;
-}
-
-#chat #vertical-tabs .mat-tab-labels {
-  display: flex;
-  flex-direction: column !important;
-}
 
 #custom-actions {
   position: absolute;
@@ -68,4 +60,33 @@
 
 #clock {
   font-size: 24px;
+}
+
+
+@media screen and (min-width: 600px) {
+  .mat-tab-group {
+    flex-direction: row !important;
+  }
+  #chat #vertical-tabs .mat-tab-labels {
+    display: flex;
+    flex-direction: column !important;
+  }
+}
+
+@media screen and (max-width: 599px) {
+  #auction {
+    margin-bottom: 16px;
+  }
+  #clock {
+    font-size: 16px;
+  }
+
+  #offers {
+    max-height: 25vh;
+  }
+
+  h3 {
+    text-align: left;
+  }
+
 }

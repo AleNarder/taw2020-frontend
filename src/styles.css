@@ -37,6 +37,8 @@ body {
 
 .nested-content {
   width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -84,7 +86,6 @@ body {
     max-width: calc(100vw - 32px) !important;
     padding: 16px;
     flex-direction: column ;
-    padding-top: 0px;
   }
 
   h1, h2, h3, h4, h5, h6 {

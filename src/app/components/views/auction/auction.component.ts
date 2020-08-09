@@ -48,10 +48,9 @@ export class AuctionComponent implements OnInit {
       this.edit = params.edit
       this.auctionId = params.auction
       this.userId = params.user
-      this.owner = this.appState.state.user ? this.appState.state.user._id === this.userId : false
+      this.owner = this.appState.state.user ? (this.appState.state.user._id === this.userId) : false
       this.logged = this.appState.state.user
-      this.isModerator = this.appState.state.user.moderator
-      console.log(this.edit)
+      this.isModerator = (this.appState.state.user) ? this.appState.state.user.moderator : false
       this.getAuctionInfo()
     })
   }
