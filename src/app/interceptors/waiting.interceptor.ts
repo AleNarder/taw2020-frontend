@@ -9,12 +9,14 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { appStateService } from '../services/state/appState.service';
 import { tap, finalize, delay, catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class WaitingInterceptor implements HttpInterceptor {
 
   constructor(
-    private appState: appStateService
+    private appState: appStateService,
+    private router: Router
   ) {
   }
 

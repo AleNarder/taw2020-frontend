@@ -11,6 +11,7 @@ import { AuctionOfferPayload } from 'src/app/models/auctionOffer';
 import fieldHelpers from '../../../helpers/form'
 import { reverseDate } from '../../../helpers/reverseDate'
 import { reverseClock } from '../../../helpers/reverseClock'
+import { off } from 'process';
 
 @Component({
   selector: 'app-auction',
@@ -23,9 +24,11 @@ export class AuctionComponent implements OnInit {
   auctionId
   userId
   logged
+  isTheLastWhoOffer: boolean
   edit = false
   ready = false
   watcher
+  expireDate
   isModerator: boolean
   chats: ChatConfiguration[] = []
   fields = {
@@ -58,15 +61,23 @@ export class AuctionComponent implements OnInit {
   getAuctionInfo () {
     this.auctionService.getOne(this.userId, this.auctionId, this.appState.state.token).subscribe((auction: Response<Auction>) => {
       this.auction = auction.payload
+      if (this.edit) {
+        this.expireDate = new Date(this.auction.created + 1000 * 60 * 60 * 24 * 7).toISOString().slice(0, 16)
+        this.auction.offers.forEach(offer => {
+          offer.timestamp = new Date(offer.timestamp).toISOString().slice(0, 16)
+        })
+      }
       console.log(this.auction)
       this.updateClock()
       this.watcher = setInterval(() => this.updateClock(), 1000)
       this.ready = true
+
       this.getChatConfig()
       if (this.appState.state.user) {
         this.socketService.onNewPrivateMessage(this.updateChats.bind(this))
         this.socketService.onNewOffer(this.updateOffers.bind(this))
       }
+      this.isTheLastWhoOffer = (this.appState.state.user) ? this.appState.state.user.username === this.auction.offers[0].username : false
       console.log(this.auction)
     }, (error) => {
       console.log(error)
@@ -74,14 +85,23 @@ export class AuctionComponent implements OnInit {
   }
 
   save () {
-    console.log(this.auction)
+    if (this.edit) {
+      console.log(this.auction.created)
+      let expiration = new Date(this.expireDate)
+      expiration.setMonth(new Date(this.expireDate).getMonth() - 1)
+      this.auction.created = expiration.getTime() - (1000 * 60 * 60 * 24 * 7)
+      console.log(this.auction.created)
+      this.auction.offers.forEach(offer => {
+        offer.timestamp = new Date(offer.timestamp).getTime()
+      })
+    }
     this.auctionService.update(this.userId, this.auctionId, this.auction, this.appState.state.token)
     .subscribe(res => null)
   }
 
   private updateOffers (msg: AuctionOfferPayload) {
     this.auction.currentPrice = msg.amount
-    this.auction.offers.push({
+    this.auction.offers.unshift({
       amount: msg.amount,
       delta: msg.delta,
       user: msg.offerentId,
@@ -157,16 +177,6 @@ export class AuctionComponent implements OnInit {
 
   go2Login () {
     this.router.navigate(['/login'])
-  }
-
-  reverseDate (date: string, field) {
-    return reverseDate(date) || field
-  }
-
-  reverseClock (clock: string) {
-    const newClock = reverseClock(clock)
-    this.auction.created = (newClock - (7 * 24 * 60 * 60 * 1000)).toString()
-    return newClock
   }
 
   stop () {

@@ -38,7 +38,6 @@ export class AuthService {
     if (encryptedToken) {
       const encodedToken = cryptojs.AES.decrypt(encryptedToken, environment.SECRET).toString(cryptojs.enc.Utf8)
       const decodedToken = jwtDecoder(encodedToken)
-      console.log(decodedToken.exp, Math.floor(Date.now() / 1000))
       if (decodedToken.exp > Math.floor(Date.now() / 1000)) {
         return {
           decodedToken,

@@ -17,9 +17,7 @@
   width: 70%;
 }
 
-.nested-content {
-  min-width: 100vw;
-}
+
 
 .action-btn:first-child {
   margin-bottom: 12px;
@@ -28,6 +26,9 @@
 @media screen and (min-width: 600px) {
   .nested-content {
     justify-content: flex-start;
+  }
+  .nested-content {
+    min-width: 100vw;
   }
 }
 
