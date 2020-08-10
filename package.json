@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
+    "postinstall": "npm run build:web",
     "serve": "ng serve",
     "start": "node server.js",
     "bin:electron:linux": "rm -rf ./electron && npx cap add electron && cap copy electron && electron-packager ./electron --platform linux --arch x64 --out dist/",
