@@ -14,6 +14,7 @@ export class SocketioService {
   private privateMessageEventTag = 'new-private-message'
   private publicMessageEventTag = 'new-public-message'
   private newAuctionOfferEventTag = 'new-offer'
+  private newAuctionTag = 'new-auction'
 
   constructor(
     private appState: appStateService
@@ -53,6 +54,14 @@ export class SocketioService {
     } else {
       this.onNewPublicMessage(callback)
     }
+  }
+
+  public newAuction () {
+    this.socket.emit(this.newAuctionTag)
+  }
+
+  public onNewAuction (callback: Function): void {
+    this.socket.on(this.newAuctionTag, callback)
   }
 
   public onNewPublicMessage (callback: Function): void {

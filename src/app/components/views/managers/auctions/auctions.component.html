@@ -19,14 +19,14 @@
       </mat-list>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary" class="action-btn" (click)="openAuction(auction._id)">Apri</button>
-      <button mat-raised-button color="primary" *ngIf="isModerator" class="action-btn" (click)="editAuction(auction._id)">Modifica</button>
+      <button mat-raised-button color="primary" class="action-btn" (click)="openAuction(auction._id, auction.user)">Apri</button>
+      <button mat-raised-button color="primary" *ngIf="isModerator && !private" class="action-btn" (click)="editAuction(auction._id, auction.user)">Modifica</button>
       <br>
     </mat-card-actions>
   </mat-card>
 </div>
 
 
-<button mat-fab color="primary" aria-label="add" id="addAuction" (click)="openDialog()">
+<button mat-fab color="primary" aria-label="add" id="addAuction" (click)="openDialog()" *ngIf="private">
   <i class="fas fa-plus fa-lg"></i>
 </button>

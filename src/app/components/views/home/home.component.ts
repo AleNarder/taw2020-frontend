@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuctionService } from 'src/app/services/http/auction.service';
 import { AuctionResponse, Auctions } from 'src/app/services/models/Auction';
+import { SocketioService } from 'src/app/services/socket/socketio.service';
 
 @Component({
   selector: 'app-home',
@@ -56,11 +57,17 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private auctionService: AuctionService
+    private auctionService: AuctionService,
+    private socketService: SocketioService
     ) {
   }
 
   ngOnInit(): void {
+    this.getAuctions()
+    this.socketService.onNewAuction(this.getAuctions)
+  }
+
+  getAuctions () {
     this.auctionService.getAll().subscribe((userAuctions: AuctionResponse) => {
       this.utentiInserzioni = userAuctions.payload
       this.ready = true

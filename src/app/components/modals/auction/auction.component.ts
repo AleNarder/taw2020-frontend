@@ -5,6 +5,7 @@ import { appStateService } from 'src/app/services/state/appState.service';
 import { Inject } from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import fieldHelpers from '../../../helpers/form'
+import { SocketioService } from 'src/app/services/socket/socketio.service';
 
 @Component({
   selector: 'app-auction',
@@ -38,6 +39,7 @@ export class AuctionModalComponent implements OnInit {
     public dialogRef: MatDialogRef<AuctionModalComponent>,
     private auctionService: AuctionService,
     private appState: appStateService,
+    private socketService: SocketioService
   ) {
   }
 
@@ -76,6 +78,7 @@ export class AuctionModalComponent implements OnInit {
         this.auctionService.addOne(payload, id, this.appState.state.token).subscribe(() => {
           this.waiting = false
           this.dialogRef.close()
+          this.socketService.newAuction()
         }, (errorMessage) => {
           this.error(errorMessage)
         })

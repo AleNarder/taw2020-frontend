@@ -58,6 +58,7 @@ export class AuctionComponent implements OnInit {
   getAuctionInfo () {
     this.auctionService.getOne(this.userId, this.auctionId, this.appState.state.token).subscribe((auction: Response<Auction>) => {
       this.auction = auction.payload
+      console.log(this.auction)
       this.updateClock()
       this.watcher = setInterval(() => this.updateClock(), 1000)
       this.ready = true
@@ -73,6 +74,7 @@ export class AuctionComponent implements OnInit {
   }
 
   save () {
+    console.log(this.auction)
     this.auctionService.update(this.userId, this.auctionId, this.auction, this.appState.state.token)
     .subscribe(res => null)
   }

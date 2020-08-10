@@ -13,7 +13,6 @@ export class SearchPipe implements PipeTransform {
         return values.find((value) => value.indexOf(filter.query.toLowerCase()) >= 0 )
       } return auction
     }).filter(auction => {
-        console.log(filter.min, filter.max)
         return ((filter.min) ? (auction.currentPrice >= filter.min) : true) && ((filter.max) ? (auction.currentPrice <= filter.max) : true)
     }).filter(auction => {
       if (filter.status.length === 1) {

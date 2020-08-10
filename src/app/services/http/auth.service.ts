@@ -25,6 +25,7 @@ export class AuthService {
   public logout () {
     this.appState.setStateProp("logged", false)
     localStorage.clear()
+    console.log(this.appState.state.logged)
   }
 
   public setToken (token) {

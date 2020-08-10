@@ -29,7 +29,8 @@
       <h1 style="padding: 16px;">{{selected}}</h1>
       <div class="container">
         <div class="nested-content">
-          <app-auctions *ngIf="selected === 'Le mie inserzioni' || selected === 'Gestione inserzioni'"  ></app-auctions>
+          <app-auctions *ngIf="selected === 'Le mie inserzioni'" [private]="true" ></app-auctions>
+          <app-auctions *ngIf="selected === 'Gestione inserzioni'" [private]="false" ></app-auctions>
           <app-stats *ngIf="selected === 'Statistiche'"></app-stats>
           <app-users *ngIf="selected === 'Gestione utenti'" class="inline"></app-users>
         </div>

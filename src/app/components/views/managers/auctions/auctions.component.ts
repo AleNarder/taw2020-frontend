@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { appStateService } from 'src/app/services/state/appState.service';
 import { AuctionModalComponent } from 'src/app/components/modals/auction/auction.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuctionService } from 'src/app/services/http/auction.service';
-import { Auction } from 'src/app/services/models/Auction';
+import { Auction, AuctionResponse } from 'src/app/services/models/Auction';
 import { Router } from '@angular/router';
 import { Response } from 'src/app/services/models/Response';
 
@@ -19,6 +19,8 @@ export class AuctionsComponent implements OnInit {
   auctions: Auction[]
   isModerator: boolean
 
+  @Input() private: boolean
+
   constructor(
     private dialog: MatDialog,
     private router: Router,
@@ -27,28 +29,45 @@ export class AuctionsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.auctionService.getAll(this.appState.state.user._id, this.appState.state.token).subscribe((auctions: Response<Auction[]>) => {
-      this.auctions = auctions.payload
+
+    this.auctionService
+    .getAll(
+      ((this.private) ? this.appState.state.user._id : null),
+      ((this.private) ? this.appState.state.token : null))
+    .subscribe((auctions: any) => {
+      if (this.private) {
+        this.auctions = auctions.payload
+      } else {
+        this.auctions = []
+        for (let utente of auctions.payload) {
+          for (let auction of utente.auctions) {
+            this.auctions.push({
+              ...auction,
+              user: utente._id,
+            })
+          }
+        }
+      }
       this.isModerator = this.appState.state.user.moderator
     }, (error) => {
       console.log(error)
     })
   }
 
-  editAuction(auction: string) {
+  editAuction(auction: string, user?: string) {
     this.router.navigate(['auction'], {
       queryParams: {
-        user: this.appState.state.user._id,
+        user: user || this.appState.state.user._id,
         edit: true,
         auction
       }
     })
   }
 
-  openAuction(auction: string) {
+  openAuction(auction: string, user?: string) {
     this.router.navigate(['auction'], {
       queryParams: {
-        user: this.appState.state.user._id,
+        user: user || this.appState.state.user._id,
         auction
       }
     })

@@ -38,9 +38,7 @@ export class AppComponent implements OnInit {
           sidenav: false,
           token: token.encodedToken
         }
-        this.router.navigate(['/reserved'])
         this.socketService.setupSocketConnection()
-        console.log(this.appState.state)
       })
 
     }

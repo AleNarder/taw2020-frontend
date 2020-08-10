@@ -7,7 +7,7 @@
 .user-card {
   width: 300px;
   margin-right: 16px;
-  margin-bottom: 16 px;
+  margin-bottom: 16px;
 }
 
 .nested-content {
@@ -15,6 +15,10 @@
 }
 .action-btn {
   width: 70%;
+}
+
+.nested-content {
+  min-width: 100vw;
 }
 
 .action-btn:first-child {
