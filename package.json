@@ -5,11 +5,11 @@
     "ng": "ng",
     "serve": "ng serve",
     "start": "node server.js",
+    "bin:electron:linux": "rm -rf ./electron && npx cap add electron && cap copy electron && electron-packager ./electron --platform linux --arch x64 --out dist/",
+    "deb64:electron:linux": "electron-installer-debian --src dist/frontend-linux-x64 --dest dist/installers/ --arch amd64 ",
     "build:web": "ng build --prod",
-    "build:electron": "npm run build:web && npx cap copy electron",
-    "release:electron": "electron-installer-debian  ./electron --dest /installers/ --arch amd64",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "build:android": "npx cap add android && npx cap copy android",
+    "build:electron:linux": "npm run bin:electron:linux && npm run deb64:electron:linux"
   },
   "private": true,
   "dependencies": {
@@ -47,10 +47,10 @@
     "@types/node": "^12.11.1",
     "@types/socket.io-client": "^1.4.33",
     "codelyzer": "^5.1.2",
+    "electron": "^9.2.0",
     "electron-installer-debian": "^3.1.0",
     "electron-packager": "^15.0.0",
     "enhanced-resolve": "^3.3.0",
-    "frontend": "file:electron",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.3.0",
