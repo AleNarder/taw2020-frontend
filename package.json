@@ -7,7 +7,7 @@
     "start": "node server.js",
     "bin:electron:linux": "rm -rf ./electron && npx cap add electron && cap copy electron && electron-packager ./electron --platform linux --arch x64 --out dist/",
     "deb64:electron:linux": "electron-installer-debian --src dist/frontend-linux-x64 --dest dist/installers/ --arch amd64 ",
-    "build:web": "ng build",
+    "build:web": "ng build --prod",
     "build:android": "npx cap add android && npx cap copy android",
     "build:electron:linux": "npm run bin:electron:linux && npm run deb64:electron:linux"
   },
