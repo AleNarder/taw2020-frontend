@@ -16,6 +16,7 @@ export class AuctionModalComponent implements OnInit {
 
   waiting = false
   selectedIdx = 0
+  expires: string
 
   status = {
     wrong: false,
@@ -24,7 +25,7 @@ export class AuctionModalComponent implements OnInit {
 
   auction =  {
     threshold: fieldHelpers.generic.check(),
-    currentPrice: fieldHelpers.generic.check(),
+    currentPrice: fieldHelpers.generic.check()
   }
 
   book = {
@@ -45,7 +46,6 @@ export class AuctionModalComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 
   error (message) {
     console.log(message)
@@ -71,7 +71,8 @@ export class AuctionModalComponent implements OnInit {
               course: this.book.course.value,
             },
             currentPrice: this.auction.currentPrice.value,
-            threshold: this.auction.threshold.value
+            threshold: this.auction.threshold.value,
+            expires: new Date(this.expires).getTime()
           }
         }
         this.waiting = true

@@ -9,6 +9,9 @@ import { UserPayload, User } from 'src/app/services/models/User';
 import { appStateService } from 'src/app/services/state/appState.service';
 import { SocketioService } from 'src/app/services/socket/socketio.service';
 import fieldHelpers from '../../../helpers/form'
+import { LocationsService } from 'src/app/services/geo/locations.service';
+import { MatSelectChange } from '@angular/material/select';
+import { Location } from 'src/app/services/models/Location';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,16 +21,16 @@ import fieldHelpers from '../../../helpers/form'
 export class LoginComponent implements OnInit {
 
   fields: any = {}
+  regioni: string[]
+  location: Location
+  province: string[]
+  comuni: string[]
   email: string
   token: string
   id: string
   isModerator: boolean
   isUser: boolean
   hide: boolean
-  status = {
-    wrong: false,
-    message: null
-  }
 
   @Output() statusInfo = new EventEmitter<any>()
 
@@ -40,7 +43,8 @@ export class LoginComponent implements OnInit {
     private auth: AuthService,
     private appState: appStateService,
     private route: ActivatedRoute,
-    private socketService: SocketioService
+    private socketService: SocketioService,
+    private locationsService: LocationsService
   ) {
     this.route.queryParams.subscribe(params => {
       this.isModerator = params['moderator']
@@ -50,18 +54,30 @@ export class LoginComponent implements OnInit {
     })
     this.hide = true
     this.isUser = (this.isModerator) ? false : true
-    for (const field in fieldHelpers) {
-      this.fields[field] = fieldHelpers[field].check()
+    for (const field in fieldHelpers.registration) {
+      this.fields[field] = fieldHelpers.registration[field].check()
     }
     if (this.token && this.id) {
       this.user.modify({confirmed: true}, this.id, this.token).subscribe(() => {
       }, (errorMessage) => {
-        this.error(errorMessage)
       })
     }
   }
 
   ngOnInit(): void {
+    this.location = {} as Location
+    this.regioni = this.locationsService.regioni()
+    this.province = new Array(0)
+    this.comuni = new Array(0)
+  }
+
+  updateLocation (prop: 'provincia' | 'regione', event: MatSelectChange) {
+    if (prop === 'provincia') {
+      this.comuni = this.locationsService.comuni(event.value)
+    } else {
+      this.province = this.locationsService.province(event.value)
+      this.comuni = []
+    }
   }
 
   switch (): void {
@@ -74,15 +90,9 @@ export class LoginComponent implements OnInit {
   }
 
 
-  error (message) {
-    console.log(message)
-    this.status.wrong = true
-    this.status.message = message
-    setTimeout(() => this.status.wrong = false, 2000)
-  }
-
   login () {
-    if ((this.fields.email.status === 'VALID' && this.fields.password.status === this.fields.email.status)) {
+    const locationKO = Object.keys(this.location).find(data => location[data] === '')
+    if ((this.fields.email.status === 'VALID' && this.fields.password.status === this.fields.email.status) && !locationKO) {
       this.auth.login({username: this.fields.email.value, password: this.fields.password.value}).subscribe((res: Response<UserPayload>) => {
         this.router.navigate(['/reserved'])
         this.appState.state = {
@@ -94,15 +104,19 @@ export class LoginComponent implements OnInit {
         this.auth.setToken(res.payload.token)
         this.socketService.setupSocketConnection()
       }, (errorMessage) => {
-        this.error(errorMessage)
       })
     }
   }
 
   register () {
     let newUser = {} as User
+    this.location.CAP = this.locationsService.cap(this.location.Comune).toString()
+    this.location.Indirizzo = this.fields.address.value
+    newUser.location = this.location
     for (let field in this.fields) {
-      newUser[field] = this.fields[field].value
+      if (field !== 'address') {
+        newUser[field] = this.fields[field].value
+      }
     }
     if (this.isModerator) {
       newUser.email = this.email
@@ -113,12 +127,11 @@ export class LoginComponent implements OnInit {
     this.user.new(newUser).subscribe(data => {
       this.router.navigate(['/'])
     }, (errorMessage) => {
-      this.error(errorMessage)
     })
   }
 
   checkError (field) {
-    return fieldHelpers[field].validate(this.fields[field])
+    return fieldHelpers.registration[field].validate(this.fields[field])
   }
 
 }

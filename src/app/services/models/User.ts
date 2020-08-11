@@ -1,19 +1,15 @@
-interface Location {
-  coordinates: number[]
-}
+import { Location } from './Location';
+
 
 export interface User {
-  firstname: string, 
+  firstname: string,
   lastname: string,
   username: string,
   email: string,
   address: string,
-  coordinate: string,
   auctions: [],
   confirmed: boolean,
   location: Location,
-  zipcode: number,
-  country: string,
   moderator: boolean,
   state: string,
   _id: string

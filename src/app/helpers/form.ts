@@ -25,47 +25,34 @@ function mailError (field, fieldname) {
 }
 
 export default {
-
   generic: {
     check: () => new FormControl('',[Validators.required]),
     validate: (field: string | FormControl, fieldname ?: string) => requiredError(field, fieldname)
   },
-
   offer: {
     check: () => new FormControl('',[Validators.required]),
     validate: (field) => requiredError(field, 'offerta')
   },
-
-  firstname : {
-    check: () => new FormControl('',[Validators.required]),
-    validate: (field) => requiredError(field, 'nome')
-  },
-  lastname  : {
-    check: () => new FormControl('', [Validators.required]),
-    validate: (field) => requiredError(field, 'cognome')
-  },
-  password  : {
-    check: () => new FormControl('', [Validators.required, Validators.pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})'))]),
-    validate: (field) => requiredError(field, 'password') || patternError (field, 'password')
-  },
-  zipcode   : {
-    check: () => new FormControl('',[Validators.required, Validators.maxLength(5)]),
-    validate: (field) => requiredError(field, 'CAP') || maxLenghtError(field, 'CAP', 5)
-  },
-  address   : {
-    check: () => new FormControl('',[Validators.required]),
-    validate: (field) => requiredError(field, 'indirizzo')
-  },
-  state     : {
-    check: () => new FormControl('',[Validators.required]),
-    validate: (field) => requiredError(field, 'provincia')
-  },
-  country   : {
-    check: () => new FormControl('',[Validators.required]),
-    validate: (field) => requiredError(field, 'stato')
-  },
-  email     : {
-    check: () =>new FormControl('', [Validators.required, Validators.email]),
-    validate: (field) => requiredError(field, 'email') || mailError(field, 'email')
+  registration: {
+    firstname: {
+      check: () => new FormControl('',[Validators.required]),
+      validate: (field) => requiredError(field, 'nome')
+    },
+    lastname: {
+      check: () => new FormControl('', [Validators.required]),
+      validate: (field) => requiredError(field, 'cognome')
+    },
+    password: {
+      check: () => new FormControl('', [Validators.required, Validators.pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})'))]),
+      validate: (field) => requiredError(field, 'password') || patternError (field, 'password')
+    },
+    address: {
+      check: () => new FormControl('',[Validators.required]),
+      validate: (field) => requiredError(field, 'indirizzo')
+    },
+    email: {
+      check: () =>new FormControl('', [Validators.required, Validators.email]),
+      validate: (field) => requiredError(field, 'email') || mailError(field, 'email')
+    }
   }
 }

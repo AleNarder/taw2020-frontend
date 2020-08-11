@@ -7,35 +7,86 @@
           <mat-label>Ricerca</mat-label>
           <input [disabled]="noFilter()" matInput placeholder="Algoritmi e strutture dati" [(ngModel)]="filter">
         </mat-form-field>
-        <div>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Filtri di ricerca
+            </mat-panel-title>
+          </mat-expansion-panel-header>
           <div class="filters">
-            <div *ngFor="let category of categoryOptions" (click)="category.selected = !category.selected">
-              <button *ngIf="!category.selected" mat-button color="primary">{{category.title | uppercase}}</button>
-              <button *ngIf="category.selected" mat-raised-button color="primary">{{category.title | uppercase}}</button>
+            <div class="multi-input">
+              <div style="width: 30%; max-width: 180px" class="multi-input">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Regione</mat-label>
+                  <mat-select
+                    [(value)]="location.Regione"
+                    (selectionChange)="updateLocation('regione', $event)"
+                    matInput
+                  >
+                  <mat-option *ngFor="let regione of regioni" [value]="regione">{{regione || 'Tutte le regioni'}}</mat-option>
+                  </mat-select>
+                  <br>
+                </mat-form-field>
+              </div>
+              <div style="width: 30%; max-width: 180px" class="multi-input">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Provincia</mat-label>
+                  <mat-select
+                    [(value)]="location.Provincia"
+                    matInput
+                    (selectionChange)="updateLocation('provincia', $event)"
+                  >
+                  <mat-option *ngFor="let provincia of province" [value]="provincia">{{provincia || 'Tutte le province'}}</mat-option>
+                  </mat-select>
+                  <br>
+                </mat-form-field>
+              </div>
+              <div style="width: 30%; max-width: 180px" class="multi-input">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Comune</mat-label>
+                  <mat-select
+                    [(value)]="location.Comune"
+                    matInput
+                  >
+                  <mat-option *ngFor="let comune of comuni" [value]="comune" >{{comune || 'Tutti i comuni'}}</mat-option>
+                  </mat-select>
+                  <br>
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field>
+                  <mat-label>Prezzo min</mat-label>
+                  <input matInput type="number" min="0" [max]="priceOptions.max" oninput="validity.valid||(value='');" [(ngModel)]="priceOptions.min">
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field>
+                  <mat-label>Prezzo max</mat-label>
+                  <input matInput type="number" [min]="priceOptions.min" oninput="validity.valid||(value='');" [(ngModel)]="priceOptions.max">
+                </mat-form-field>
+              </div>
             </div>
           </div>
-          <div class="filters">
-            <div
-              *ngFor="let filter of filterOptions"
-              color="primary"
-              (click)="filter.selected = !filter.selected"
-              >
-              <button *ngIf="!filter.selected" mat-button color="primary">{{filter.title | uppercase}}</button>
-              <button *ngIf="filter.selected" mat-raised-button color="primary">{{filter.title | uppercase}}</button>
+          <div>
+            <div class="filters">
+              <div *ngFor="let category of categoryOptions" (click)="category.selected = !category.selected">
+                <button *ngIf="!category.selected" mat-button color="primary">{{category.title | uppercase}}</button>
+                <button *ngIf="category.selected" mat-raised-button color="primary">{{category.title | uppercase}}</button>
+              </div>
+            </div>
+            <div class="filters">
+              <div
+                *ngFor="let filter of filterOptions"
+                color="primary"
+                (click)="filter.selected = !filter.selected"
+                >
+                <button *ngIf="!filter.selected" mat-button color="primary">{{filter.title | uppercase}}</button>
+                <button *ngIf="filter.selected" mat-raised-button color="primary">{{filter.title | uppercase}}</button>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="filters">
-          <mat-form-field >
-            <mat-label>Prezzo min</mat-label>
-            <input matInput type="number" min="0" [max]="priceOptions.max" oninput="validity.valid||(value='');" [(ngModel)]="priceOptions.min">
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Prezzo max</mat-label>
-            <input matInput type="number" [min]="priceOptions.min" oninput="validity.valid||(value='');" [(ngModel)]="priceOptions.max">
-          </mat-form-field>
-        </div>
-      <div>
+        </mat-expansion-panel>
+        <div class="auctions">
         <div class="cards" *ngIf="ready">
           <mat-card *ngFor="let auction of (auctions | search: searchCriteria())" class="auction-card">
             <mat-card-header>

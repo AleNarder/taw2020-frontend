@@ -18,6 +18,11 @@ export class SearchPipe implements PipeTransform {
       if (filter.status.length === 1) {
         return (filter.status[0] === 'attive') ? auction.isActive : !auction.isActive
       } return auction
+    }).filter(auction => {
+      const locationFilters = Object.keys(filter.location).filter(area => filter.location[area])
+      if (locationFilters.length > 0) {
+        return locationFilters.map(area => auction['location'][0][area] ===  filter.location[area]).reduce((acc, curr) => acc && curr)
+      } return auction
     })
   }
 }

@@ -48,9 +48,6 @@ export class AuthService {
     return null
   }
 
-  public handleError(error) {
-    return throwError(error.error.payload)
-  }
 
   public moderator (token, email) {
     const options = {
@@ -60,17 +57,17 @@ export class AuthService {
       })
     }
     return this.http.post([this.auth, 'moderator'].join('/'), { email }, options)
-    .pipe(catchError(this.handleError))
+
   }
 
   public reset (email) {
     return this.http.post([this.auth, 'reset'].join('/'), { email })
-    .pipe(catchError(this.handleError))
+
   }
 
   public login (body) {
     return this.http.post<Response<UserPayload>>([this.auth, 'login'].join('/'), body)
-      .pipe(catchError(this.handleError))
+
   }
 
 }

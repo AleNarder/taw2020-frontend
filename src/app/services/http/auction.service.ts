@@ -4,8 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { appStateService } from '../state/appState.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -19,9 +17,6 @@ export class AuctionService {
     private appState: appStateService
   ) { }
 
-  handleError (error) {
-    return throwError(error.error.payload)
-  }
 
   public addOne (body, id: string, token: string) {
     const options = {
@@ -30,7 +25,7 @@ export class AuctionService {
         'Authorization': 'Bearer ' + token
       })
     }
-    return this.http.post([this.auction, 'user', id].join('/'), body, options).pipe(catchError(this.handleError))
+    return this.http.post([this.auction, 'user', id].join('/'), body, options)
   }
 
   public getAll (user ?: string, token ?: string) {
@@ -41,14 +36,14 @@ export class AuctionService {
           'Authorization': 'Bearer ' + token
         })
       }
-      return this.http.get([this.auction, 'user', user].join('/'), options).pipe(catchError(this.handleError))
+      return this.http.get([this.auction, 'user', user].join('/'), options)
     } else {
-      return this.http.get(this.auctions).pipe(catchError(this.handleError))
+      return this.http.get(this.auctions)
     }
   }
 
   public getOne (user, auction, token) {
-    return this.http.get([this.auction, user, auction ].join('/')).pipe(catchError(this.handleError))
+    return this.http.get([this.auction, user, auction ].join('/'))
   }
 
   public delete (user, auction, token) {
@@ -58,7 +53,7 @@ export class AuctionService {
         'Authorization': 'Bearer ' + token
       })
     }
-    return this.http.delete([this.auction, user, auction ].join('/'), options).pipe(catchError(this.handleError))
+    return this.http.delete([this.auction, user, auction ].join('/'), options)
   }
 
   public update (user, auction, body, token) {
@@ -68,6 +63,6 @@ export class AuctionService {
         'Authorization': 'Bearer ' + token
       })
     }
-    return this.http.put([this.auction, user, auction ].join('/'), body, options).pipe(catchError(this.handleError))
+    return this.http.put([this.auction, user, auction ].join('/'), body, options)
   }
 }

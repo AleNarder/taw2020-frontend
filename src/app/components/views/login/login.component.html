@@ -5,7 +5,6 @@
       <mat-card-title color="primary">
         <h1>Login</h1>
       </mat-card-title>
-      <mat-card-subtitle><p style="color: red" *ngIf="status.wrong">{{status.message}}</p></mat-card-subtitle>
       <mat-card-content class="contained">
         <form>
           <div *ngIf="!isUser" style="text-align: left;">
@@ -35,55 +34,61 @@
             </div>
           </div>
           <div *ngIf="!isUser" style="text-align: left;">
+            <mat-form-field class="full-width">
+              <mat-label >Indirizzo</mat-label>
+              <input
+                type="text"
+                name="address"
+                autocomplete="street-address"
+                matInput [formControl] = "fields.address"
+                required>
+              <mat-error >{{checkError('address')}}</mat-error>
+              <br>
+            </mat-form-field>
             <div class="multi-input">
-              <mat-form-field>
-                <mat-label>Indirizzo</mat-label>
-                <input
-                  type="text"
-                  name="address"
-                  autocomplete="street-address"
-                  matInput [formControl] = "fields.address"
-                  required>
-                <mat-error >{{checkError('address')}}</mat-error>
-                <br>
-              </mat-form-field>
-              <div style="width: 100%; max-width: 180px" class="multi-input">
-                <mat-form-field style="width: 40%;">
-                  <mat-label>Provincia</mat-label>
-                  <input
-                    type="text"
-                    name="state"
-                    autocomplete="state"
-                    matInput [formControl] = "fields.state"
-                    required>
-                  <mat-error>{{checkError('state')}}</mat-error>
+              <div style="width: 30%; max-width: 180px" class="multi-input">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Regione</mat-label>
+                  <mat-select
+                    [(value)]="location.Regione"
+                    (selectionChange)="updateLocation('regione', $event)"
+                    matInput
+                    required
+                  >
+                  <mat-option *ngFor="let regione of regioni" [value]="regione">{{regione}}</mat-option>
+                  </mat-select>
                   <br>
                 </mat-form-field>
-                <mat-form-field style="width: 40%;">
-                  <mat-label>CAP</mat-label>
-                  <input
-                    type="text"
-                    name="zipcode"
-                    autocomplete="postal-code"
-                    matInput [formControl] = "fields.zipcode"
-                    required>
-                  <mat-error >{{checkError('zipcode')}}</mat-error>
+              </div>
+              <div style="width: 30%; max-width: 180px" class="multi-input">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Provincia</mat-label>
+                  <mat-select
+                    [(value)]="location.Provincia"
+                    matInput
+                    required
+                    (selectionChange)="updateLocation('provincia', $event)"
+                  >
+                  <mat-option *ngFor="let provincia of province" [value]="provincia">{{provincia}}</mat-option>
+                  </mat-select>
+                  <br>
+                </mat-form-field>
+              </div>
+              <div style="width: 30%; max-width: 180px" class="multi-input">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Comune</mat-label>
+                  <mat-select
+                    [(value)]="location.Comune"
+                    matInput
+                    required
+                  >
+                  <mat-option *ngFor="let comune of comuni" [value]="comune" >{{comune}}</mat-option>
+                  </mat-select>
                   <br>
                 </mat-form-field>
               </div>
             </div>
           </div>
-            <mat-form-field *ngIf="!isUser" class="full-width">
-              <mat-label>Nazione</mat-label>
-              <input
-                type="text"
-                name="country"
-                autocomplete="country-name"
-                matInput [formControl] = "fields.country"
-                required>
-              <mat-error>{{checkError('country')}}</mat-error>
-              <br>
-            </mat-form-field>
           <mat-form-field class="full-width" *ngIf="!isModerator">
             <mat-label>Email</mat-label>
             <input

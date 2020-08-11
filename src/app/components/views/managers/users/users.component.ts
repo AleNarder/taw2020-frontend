@@ -6,6 +6,7 @@ import { Response } from 'src/app/services/models/Response';
 import { AuthService } from 'src/app/services/http/auth.service';
 import { ModeratorComponent } from 'src/app/components/modals/moderator/moderator.component'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { SocketioService } from 'src/app/services/socket/socketio.service';
 
 @Component({
   selector: 'app-users',
@@ -28,7 +29,8 @@ export class UsersComponent implements OnInit {
     private dialog: MatDialog,
     private userService: UserService,
     private appState: appStateService,
-    private authService: AuthService
+    private authService: AuthService,
+
   ) { }
 
   ngOnInit(): void {
@@ -53,9 +55,7 @@ export class UsersComponent implements OnInit {
   }
 
   addAdmin (email) {
-    this.authService.moderator(this.appState.state.token, email).subscribe((value) => {
-      console.log('OK')
-    })
+    this.authService.moderator(this.appState.state.token, email).subscribe((value) => {})
   }
 
   openDialog (): void {

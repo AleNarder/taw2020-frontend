@@ -9,9 +9,7 @@ import { SocketioService } from 'src/app/services/socket/socketio.service';
 import { Message } from 'src/app/services/models/Message';
 import { AuctionOfferPayload } from 'src/app/models/auctionOffer';
 import fieldHelpers from '../../../helpers/form'
-import { reverseDate } from '../../../helpers/reverseDate'
-import { reverseClock } from '../../../helpers/reverseClock'
-import { off } from 'process';
+
 
 @Component({
   selector: 'app-auction',
@@ -62,7 +60,7 @@ export class AuctionComponent implements OnInit {
     this.auctionService.getOne(this.userId, this.auctionId, this.appState.state.token).subscribe((auction: Response<Auction>) => {
       this.auction = auction.payload
       if (this.edit) {
-        this.expireDate = new Date(this.auction.created + 1000 * 60 * 60 * 24 * 7).toISOString().slice(0, 16)
+        this.expireDate = new Date(this.auction.expires).toISOString().slice(0, 16)
         this.auction.offers.forEach(offer => {
           offer.timestamp = new Date(offer.timestamp).toISOString().slice(0, 16)
         })
@@ -86,11 +84,9 @@ export class AuctionComponent implements OnInit {
 
   save () {
     if (this.edit) {
-      console.log(this.auction.created)
       let expiration = new Date(this.expireDate)
       expiration.setMonth(new Date(this.expireDate).getMonth() - 1)
-      this.auction.created = expiration.getTime() - (1000 * 60 * 60 * 24 * 7)
-      console.log(this.auction.created)
+      this.auction.expires = expiration.getTime()
       this.auction.offers.forEach(offer => {
         offer.timestamp = new Date(offer.timestamp).getTime()
       })
@@ -108,6 +104,7 @@ export class AuctionComponent implements OnInit {
       username: msg.offerentUs,
       timestamp: msg.timestamp
     })
+    this.isTheLastWhoOffer = (this.appState.state.user) ? this.appState.state.user.username === this.auction.offers[0].username : false
   }
 
   private updateChats (message: Message) {
@@ -171,8 +168,7 @@ export class AuctionComponent implements OnInit {
   }
 
   updateClock () {
-    const auctionEnd = parseInt(this.auction.created, 10) + 7 * 24 * 60 * 60 * 1000
-    this.auction.clock = auctionEnd - Date.now()
+    this.auction.clock = this.auction.expires - Date.now()
   }
 
   go2Login () {

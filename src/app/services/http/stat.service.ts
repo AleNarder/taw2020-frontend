@@ -15,9 +15,6 @@ export class StatService {
 
   ) { }
 
-  handleError (error) {
-    return throwError(error.error.payload)
-  }
 
   public studentStats (id: string, token: string) {
     return this.statsHelper([this.stats, 'student', id].join('/'), token)
@@ -34,6 +31,6 @@ export class StatService {
         'Authorization': 'Bearer ' + token
       })
     }
-    return this.http.get(endpoint, options).pipe(catchError(this.handleError))
+    return this.http.get(endpoint, options)
   }
 }

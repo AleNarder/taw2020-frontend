@@ -8,20 +8,22 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { appStateService } from '../services/state/appState.service';
-import { tap, finalize, delay, catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { tap, catchError } from 'rxjs/operators';
+import { InfosnackComponent } from '../components/layout/infosnack/infosnack.component';
+
 
 @Injectable()
 export class WaitingInterceptor implements HttpInterceptor {
 
   constructor(
     private appState: appStateService,
-    private router: Router
+    private infoSnack: InfosnackComponent
   ) {
   }
 
   handleError (error) {
     this.appState.waiting = false
+    this.infoSnack.openSnackBar(error.error.payload, 'Chiudi', 'red-snackbar')
     return throwError(error)
   }
 

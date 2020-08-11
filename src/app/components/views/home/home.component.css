@@ -25,7 +25,8 @@
 .mat-card {
   min-width: min(80vw, 300px);
   text-align: left !important;
-  margin: 16px;
+  margin-right: 16px;
+  margin-bottom: 16px;
 }
 
 .cards {
@@ -41,7 +42,6 @@
 .filters {
   display: flex;
   justify-items: start;
-  padding-left: 16px;
   padding-bottom: 8px;
 }
 
@@ -51,6 +51,10 @@
 
 .filters .mat-form-field {
   max-width: 90px;
+}
+
+.auctions {
+  margin-top: 16px;
 }
 
 @media screen and (max-width: 600px) {

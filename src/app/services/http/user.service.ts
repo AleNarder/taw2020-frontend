@@ -20,12 +20,9 @@ export class UserService {
   public new (body, moderator: boolean = false) {
     body.username = body.firstname + body.lastname[0].toLocaleUpperCase() + body.lastname.slice(1, body.lastname.length)
     console.log(body)
-    return this.http.post(this.user, body).pipe(catchError(this.handleError))
+    return this.http.post(this.user, body)
   }
 
-  handleError (error) {
-    return throwError(error.error.payload)
-  }
 
   public modify (body, id, token) {
     const options = {
@@ -34,7 +31,7 @@ export class UserService {
         'Authorization': 'Bearer ' + token
       })
     }
-    return this.http.put([this.users, id].join('/'), body, options).pipe(catchError(this.handleError))
+    return this.http.put([this.users, id].join('/'), body, options)
   }
 
   public get (token: string, id ?: string) {
@@ -44,7 +41,7 @@ export class UserService {
         'Authorization': 'Bearer ' + token
       })
     }
-    return this.http.get([this.users, id].join('/'), options).pipe(catchError(this.handleError))
+    return this.http.get([this.users, id].join('/'), options)
   }
 
   public delete (token: string, id ?: string) {
@@ -54,6 +51,6 @@ export class UserService {
         'Authorization': 'Bearer ' + token
       })
     }
-    return this.http.delete([this.users, id].join('/'), options).pipe(catchError(this.handleError))
+    return this.http.delete([this.users, id].join('/'), options)
   }
 }

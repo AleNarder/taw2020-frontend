@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { AuctionService } from 'src/app/services/http/auction.service';
 import { AuctionResponse, Auctions } from 'src/app/services/models/Auction';
 import { SocketioService } from 'src/app/services/socket/socketio.service';
+import { LocationsService } from 'src/app/services/geo/locations.service';
+import { MatSelectChange } from '@angular/material/select';
+import { Location } from 'src/app/services/models/Location';
 
 @Component({
   selector: 'app-home',
@@ -12,10 +15,14 @@ import { SocketioService } from 'src/app/services/socket/socketio.service';
 export class HomeComponent implements OnInit {
 
   utentiInserzioni: Auctions[]
+  regioni: string[]
+  location: Location
+  province: string[]
+  comuni: string[]
   auctions = []
+  panelOpenState = false
   ready = false
   filter = ''
-
   categoryOptions = [
     {
       title: 'attive',
@@ -58,16 +65,26 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     private auctionService: AuctionService,
-    private socketService: SocketioService
+    private socketService: SocketioService,
+    private locationsService: LocationsService
     ) {
   }
 
   ngOnInit(): void {
+    this.location = {} as Location
+    this.regioni = ['']
+    this.regioni.push(...this.locationsService.regioni())
+    this.province = ['']
+    this.comuni = ['']
     this.getAuctions()
-    this.socketService.onNewAuction(this.getAuctions)
+    this.socketService.onNewAuction(this.getAuctions.bind(this))
+    this.location.Regione = this.regioni[0]
+    this.location.Comune = this.comuni[0]
+    this.location.Provincia = this.province[0]
   }
 
   getAuctions () {
+    this.auctions = []
     this.auctionService.getAll().subscribe((userAuctions: AuctionResponse) => {
       this.utentiInserzioni = userAuctions.payload
       this.ready = true
@@ -76,10 +93,10 @@ export class HomeComponent implements OnInit {
           this.auctions.push({
             ...auction,
             user: utente._id,
+            location: utente.location
           })
         }
       }
-      console.log(this.auctions)
       this.updateClock()
       setInterval(() => {
         this.updateClock()
@@ -100,8 +117,7 @@ export class HomeComponent implements OnInit {
 
   updateClock () {
     this.auctions.forEach((auction) => {
-      const auctionEnd = auction.created + 7 * 24 * 60 * 60 * 1000
-      auction.clock = auctionEnd - Date.now()
+      auction.clock = auction.expires - Date.now()
     })
   }
 
@@ -111,7 +127,8 @@ export class HomeComponent implements OnInit {
       params: this.filterOptions.filter(filter => filter.selected).map(filter => filter.option),
       min: this.priceOptions.min,
       max: this.priceOptions.max,
-      status: this.categoryOptions.filter(cat => cat.selected).map(cat => cat.title)
+      status: this.categoryOptions.filter(cat => cat.selected).map(cat => cat.title),
+      location: this.location
     }
   }
 
@@ -121,4 +138,22 @@ export class HomeComponent implements OnInit {
       .reduce((a, c) => a || c)
   }
 
+  updateLocation (prop: 'provincia' | 'regione', event: MatSelectChange) {
+      if (prop === 'provincia') {
+        if (event.value) {
+          this.comuni = this.locationsService.comuni(event.value)
+          this.comuni.push('')
+        } else {
+          this.comuni = ['']
+        }
+      } else {
+        if (event.value) {
+          this.province = this.locationsService.province(event.value)
+          this.province.push('')
+          this.comuni = ['']
+        } else {
+          this.province = ['']
+        }
+      }
+  }
 }

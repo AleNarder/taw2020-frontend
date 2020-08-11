@@ -47,6 +47,8 @@ import { DatePipe } from './pipes/date.pipe';
 import { ChatComponent } from './components/chats/chat/chat.component';
 import { MessageComponent } from './components/chats/message/message.component';
 import { SearchPipe } from './pipes/search.pipe';
+import { InfosnackComponent } from './components/layout/infosnack/infosnack.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 @NgModule({
@@ -71,6 +73,7 @@ import { SearchPipe } from './pipes/search.pipe';
     ChatComponent,
     MessageComponent,
     SearchPipe,
+    InfosnackComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,6 +88,7 @@ import { SearchPipe } from './pipes/search.pipe';
     MatInputModule,
     MatIconModule,
     MatDialogModule,
+    MatExpansionModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatProgressBarModule,
@@ -96,7 +100,7 @@ import { SearchPipe } from './pipes/search.pipe';
     MatGridListModule,
     MatTabsModule
   ],
-  providers: [SocketioService, {
+  providers: [SocketioService, InfosnackComponent, {
     provide: HTTP_INTERCEPTORS,
     useClass: WaitingInterceptor,
     multi: true

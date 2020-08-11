@@ -6,6 +6,7 @@ import { AuctionService } from 'src/app/services/http/auction.service';
 import { Auction, AuctionResponse } from 'src/app/services/models/Auction';
 import { Router } from '@angular/router';
 import { Response } from 'src/app/services/models/Response';
+import { SocketioService } from 'src/app/services/socket/socketio.service';
 
 
 @Component({
@@ -25,11 +26,19 @@ export class AuctionsComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     private appState: appStateService,
-    private auctionService: AuctionService
+    private auctionService: AuctionService,
+    private socketService: SocketioService
   ) { }
 
   ngOnInit(): void {
+    this.getAuctions()
+    this.isModerator = this.appState.state.user.moderator
+    this.socketService.onNewOffer(() => {
+      this.getAuctions()
+    })
+  }
 
+  private getAuctions () {
     this.auctionService
     .getAll(
       ((this.private) ? this.appState.state.user._id : null),
@@ -48,10 +57,7 @@ export class AuctionsComponent implements OnInit {
           }
         }
       }
-      this.isModerator = this.appState.state.user.moderator
-    }, (error) => {
-      console.log(error)
-    })
+    }, (error) => {})
   }
 
   editAuction(auction: string, user?: string) {

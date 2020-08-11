@@ -103,6 +103,20 @@ body {
  * UTILITIES
  */
 
+.red-snackbar {
+  background: #B00020;
+  color: white;
+}
+
+.mat-snack-bar-container{
+  margin-bottom: calc(5vh + 8px) !important;
+}
+
+.mat-snack-bar-container button{
+  color: white !important;
+}
+
+
 .switch {
   text-decoration: underline;
 }

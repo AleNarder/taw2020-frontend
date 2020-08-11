@@ -8,7 +8,7 @@ export interface ModeratorStats {
 
 interface AuctionData {
   book: Book,
-  created: number,
+  expires: number,
   user ?: string,
   _id: string
 }

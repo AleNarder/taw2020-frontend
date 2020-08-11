@@ -6,7 +6,7 @@ import { UserService } from './services/http/user.service';
 import { User } from './services/models/User';
 import { Response } from './services/models/Response'
 import { Router } from '@angular/router';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     private appState: appStateService,
     private userService: UserService,
     private authService: AuthService,
-    private router: Router
+    private _snackBar: MatSnackBar
     ) {
     }
 
@@ -41,6 +41,12 @@ export class AppComponent implements OnInit {
         this.socketService.setupSocketConnection()
       })
     }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
   get waiting () {
