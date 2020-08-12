@@ -3,6 +3,9 @@ import { appStateService } from 'src/app/services/state/appState.service';
 import { AuthService } from 'src/app/services/http/auth.service';
 import { Router } from '@angular/router';
 
+/**
+ * Permette la navigazione delle sezioni dell'area riservata di un utente
+ */
 @Component({
   selector: 'app-reserved',
   templateUrl: './reserved.component.html',

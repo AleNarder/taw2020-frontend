@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
     }
 
   ngOnInit () {
+    this.socketService.setupSocketConnection()
     this.checkRedirect()
   }
 
@@ -38,7 +39,6 @@ export class AppComponent implements OnInit {
           sidenav: false,
           token: token.encodedToken
         }
-        this.socketService.setupSocketConnection()
       })
     }
   }

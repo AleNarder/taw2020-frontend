@@ -12,12 +12,15 @@ import fieldHelpers from '../../../helpers/form'
 import { LocationsService } from 'src/app/services/geo/locations.service';
 import { MatSelectChange } from '@angular/material/select';
 import { Location } from 'src/app/services/models/Location';
+
+/**
+ * Componente di login o registrazione di un utente
+ */
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-
 export class LoginComponent implements OnInit {
 
   fields: any = {}

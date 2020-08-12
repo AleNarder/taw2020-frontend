@@ -2,6 +2,11 @@ import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { SocketioService } from 'src/app/services/socket/socketio.service';
 import { ChatConfiguration } from 'src/app/models/chat'
 
+/**
+ * Componente relativo alle chat
+ * Questo componente incapsula la gestione delle chat
+ * Renderizza i messaggi e contiene la logica necessaria al loro invio e ricezione
+ */
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',

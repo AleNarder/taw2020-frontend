@@ -3,12 +3,15 @@ import { appStateService } from 'src/app/services/state/appState.service';
 import { AuctionModalComponent } from 'src/app/components/modals/auction/auction.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuctionService } from 'src/app/services/http/auction.service';
-import { Auction, AuctionResponse } from 'src/app/services/models/Auction';
+import { Auction } from 'src/app/services/models/Auction';
 import { Router } from '@angular/router';
-import { Response } from 'src/app/services/models/Response';
 import { SocketioService } from 'src/app/services/socket/socketio.service';
 
-
+/**
+ * Componente utilizzato per la visualizzazione di tutte le inserzioni
+ * a cui un utente ha accesso, a seconda del ruolo.
+ * Permette, se lecito, di aprire le aste in modalità scrittura
+ */
 @Component({
   selector: 'app-auctions',
   templateUrl: './auctions.component.html',
@@ -33,7 +36,7 @@ export class AuctionsComponent implements OnInit {
   ngOnInit(): void {
     this.getAuctions()
     this.isModerator = this.appState.state.user.moderator
-    this.socketService.onNewOffer(() => {
+    this.socketService.onNewAuction(() => {
       this.getAuctions()
     })
   }

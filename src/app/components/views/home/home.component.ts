@@ -7,6 +7,12 @@ import { LocationsService } from 'src/app/services/geo/locations.service';
 import { MatSelectChange } from '@angular/material/select';
 import { Location } from 'src/app/services/models/Location';
 
+/**
+ * Componente che visualizza tutte le aste in real time
+ * Permette all'utente filtrare quelle presenti
+ * sulla base di una serie di parametri e di aprirne
+ * una in modalità lettura
+ */
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',

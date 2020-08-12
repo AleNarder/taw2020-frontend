@@ -3,5 +3,6 @@
   <i class="fab fa-ebay fa-3x clickable" [class.distanced]="logged && isDashboard()" (click)="go2Home()"></i>
   <span class="spacer"></span>
   <i class="fas fa-sign-in-alt clickable" *ngIf="!logged" (click)="onLogin()"></i>
+  <p *ngIf="logged" id="username">{{username}}</p>
   <i class="fas fa-home clickable" *ngIf="logged" (click)="go2Dash()"></i>
 </mat-toolbar>

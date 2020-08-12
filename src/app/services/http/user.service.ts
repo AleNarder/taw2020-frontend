@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { environment } from '../../../environments/environment'
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 
+/**
+ * Incapsula le richieste api relative agli utenti
+ */
 @Injectable({
   providedIn: 'root'
 })

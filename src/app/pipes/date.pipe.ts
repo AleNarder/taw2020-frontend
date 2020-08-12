@@ -1,5 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * Pipe che dato un timestamp in millisecondi ne
+ * ritorna una rappresentazione più semplice in termini
+ * di data e ora
+ */
 @Pipe({
   name: 'date'
 })

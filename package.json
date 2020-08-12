@@ -9,7 +9,8 @@
     "deb64:electron:linux": "electron-installer-debian --src dist/frontend-linux-x64 --dest dist/installers/ --arch amd64 ",
     "build:web": "ng build --prod",
     "build:android": "npx cap add android && npx cap copy android",
-    "build:electron:linux": "npm run bin:electron:linux && npm run deb64:electron:linux"
+    "build:electron:linux": "npm run bin:electron:linux && npm run deb64:electron:linux",
+    "compodoc": "npx compodoc -p tsconfig.json"
   },
   "private": true,
   "dependencies": {
@@ -42,6 +43,7 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.900.6",
     "@angular/language-service": "~9.0.6",
+    "@compodoc/compodoc": "^1.1.11",
     "@types/crypto-js": "^3.1.47",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",

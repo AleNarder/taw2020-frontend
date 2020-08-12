@@ -7,6 +7,9 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import fieldHelpers from '../../../helpers/form'
 import { SocketioService } from 'src/app/services/socket/socketio.service';
 
+/**
+ * Modal utilizzato per la creazione di una nuova asta
+ */
 @Component({
   selector: 'app-auction',
   templateUrl: './auction.component.html',

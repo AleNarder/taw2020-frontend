@@ -5,6 +5,10 @@ import { Response } from 'src/app/services/models/Response';
 import { StudentStats, ModeratorStats } from 'src/app/services/models/Stats';
 import { Router } from '@angular/router';
 
+/**
+ * Componente utilizzato per la visualizzazione delle statistiche di un utente,
+ * sia esso moderatore oppure studente
+ */
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',

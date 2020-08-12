@@ -4,13 +4,16 @@ import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router'
 import { UserService } from 'src/app/services/http/user.service';
 
+/**
+ * Componente utilizzato per effettuare il cambio password
+ */
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
-  
+
   id: string
   token: string
   password = new FormControl('', [Validators.required, Validators.pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})'))])
@@ -18,7 +21,7 @@ export class ResetPasswordComponent implements OnInit {
   waiting: boolean
   wrong: boolean
 
-  constructor( 
+  constructor(
     private route: ActivatedRoute,
     private user: UserService,
     private router: Router

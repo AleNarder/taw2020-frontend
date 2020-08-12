@@ -3,12 +3,13 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { environment } from '../../../environments/environment'
 import { Response } from '../models/Response'
 import { UserPayload } from '../models/User'
-import { catchError } from 'rxjs/operators'
-import { throwError } from 'rxjs'
 import { appStateService } from '../state/appState.service'
 import * as cryptojs from 'crypto-js'
 import * as jwtDecoder from 'jwt-decode'
 
+/**
+ * Incapsula le richieste api relative all'autenticazione di un utente
+ */
 @Injectable({
   providedIn: 'root'
 })

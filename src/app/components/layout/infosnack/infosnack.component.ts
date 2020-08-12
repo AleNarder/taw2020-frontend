@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+/**
+ * Snackbar che contiene le informazioni sull'esito delle chiamate in api.
+ * Usato in caso di fallimento, fornisce all'utente un feedback sull'esito
+ * delle sue azioni
+ */
 @Component({
   selector: 'app-infosnack',
   templateUrl: './infosnack.component.html',

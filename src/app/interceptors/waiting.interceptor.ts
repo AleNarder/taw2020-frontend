@@ -11,7 +11,11 @@ import { appStateService } from '../services/state/appState.service';
 import { tap, catchError } from 'rxjs/operators';
 import { InfosnackComponent } from '../components/layout/infosnack/infosnack.component';
 
-
+/**
+ * Interceptor delle richieste http.
+ * Utilizzato per intercettare le richieste con esito fallimentare
+ * e per fornire un feedback sul loro stato
+ */
 @Injectable()
 export class WaitingInterceptor implements HttpInterceptor {
 

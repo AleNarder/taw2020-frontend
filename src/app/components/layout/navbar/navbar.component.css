@@ -5,3 +5,7 @@
 .mat-toolbar {
   max-height: 9vh;
 }
+
+#username {
+  margin: 16px !important;
+}

@@ -3,7 +3,9 @@ import { MatDialogRef } from '@angular/material/dialog'
 import { FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/http/auth.service'
 
-
+/**
+ * Modal utilizzato per il recupero password
+ */
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',

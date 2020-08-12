@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Location } from '../models/Location';
 
+/**
+ * Servizio che contiene utilities utili a compilare
+ * e filtrare i dati relativi alla residenza dell'utente
+ */
 @Injectable({
   providedIn: 'root'
 })

@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Message } from 'src/app/services/models/Message';
 
+/**
+ * Componente che renderizza i messaggi
+ */
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',

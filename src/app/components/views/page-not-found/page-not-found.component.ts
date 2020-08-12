@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+/**
+ * Componente visualizzato in caso di rotta inesistente
+ */
 @Component({
   selector: 'app-page-not-found',
   templateUrl: './page-not-found.component.html',

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 import { appStateService } from '../state/appState.service';
+
+/**
+ * Incapsula le richieste api relative alle aste
+ */
 @Injectable({
   providedIn: 'root'
 })

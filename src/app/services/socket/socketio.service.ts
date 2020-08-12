@@ -5,6 +5,9 @@ import { ChatPayload, ChatConfiguration } from 'src/app/models/chat';
 import { appStateService } from '../state/appState.service';
 import { AuctionOfferPayload } from 'src/app/models/auctionOffer';
 
+/**
+ * Incapsula la gestione degli eventi con Socket.IO
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -23,7 +26,7 @@ export class SocketioService {
   public setupSocketConnection (): void {
     this.socket = io(environment.BACKEND_STATUS_API_BASE_URL)
     this.socket.on('connect', () => {
-      if (this.appState.state.user._id) {
+      if (this.appState.state.user) {
         this.socket.emit('new-entry', this.appState.state.user._id)
       }
     })

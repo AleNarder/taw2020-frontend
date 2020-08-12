@@ -3,6 +3,9 @@ import { BehaviorSubject } from 'rxjs';
 import { App } from '../models/App'
 import { User } from '../models/User'
 
+/**
+ * Contiene e rappresenta lo stato dell'applicazione
+ */
 @Injectable({
   providedIn: 'root'
 })

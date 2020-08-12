@@ -10,7 +10,10 @@ import { Message } from 'src/app/services/models/Message';
 import { AuctionOfferPayload } from 'src/app/models/auctionOffer';
 import fieldHelpers from '../../../helpers/form'
 
-
+/**
+ * Componente utilizzato per la visualizzazione
+ * in lettura o scrittura dei dettagli di un'asta
+ */
 @Component({
   selector: 'app-auction',
   templateUrl: './auction.component.html',
@@ -65,7 +68,6 @@ export class AuctionComponent implements OnInit {
           offer.timestamp = new Date(offer.timestamp).toISOString().slice(0, 16)
         })
       }
-      console.log(this.auction)
       this.updateClock()
       this.watcher = setInterval(() => this.updateClock(), 1000)
       this.ready = true
@@ -76,9 +78,7 @@ export class AuctionComponent implements OnInit {
         this.socketService.onNewOffer(this.updateOffers.bind(this))
       }
       this.isTheLastWhoOffer = (this.appState.state.user) ? this.appState.state.user.username === this.auction.offers[0].username : false
-      console.log(this.auction)
     }, (error) => {
-      console.log(error)
     })
   }
 
@@ -137,7 +137,9 @@ export class AuctionComponent implements OnInit {
 
   getChatConfig () {
     if (this.appState.state.user) {
-      if (this.owner) this.auction.chats.filter((chat) => chat.scope === 'public' || (chat.scope === 'private' && chat.partnerId === this.appState.state.user._id))
+      if (!this.owner) {
+        this.auction.chats = this.auction.chats.filter((chat) => chat.scope === 'public' || (chat.scope === 'private' && chat.partnerId === this.appState.state.user._id))
+      }
       for (let chat of this.auction.chats) {
         this.chats.push({
           scope: chat.scope,

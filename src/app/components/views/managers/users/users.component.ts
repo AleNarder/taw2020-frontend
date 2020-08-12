@@ -6,8 +6,11 @@ import { Response } from 'src/app/services/models/Response';
 import { AuthService } from 'src/app/services/http/auth.service';
 import { ModeratorComponent } from 'src/app/components/modals/moderator/moderator.component'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { SocketioService } from 'src/app/services/socket/socketio.service';
 
+/**
+ * Componente utilizzato per permettere ai moderatori di eliminare uno studente
+ * Visualizza tutti gli utenti del sistema
+ */
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',

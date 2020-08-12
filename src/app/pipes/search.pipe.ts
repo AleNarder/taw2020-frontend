@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Auction } from '../services/models/Auction';
 
+/**
+ * Pipe che filtra le aste sulla base dei parametri in input
+ */
 @Pipe({
   name: 'search'
 })

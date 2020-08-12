@@ -1,5 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * Pipe che dato un intervallo di tempo in millisecondi
+ * ne ritorna una rappresentazione più semplice
+ * in forma di giorni, ore, minuti e secondi
+ */
 @Pipe({
   name: 'clock'
 })

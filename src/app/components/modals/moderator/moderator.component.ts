@@ -4,6 +4,9 @@ import { FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/http/auth.service'
 import { appStateService } from 'src/app/services/state/appState.service';
 
+/**
+ * Modal utilizzato per invitare un nuovo moderatore
+ */
 @Component({
   selector: 'app-moderator',
   templateUrl: './moderator.component.html',

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+
+/**
+ * Incapsula le richieste api relative alle statistiche utente
+ */
 @Injectable({
   providedIn: 'root'
 })
