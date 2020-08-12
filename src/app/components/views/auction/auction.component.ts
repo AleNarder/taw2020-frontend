@@ -24,7 +24,7 @@ export class AuctionComponent implements OnInit {
   auction: Auction
   auctionId
   userId
-  logged
+  logged = true
   isTheLastWhoOffer: boolean
   edit = false
   ready = false
@@ -53,9 +53,11 @@ export class AuctionComponent implements OnInit {
       this.auctionId = params.auction
       this.userId = params.user
       this.owner = this.appState.state.user ? (this.appState.state.user._id === this.userId) : false
-      this.logged = this.appState.state.user
       this.isModerator = (this.appState.state.user) ? this.appState.state.user.moderator : false
       this.getAuctionInfo()
+      this.appState.state$.subscribe((state) => {
+        this.logged = state.logged
+      })
     })
   }
 

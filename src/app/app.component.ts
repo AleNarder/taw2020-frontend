@@ -15,18 +15,27 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AppComponent implements OnInit {
 
+  waiting: Boolean
+
   constructor(
     private socketService: SocketioService,
     private appState: appStateService,
     private userService: UserService,
     private authService: AuthService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private router: Router
     ) {
     }
 
   ngOnInit () {
-    this.socketService.setupSocketConnection()
     this.checkRedirect()
+    this.socketService.setupSocketConnection()
+    this.appState.waiting$.subscribe((waiting) => {
+      this.waiting = waiting
+    })
+    setInterval(()=> {
+      console.log(this.waiting)
+    }, 1000)
   }
 
   checkRedirect () {
@@ -37,9 +46,11 @@ export class AppComponent implements OnInit {
           user: res.payload,
           logged: true,
           sidenav: false,
-          token: token.encodedToken
+          token: token.encodedToken,
         }
       })
+    } else {
+      this.router.navigate['/']
     }
   }
 
@@ -49,8 +60,5 @@ export class AppComponent implements OnInit {
     });
   }
 
-  get waiting () {
-    return this.appState.waiting
-  }
 
 }

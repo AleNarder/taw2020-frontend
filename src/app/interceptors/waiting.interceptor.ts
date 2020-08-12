@@ -32,8 +32,8 @@ export class WaitingInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Eseguito non appena il thread UI è disponibile
-    setTimeout(() => { this.appState.waiting = true})
+    // Assicura che il cambio di stato avvenga dopo il double check di angular
+    Promise.resolve(null).then(() => this.appState.waiting = true);
     return next.handle(request)
       .pipe(catchError(this.handleError.bind(this)))
       .pipe(
