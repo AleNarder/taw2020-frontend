@@ -29,16 +29,6 @@ export class HomeComponent implements OnInit {
   panelOpenState = false
   ready = false
   filter = ''
-  categoryOptions = [
-    {
-      title: 'attive',
-      selected: true
-    },
-    {
-      title: 'concluse',
-      selected: true
-    }
-  ]
 
   priceOptions = {
     min: null,
@@ -91,7 +81,7 @@ export class HomeComponent implements OnInit {
 
   getAuctions () {
     this.auctions = []
-    this.auctionService.getAll().subscribe((userAuctions: AuctionResponse) => {
+    this.auctionService.getAll(true).subscribe((userAuctions: AuctionResponse) => {
       this.utentiInserzioni = userAuctions.payload
       this.ready = true
       for (let utente of this.utentiInserzioni) {
@@ -133,7 +123,6 @@ export class HomeComponent implements OnInit {
       params: this.filterOptions.filter(filter => filter.selected).map(filter => filter.option),
       min: this.priceOptions.min,
       max: this.priceOptions.max,
-      status: this.categoryOptions.filter(cat => cat.selected).map(cat => cat.title),
       location: this.location
     }
   }

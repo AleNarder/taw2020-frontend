@@ -33,9 +33,6 @@ export class AppComponent implements OnInit {
     this.appState.waiting$.subscribe((waiting) => {
       this.waiting = waiting
     })
-    setInterval(()=> {
-      console.log(this.waiting)
-    }, 1000)
   }
 
   checkRedirect () {

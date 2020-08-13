@@ -69,12 +69,6 @@
           </div>
           <div>
             <div class="filters">
-              <div *ngFor="let category of categoryOptions" (click)="category.selected = !category.selected">
-                <button *ngIf="!category.selected" mat-button color="primary">{{category.title | uppercase}}</button>
-                <button *ngIf="category.selected" mat-raised-button color="primary">{{category.title | uppercase}}</button>
-              </div>
-            </div>
-            <div class="filters">
               <div
                 *ngFor="let filter of filterOptions"
                 color="primary"

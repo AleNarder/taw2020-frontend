@@ -55,8 +55,8 @@
         </div>
       </div>
       <mat-card-content>
-        <h3>Offerte:</h3>
-        <mat-list id="offers">
+        <h3 *ngIf="auction.offers.length > 0" >Offerte:</h3>
+        <mat-list id="offers" *ngIf="auction.offers.length > 0">
           <mat-list-item *ngFor="let offer of auction.offers.reverse()" [ngClass]="{'edit-form': edit }">
             <div [ngClass]="{'offer-block': !this.edit}">
               <div>
@@ -91,13 +91,22 @@
           </mat-list-item>
         </mat-list>
         <h3 *ngIf="!edit">{{ (auction.clock > 0) ? 'Prezzo attuale: ' : 'Venduta a: '}}<span class="offer">{{auction.currentPrice}}€</span></h3>
-        <mat-form-field class="full-width" *ngIf="edit">
-          <mat-label *ngIf="edit">{{(auction.clock > 0) ? 'Prezzo attuale: ' : 'Venduta a: '}}</mat-label>
-          <input
-            matInput
-            type="number"
-            [(ngModel)]="auction.currentPrice">
-        </mat-form-field>
+        <div *ngIf="edit">
+            <mat-form-field class="reduced">
+              <mat-label *ngIf="edit">{{(auction.clock > 0) ? 'Prezzo attuale: ' : 'Venduta a: '}}</mat-label>
+              <input
+                matInput
+                type="number"
+                [(ngModel)]="auction.currentPrice">
+            </mat-form-field>
+            <mat-form-field *ngIf="edit" class="reduced">
+              <mat-label *ngIf="edit">Prezzo di riserva</mat-label>
+              <input
+                matInput
+                type="number"
+                [(ngModel)]="auction.threshold">
+            </mat-form-field>
+        </div>
       </mat-card-content>
       <mat-dialog-actions id="custom-actions">
         <h3 *ngIf="!edit && auction.clock > 0 && !isTheLastWhoOffer">{{(logged) ? "Fai un'offerta" : "Per poter fare un'offerta devi essere loggato" }}</h3>
@@ -115,7 +124,8 @@
           </mat-form-field>
         </form>
         <p *ngIf="!edit && isTheLastWhoOffer">L'ultima offerta è la tua</p>
-        <button mat-raised-button color="primary" (click)="save()" *ngIf="edit">Salva</button>
+        <button mat-raised-button color="primary" (click)="save()" *ngIf="edit" id="savebtn">Salva</button>
+        <button mat-raised-button color="error" (click)="delete()" *ngIf="edit">Elimina</button>
         <button mat-raised-button color="primary" (click)="makeOffer()"  *ngIf="!edit && auction.clock > 0 && logged" [disabled]="!fields.offer.valid || fields.offer.value < auction.currentPrice || isTheLastWhoOffer">Offri</button>
         <button *ngIf="!logged" mat-raised-button (click)="go2Login()">Accedi</button>
       </mat-dialog-actions>

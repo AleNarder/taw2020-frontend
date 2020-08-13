@@ -43,7 +43,7 @@ export class AuctionsComponent implements OnInit {
 
   private getAuctions () {
     this.auctionService
-    .getAll(
+    .getAll((this.private),
       ((this.private) ? this.appState.state.user._id : null),
       ((this.private) ? this.appState.state.token : null))
     .subscribe((auctions: any) => {

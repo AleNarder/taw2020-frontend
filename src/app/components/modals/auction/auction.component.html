@@ -1,6 +1,5 @@
 <div class="dialog">
   <h1 mat-dialog-title>Nuova inserzione</h1>
-  <p style="color: red" *ngIf="status.wrong">{{status.message}}</p>
   <div mat-dialog-content>
     <mat-tab-group  [(selectedIndex)]="selectedIdx">
       <mat-tab label="Libro">
@@ -62,7 +61,7 @@
               name="title"
               matInput [formControl] = "auction.currentPrice"
               required
-              min="0"
+              [max]="auction.threshold.value - 1"
               oninput="validity.valid||(value='');"
               placeholder="Algoritmi sui grafi"
             >
@@ -76,6 +75,7 @@
               matInput [formControl] = "auction.threshold"
               required
               min="0"
+              [min]="auction.currentPrice.value + 1"
               oninput="validity.valid||(value='');"
               placeholder="Augusto Forlanini"
             >

@@ -9,6 +9,7 @@ import { SocketioService } from 'src/app/services/socket/socketio.service';
 import { Message } from 'src/app/services/models/Message';
 import { AuctionOfferPayload } from 'src/app/models/auctionOffer';
 import fieldHelpers from '../../../helpers/form'
+import { off } from 'process';
 
 /**
  * Componente utilizzato per la visualizzazione
@@ -65,9 +66,10 @@ export class AuctionComponent implements OnInit {
     this.auctionService.getOne(this.userId, this.auctionId, this.appState.state.token).subscribe((auction: Response<Auction>) => {
       this.auction = auction.payload
       if (this.edit) {
-        this.expireDate = new Date(this.auction.expires).toISOString().slice(0, 16)
+        const offset = (new Date()).getTimezoneOffset() * 60 * 1000
+        this.expireDate = new Date(this.auction.expires - offset).toISOString().slice(0, 16)
         this.auction.offers.forEach(offer => {
-          offer.timestamp = new Date(offer.timestamp).toISOString().slice(0, 16)
+          offer.timestamp = new Date(parseInt(offer.timestamp + '', 10) - offset).toISOString().slice(0, 16)
         })
       }
       this.updateClock()
@@ -87,7 +89,6 @@ export class AuctionComponent implements OnInit {
   save () {
     if (this.edit) {
       let expiration = new Date(this.expireDate)
-      expiration.setMonth(new Date(this.expireDate).getMonth() - 1)
       this.auction.expires = expiration.getTime()
       this.auction.offers.forEach(offer => {
         offer.timestamp = new Date(offer.timestamp).getTime()
@@ -95,6 +96,13 @@ export class AuctionComponent implements OnInit {
     }
     this.auctionService.update(this.userId, this.auctionId, this.auction, this.appState.state.token)
     .subscribe(res => null)
+  }
+
+  delete () {
+    this.auctionService.deleteOne(this.userId, this.auctionId, this.appState.state.token)
+    .subscribe(res => {
+      this.router.navigate(['/reserved'])
+    })
   }
 
   private updateOffers (msg: AuctionOfferPayload) {

@@ -30,7 +30,7 @@ export class AuctionService {
     return this.http.post([this.auction, 'user', id].join('/'), body, options)
   }
 
-  public getAll (user ?: string, token ?: string) {
+  public getAll (active: boolean, user ?: string, token ?: string) {
     if (user && token) {
       const options = {
         headers: new HttpHeaders({
@@ -40,7 +40,7 @@ export class AuctionService {
       }
       return this.http.get([this.auction, 'user', user].join('/'), options)
     } else {
-      return this.http.get(this.auctions)
+      return this.http.get([this.auctions, active ? 'active' : 'all'].join('/'))
     }
   }
 
@@ -48,7 +48,7 @@ export class AuctionService {
     return this.http.get([this.auction, user, auction ].join('/'))
   }
 
-  public delete (user, auction, token) {
+  public deleteOne (user, auction, token) {
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

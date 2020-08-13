@@ -21,10 +21,6 @@ export class AuctionModalComponent implements OnInit {
   selectedIdx = 0
   expires: string
 
-  status = {
-    wrong: false,
-    message: ''
-  }
 
   auction =  {
     threshold: fieldHelpers.generic.check(),
@@ -50,12 +46,6 @@ export class AuctionModalComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  error (message) {
-    console.log(message)
-    this.status.wrong = true
-    this.status.message = message
-    setTimeout(() => this.status.wrong = false, 2000)
-  }
 
   complete (): void {
     if (this.selectedIdx === 0) {
@@ -83,9 +73,7 @@ export class AuctionModalComponent implements OnInit {
           this.waiting = false
           this.dialogRef.close()
           this.socketService.newAuction()
-        }, (errorMessage) => {
-          this.error(errorMessage)
-        })
+        }, (errorMessage) => {})
       }
     }
   }
