@@ -10,7 +10,7 @@
     "build:web": "ng build --prod",
     "build:android": "npx cap add android && npx cap copy android",
     "build:electron:linux": "npm run bin:electron:linux && npm run deb64:electron:linux",
-    "build:docs": "npx compodoc -p tsconfig.json"
+    "build:docs": "npx compodoc -p tsconfig.json",
     "start:docs": "http-server documentation/"
   },
   "private": true,

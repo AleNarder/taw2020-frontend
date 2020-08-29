@@ -55,19 +55,6 @@
         <br>
         <form>
           <mat-form-field class="full-width">
-            <mat-label>Prezzo di partenza</mat-label>
-            <input
-              type="number"
-              name="title"
-              matInput [formControl] = "auction.currentPrice"
-              required
-              [max]="auction.threshold.value - 1"
-              oninput="validity.valid||(value='');"
-              placeholder="Algoritmi sui grafi"
-            >
-            <mat-error *ngIf="auction.currentPrice.invalid">{{checkError(auction.currentPrice)}}</mat-error>
-          </mat-form-field>
-          <mat-form-field class="full-width">
             <mat-label>Prezzo di riserva</mat-label>
             <input
               type="number"
@@ -80,6 +67,19 @@
               placeholder="Augusto Forlanini"
             >
             <mat-error *ngIf="auction.threshold.invalid">{{checkError(auction.threshold)}}</mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Prezzo di partenza</mat-label>
+            <input
+              type="number"
+              name="title"
+              matInput [formControl] = "auction.currentPrice"
+              required
+              [max]="auction.threshold.value - 1"
+              oninput="validity.valid||(value='');"
+              placeholder="Algoritmi sui grafi"
+            >
+            <mat-error *ngIf="auction.currentPrice.invalid">{{checkError(auction.currentPrice)}}</mat-error>
           </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>Scadenza</mat-label>

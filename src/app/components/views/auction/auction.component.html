@@ -110,6 +110,7 @@
       </mat-card-content>
       <mat-dialog-actions id="custom-actions">
         <h3 *ngIf="!edit && auction.clock > 0 && !isTheLastWhoOffer">{{(logged) ? "Fai un'offerta" : "Per poter fare un'offerta devi essere loggato" }}</h3>
+        <br>
         <form *ngIf="logged && !edit && auction.clock > 0 && !isTheLastWhoOffer">
           <mat-form-field>
             <mat-label>Importo</mat-label>

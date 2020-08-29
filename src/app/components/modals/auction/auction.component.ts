@@ -52,8 +52,9 @@ export class AuctionModalComponent implements OnInit {
       this.selectedIdx = 1
     } else {
       const form = {...this.book, ...this.auction}
-      const errors = Object.keys(form).map((field) => form[field].hasError('required')).reduce((acc, curr) => acc && curr)
-      if (!errors) {
+      const error = Object.keys(form).find((field) => form[field].hasError('required'))
+      console.log(error)
+      if (!error) {
         const id = this.appState.state.user._id
         const payload = {
           auction: {
