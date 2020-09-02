@@ -62,7 +62,7 @@
               <div>
                 <mat-form-field>
                   <mat-label>Prezzo max</mat-label>
-                  <input matInput type="number" [min]="priceOptions.min" oninput="validity.valid||(value='');" [(ngModel)]="priceOptions.max">
+                  <input matInput type="number" [min]="priceOptions.min || 0" oninput="validity.valid||(value='');" [(ngModel)]="priceOptions.max">
                 </mat-form-field>
               </div>
             </div>

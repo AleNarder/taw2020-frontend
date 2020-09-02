@@ -24,13 +24,15 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   close (): void {
-    this.waiting = true
-    this.auth.reset(this.email.value).subscribe(() => {
-      this.waiting = false
-      this.dialogRef.close(this.email.value)
-    }, (error) => {
-      this.dialogRef.close(this.email.value)
-    })
+    if (!this.email.hasError('required') && !this.email.hasError('email')) {
+      this.waiting = true
+      this.auth.reset(this.email.value).subscribe(() => {
+        this.waiting = false
+        this.dialogRef.close(this.email.value)
+      }, (error) => {
+        this.dialogRef.close(this.email.value)
+      })
+    }
   }
 
   getMailErrorMessage () {

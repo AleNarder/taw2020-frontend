@@ -145,9 +145,10 @@ export class HomeComponent implements OnInit {
         if (event.value) {
           this.province = this.locationsService.province(event.value)
           this.province.push('')
-          this.comuni = ['']
         } else {
           this.province = ['']
+          this.comuni = ['']
+          Object.keys(this.location).forEach(key => this.location[key] = '')
         }
       }
   }
