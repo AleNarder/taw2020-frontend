@@ -76,6 +76,7 @@
               matInput [formControl] = "auction.currentPrice"
               required
               [max]="auction.threshold.value - 1"
+              min="0"
               oninput="validity.valid||(value='');"
               placeholder="Algoritmi sui grafi"
             >
