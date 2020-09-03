@@ -36,13 +36,14 @@
 }
 
 #search {
-  width: calc(100vw - 64px);
+  width: calc(100vw - 32px);
 }
 
 .filters {
   display: flex;
   justify-items: start;
   padding-bottom: 8px;
+  flex-wrap: wrap;
 }
 
 .filters button, .filters .mat-form-field {
@@ -62,7 +63,20 @@
     flex-direction: column  ;
   }
 
-  #search {
-    width: 92%;
+  .mat-card {
+    margin-right: 0;
+  }
+
+  .multi-input, .filters .mat-form-field {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .filters button {
+    margin: 6px
+  }
+
+  #search, .mat-expansion-panel {
+    width: calc(100vw - 32px);
   }
 }

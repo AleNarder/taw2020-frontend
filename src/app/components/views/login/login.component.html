@@ -6,7 +6,7 @@
         <h1>Login</h1>
       </mat-card-title>
       <mat-card-content class="contained">
-        <form>
+        <form name="loginForm" [formGroup]="isUser ? loginForm : registerForm">
           <div *ngIf="!isUser" style="text-align: left;">
             <div class="multi-input">
               <mat-form-field >
@@ -126,7 +126,7 @@
         <br *ngIf="fields.password.hasError('pattern')">
         <br *ngIf="fields.password.hasError('pattern')">
         <div>
-          <button mat-raised-button color="primary" class="full-width" id="login" (click)="isUser ? login() : register()">
+          <button mat-raised-button [disabled]="isUser ? loginForm.invalid : registerForm.invalid" color="primary" class="full-width" id="login" (click)="isUser ? login() : register()">
             {{ (isUser ? 'Accedi' : 'Registrati')}}
           </button>
           <br><br>

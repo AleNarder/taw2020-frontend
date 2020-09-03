@@ -81,7 +81,7 @@ export class AuctionComponent implements OnInit {
         this.socketService.onNewPrivateMessage(this.updateChats.bind(this))
         this.socketService.onNewOffer(this.updateOffers.bind(this))
       }
-      this.isTheLastWhoOffer = (this.appState.state.user) ? this.appState.state.user.username === this.auction.offers[0].username : false
+      this.isTheLastWhoOffer = (this.appState.state.user && this.auction.offers.length > 0) ? this.appState.state.user.username === this.auction.offers[0].username : false
     }, (error) => {
     })
   }

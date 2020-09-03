@@ -3,7 +3,7 @@
     <mat-card *ngIf="auction" id="auction">
       <div id="auction-header">
         <div>
-          <mat-card-title *ngIf="!edit">{{auction.book[0].title}}</mat-card-title>
+          <mat-card-title>{{edit ? 'Modifica inserizione' : auction.book[0].title}}</mat-card-title>
           <mat-form-field  *ngIf="edit">
             <mat-label *ngIf="edit">Titolo del libro</mat-label>
             <input
@@ -54,6 +54,7 @@
             </mat-form-field>
         </div>
       </div>
+      <br>
       <mat-card-content>
         <h3 *ngIf="auction.offers.length > 0" >Offerte:</h3>
         <mat-list id="offers" *ngIf="auction.offers.length > 0">

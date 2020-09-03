@@ -6,6 +6,7 @@ import { Inject } from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import fieldHelpers from '../../../helpers/form'
 import { SocketioService } from 'src/app/services/socket/socketio.service';
+import { FormGroup } from '@angular/forms';
 
 /**
  * Modal utilizzato per la creazione di una nuova asta
@@ -20,11 +21,11 @@ export class AuctionModalComponent implements OnInit {
   waiting = false
   selectedIdx = 0
   expires: string
-
+  tomorrow: string
 
   auction =  {
     threshold: fieldHelpers.generic.check(),
-    currentPrice: fieldHelpers.generic.check()
+    currentPrice: fieldHelpers.generic.check(),
   }
 
   book = {
@@ -33,6 +34,10 @@ export class AuctionModalComponent implements OnInit {
     university : fieldHelpers.generic.check(),
     course : fieldHelpers.generic.check(),
   }
+
+  firstStepForm = new FormGroup(this.book)
+  lastStepForm = new FormGroup(this.auction)
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -44,6 +49,19 @@ export class AuctionModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const today = new Date()
+    this.tomorrow =
+      [
+        today.getFullYear(),
+        today.getMonth() + 1 < 10 ? "0"+(today.getMonth() + 1) : today.getMonth() ,
+        today.getDate() + 1 < 10 ? "0"+(today.getDate() + 1) : today.getDate()
+      ].join('-')
+      +'T'+
+      [
+        today.getHours() < 10 ? "0"+ today.getHours() : today.getHours(),
+        today.getMinutes() < 10 ? "0"+ today.getMinutes() : today.getMinutes(),
+        today.getSeconds() < 10 ? "0"+ today.getSeconds() : today.getSeconds()
+      ].join(':')
   }
 
 

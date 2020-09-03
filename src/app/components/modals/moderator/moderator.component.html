@@ -2,7 +2,7 @@
   <h1 mat-dialog-title>Nuovo moderatore</h1>
   <div mat-dialog-content>
     <p>Inserisci l' indirizzo email del moderatore</p>
-    <form>
+    <form name="moderatorForm" [formGroup]="moderatorForm">
       <mat-form-field class="full-width">
         <mat-label>La tua email</mat-label>
         <input
@@ -19,7 +19,7 @@
   </div>
   <div mat-dialog-actions>
     <div class="full-width">
-      <button mat-raised-button color="primary" (click)="close()" class="full-width">Invia</button>
+      <button mat-raised-button [disabled] = "moderatorForm.invalid" color="primary" (click)="close()" class="full-width">Invia</button>
     </div>
     <br><br>
   </div>

@@ -12,6 +12,7 @@ import fieldHelpers from '../../../helpers/form'
 import { LocationsService } from 'src/app/services/geo/locations.service';
 import { MatSelectChange } from '@angular/material/select';
 import { Location } from 'src/app/services/models/Location';
+import { FormGroup } from '@angular/forms';
 
 /**
  * Componente di login o registrazione di un utente
@@ -38,6 +39,8 @@ export class LoginComponent implements OnInit {
   @Output() statusInfo = new EventEmitter<any>()
 
   forgotPasswordRef: MatDialogRef<ForgotPasswordComponent>
+  loginForm: FormGroup
+  registerForm: FormGroup
 
   constructor(
     private dialog: MatDialog,
@@ -60,6 +63,11 @@ export class LoginComponent implements OnInit {
     for (const field in fieldHelpers.registration) {
       this.fields[field] = fieldHelpers.registration[field].check()
     }
+    this.registerForm = new FormGroup(this.fields)
+    this.loginForm = new FormGroup({
+      email: this.fields.email,
+      password: this.fields.password
+    })
     if (this.token && this.id) {
       this.user.modify({confirmed: true}, this.id, this.token).subscribe(() => {
       }, (errorMessage) => {

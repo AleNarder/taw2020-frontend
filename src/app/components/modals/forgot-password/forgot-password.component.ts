@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog'
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/services/http/auth.service'
 
 /**
@@ -15,6 +15,9 @@ export class ForgotPasswordComponent implements OnInit {
 
   waiting = false
   email = new FormControl('', [Validators.required, Validators.email])
+  passwordForm = new FormGroup({
+    email: this.email
+  })
 
   constructor(
     public dialogRef: MatDialogRef<ForgotPasswordComponent>,
@@ -24,15 +27,13 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   close (): void {
-    if (!this.email.hasError('required') && !this.email.hasError('email')) {
-      this.waiting = true
-      this.auth.reset(this.email.value).subscribe(() => {
-        this.waiting = false
-        this.dialogRef.close(this.email.value)
-      }, (error) => {
-        this.dialogRef.close(this.email.value)
-      })
-    }
+    this.waiting = true
+    this.auth.reset(this.email.value).subscribe(() => {
+      this.waiting = false
+      this.dialogRef.close(this.email.value)
+    }, (error) => {
+      this.dialogRef.close(this.email.value)
+    })
   }
 
   getMailErrorMessage () {

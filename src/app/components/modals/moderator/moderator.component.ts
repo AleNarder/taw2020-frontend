@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog'
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/services/http/auth.service'
 import { appStateService } from 'src/app/services/state/appState.service';
 
@@ -15,6 +15,7 @@ import { appStateService } from 'src/app/services/state/appState.service';
 export class ModeratorComponent implements OnInit {
 
   email = new FormControl('', [Validators.required, Validators.email])
+  moderatorForm = new FormGroup({email: this.email})
 
   constructor(
     public dialogRef: MatDialogRef<ModeratorComponent>,

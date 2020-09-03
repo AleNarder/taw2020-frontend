@@ -24,6 +24,25 @@ function mailError (field, fieldname) {
   }
 }
 
+function atLeastTomorrowError (field, fieldname) {
+  if (field.hasError()) {
+    return `La data ${fieldname} `
+  }
+}
+
+function atLeastTomorrow (formControl: FormControl) {
+  const today = new Date()
+  if (formControl.value > today) {
+    return null
+  } else {
+    return {
+      dateValidator: {
+        valid: false
+      }
+    }
+  }
+}
+
 export default {
   generic: {
     check: () => new FormControl('',[Validators.required]),
@@ -31,6 +50,10 @@ export default {
   },
   offer: {
     check: () => new FormControl('',[Validators.required]),
+    validate: (field) => requiredError(field, 'offerta')
+  },
+  expire: {
+    check: () => new FormControl('', [atLeastTomorrow]),
     validate: (field) => requiredError(field, 'offerta')
   },
   registration: {

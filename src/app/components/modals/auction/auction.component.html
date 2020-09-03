@@ -4,7 +4,7 @@
     <mat-tab-group  [(selectedIndex)]="selectedIdx">
       <mat-tab label="Libro">
         <br>
-        <form>
+        <form name="firstStepForm" [formGroup]="firstStepForm">
           <mat-form-field class="full-width">
             <mat-label>Titolo</mat-label>
             <input
@@ -51,9 +51,9 @@
           </mat-form-field>
         </form>
       </mat-tab>
-      <mat-tab label="Asta" >
+      <mat-tab label="Asta" [disabled]="firstStepForm.invalid">
         <br>
-        <form>
+        <form name="lastStepForm" [formGroup]="lastStepForm">
           <mat-form-field class="full-width">
             <mat-label>Prezzo di riserva</mat-label>
             <input
@@ -64,7 +64,7 @@
               min="0"
               [min]="auction.currentPrice.value + 1"
               oninput="validity.valid||(value='');"
-              placeholder="Augusto Forlanini"
+              placeholder="80€"
             >
             <mat-error *ngIf="auction.threshold.invalid">{{checkError(auction.threshold)}}</mat-error>
           </mat-form-field>
@@ -73,12 +73,13 @@
             <input
               type="number"
               name="title"
-              matInput [formControl] = "auction.currentPrice"
+              matInput
+              [formControl] = "auction.currentPrice"
               required
               [max]="auction.threshold.value - 1"
               min="0"
               oninput="validity.valid||(value='');"
-              placeholder="Algoritmi sui grafi"
+              placeholder="60€"
             >
             <mat-error *ngIf="auction.currentPrice.invalid">{{checkError(auction.currentPrice)}}</mat-error>
           </mat-form-field>
@@ -88,6 +89,7 @@
               type="datetime-local"
               name="expires"
               matInput
+              [min]="tomorrow"
               required
               [value]="expires"
               (change)="expires = $event.target.value"
@@ -100,7 +102,7 @@
   </div>
   <div mat-dialog-actions>
     <div class="full-width">
-      <button mat-raised-button color="primary" (click)="complete()" class="full-width">{{this.selectedIdx > 0 ? 'Invia' : 'Successivo' }}</button>
+      <button mat-raised-button [disabled]="this.selectedIdx > 0 ? lastStepForm.invalid : firstStepForm.invalid" color="primary" (click)="complete()" class="full-width">{{this.selectedIdx > 0 ? 'Invia' : 'Successivo' }}</button>
     </div>
     <br><br>
   </div>
