@@ -26,6 +26,7 @@ export class AuctionModalComponent implements OnInit {
   auction =  {
     threshold: fieldHelpers.generic.check(),
     currentPrice: fieldHelpers.generic.check(),
+    expires: fieldHelpers.generic.check()
   }
 
   book = {
@@ -59,8 +60,7 @@ export class AuctionModalComponent implements OnInit {
       +'T'+
       [
         today.getHours() < 10 ? "0"+ today.getHours() : today.getHours(),
-        today.getMinutes() < 10 ? "0"+ today.getMinutes() : today.getMinutes(),
-        today.getSeconds() < 10 ? "0"+ today.getSeconds() : today.getSeconds()
+        today.getMinutes() < 10 ? "0"+ today.getMinutes() : today.getMinutes()
       ].join(':')
   }
 

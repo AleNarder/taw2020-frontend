@@ -90,6 +90,7 @@
               name="expires"
               matInput
               [min]="tomorrow"
+              [formControl] = "auction.expires"
               required
               [value]="expires"
               (change)="expires = $event.target.value"

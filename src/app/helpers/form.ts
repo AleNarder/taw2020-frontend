@@ -54,7 +54,7 @@ export default {
   },
   expire: {
     check: () => new FormControl('', [atLeastTomorrow]),
-    validate: (field) => requiredError(field, 'offerta')
+    validate: (field: string | FormControl, fieldname ?: string) => requiredError(field, 'offerta')
   },
   registration: {
     firstname: {

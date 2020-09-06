@@ -16,7 +16,9 @@ export class InfosnackComponent {
   constructor(public snackBar: MatSnackBar) {}
 
   openSnackBar(message: string, action: string, className: string) {
-
+    if (!message) {
+      message = 'Si è verificato un errore'
+    }
     this.snackBar.open(message, action, {
       duration: 5000,
       verticalPosition: 'bottom',

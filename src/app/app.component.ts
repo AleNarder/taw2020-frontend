@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit () {
     this.checkRedirect()
+    setInterval(this.authService.checkToken.bind(this), 1000)
     this.socketService.setupSocketConnection()
     this.appState.waiting$.subscribe((waiting) => {
       this.waiting = waiting

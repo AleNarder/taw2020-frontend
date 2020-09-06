@@ -84,6 +84,12 @@
 
 
 @media screen and (min-width: 600px) {
+
+  #custom-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .mat-tab-group {
     flex-direction: row !important;
   }

@@ -9,7 +9,7 @@ import { SocketioService } from 'src/app/services/socket/socketio.service';
 import { Message } from 'src/app/services/models/Message';
 import { AuctionOfferPayload } from 'src/app/models/auctionOffer';
 import fieldHelpers from '../../../helpers/form'
-import { off } from 'process';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 /**
  * Componente utilizzato per la visualizzazione
@@ -33,9 +33,10 @@ export class AuctionComponent implements OnInit {
   expireDate
   isModerator: boolean
   chats: ChatConfiguration[] = []
-  fields = {
-    offer: fieldHelpers.offer.check()
-  }
+  fields: any = {}
+  updateAuctionForm: FormGroup
+  updateAuctionFields = ['Titolo', 'Università', 'Autore', 'Corso', 'Offerta Utente', 'Data Offerta', 'Prezzo attuale', 'Prezzo di riserva', 'Scadenza']
+  formValidators = null
 
   private owner: boolean
 
@@ -51,6 +52,14 @@ export class AuctionComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.edit = params.edit
+      this.fields['offer'] = fieldHelpers.generic.check()
+      if (this.edit) {
+        this.formValidators = {}
+        this.updateAuctionFields.forEach(field => {
+          this.fields[field] = fieldHelpers.generic.check()
+        })
+        this.updateAuctionForm = new FormGroup(this.fields)
+      }
       this.auctionId = params.auction
       this.userId = params.user
       this.owner = this.appState.state.user ? (this.appState.state.user._id === this.userId) : false
@@ -69,12 +78,11 @@ export class AuctionComponent implements OnInit {
         const offset = (new Date()).getTimezoneOffset() * 60 * 1000
         this.expireDate = new Date(this.auction.expires - offset).toISOString().slice(0, 16)
         this.auction.offers.forEach(offer => {
-          offer.timestamp = new Date(parseInt(offer.timestamp + '', 10) - offset).toISOString().slice(0, 16)
+          offer.timestamp = new Date(parseInt(offer.timestamp + '', 10) ).toISOString().slice(0, 16)
         })
       }
       this.updateClock()
       this.watcher = setInterval(() => this.updateClock(), 1000)
-      this.ready = true
 
       this.getChatConfig()
       if (this.appState.state.user) {
@@ -82,6 +90,7 @@ export class AuctionComponent implements OnInit {
         this.socketService.onNewOffer(this.updateOffers.bind(this))
       }
       this.isTheLastWhoOffer = (this.appState.state.user && this.auction.offers.length > 0) ? this.appState.state.user.username === this.auction.offers[0].username : false
+      this.ready = true
     }, (error) => {
     })
   }
@@ -175,8 +184,8 @@ export class AuctionComponent implements OnInit {
     }
   }
 
-  checkError (field) {
-    return fieldHelpers[field].validate(this.fields[field])
+  checkError (fieldname) {
+    return fieldHelpers.generic.validate(this.fields[fieldname], fieldname)
   }
 
   updateClock () {
@@ -194,4 +203,5 @@ export class AuctionComponent implements OnInit {
   start () {
     this.watcher = setInterval(() => this.updateClock(), 1000)
   }
+
 }
