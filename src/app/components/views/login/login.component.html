@@ -126,7 +126,7 @@
         <br *ngIf="fields.password.hasError('pattern')">
         <br *ngIf="fields.password.hasError('pattern')">
         <div>
-          <button mat-raised-button [disabled]="isUser ? loginForm.invalid : registerForm.invalid" color="primary" class="full-width" id="login" (click)="isUser ? login() : register()">
+          <button mat-raised-button [disabled]="isUser ? loginForm.invalid : (registerForm.invalid || loginForm.invalid || locationEmpty())" color="primary" class="full-width" id="login" (click)="isUser ? login() : register()">
             {{ (isUser ? 'Accedi' : 'Registrati')}}
           </button>
           <br><br>

@@ -63,10 +63,14 @@ export class LoginComponent implements OnInit {
     for (const field in fieldHelpers.registration) {
       this.fields[field] = fieldHelpers.registration[field].check()
     }
-    this.registerForm = new FormGroup(this.fields)
     this.loginForm = new FormGroup({
       email: this.fields.email,
       password: this.fields.password
+    })
+    this.registerForm = new FormGroup({
+      firstname: this.fields.firstname,
+      lastname: this.fields.lastname,
+      address: this.fields.address
     })
     if (this.token && this.id) {
       this.user.modify({confirmed: true}, this.id, this.token).subscribe(() => {
@@ -102,8 +106,6 @@ export class LoginComponent implements OnInit {
 
 
   login () {
-    const locationKO = Object.keys(this.location).find(data => location[data] === '')
-    if ((this.fields.email.status === 'VALID' && this.fields.password.status === this.fields.email.status) && !locationKO) {
       this.auth.login({username: this.fields.email.value, password: this.fields.password.value}).subscribe((res: Response<UserPayload>) => {
         this.router.navigate(['/reserved'])
         this.appState.state = {
@@ -116,7 +118,6 @@ export class LoginComponent implements OnInit {
         this.socketService.setupSocketConnection()
       }, (errorMessage) => {
       })
-    }
   }
 
   register () {
@@ -143,6 +144,10 @@ export class LoginComponent implements OnInit {
 
   checkError (field) {
     return fieldHelpers.registration[field].validate(this.fields[field])
+  }
+
+  locationEmpty () {
+    return Object.keys(this.location).find(field => !this.location[field])
   }
 
 }
