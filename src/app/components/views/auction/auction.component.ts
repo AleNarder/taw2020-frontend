@@ -74,11 +74,13 @@ export class AuctionComponent implements OnInit {
   getAuctionInfo () {
     this.auctionService.getOne(this.userId, this.auctionId, this.appState.state.token).subscribe((auction: Response<Auction>) => {
       this.auction = auction.payload
+      console.log(this.auction)
       if (this.edit) {
         const offset = (new Date()).getTimezoneOffset() * 60 * 1000
         this.expireDate = new Date(this.auction.expires - offset).toISOString().slice(0, 16)
+        console.log(this.auction.offers)
         this.auction.offers.forEach(offer => {
-          offer.timestamp = new Date(parseInt(offer.timestamp + '', 10) ).toISOString().slice(0, 16)
+          offer.timestamp = new Date(new Date(offer.timestamp.toString()).getTime() - offset).toISOString().slice(0, 16)
         })
       }
       this.updateClock()
@@ -97,14 +99,14 @@ export class AuctionComponent implements OnInit {
 
   save () {
     if (this.edit) {
-      let expiration = new Date(this.expireDate)
-      this.auction.expires = expiration.getTime()
-      this.auction.offers.forEach(offer => {
+      let payload = JSON.parse(JSON.stringify(this.auction))
+      payload.expires = new Date(this.expireDate).getTime()
+      payload.offers.forEach(offer => {
         offer.timestamp = new Date(offer.timestamp).getTime()
       })
+      this.auctionService.update(this.userId, this.auctionId, payload, this.appState.state.token)
+      .subscribe(res => {})
     }
-    this.auctionService.update(this.userId, this.auctionId, this.auction, this.appState.state.token)
-    .subscribe(res => null)
   }
 
   delete () {
