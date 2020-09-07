@@ -63,10 +63,13 @@ export class LoginComponent implements OnInit {
     for (const field in fieldHelpers.registration) {
       this.fields[field] = fieldHelpers.registration[field].check()
     }
-    this.loginForm = new FormGroup({
-      email: this.fields.email,
+    let loginFields = {
       password: this.fields.password
-    })
+    }
+    if (!this.isModerator) {
+      loginFields['email'] = this.fields.email
+    }
+    this.loginForm = new FormGroup(loginFields)
     this.registerForm = new FormGroup({
       firstname: this.fields.firstname,
       lastname: this.fields.lastname,
